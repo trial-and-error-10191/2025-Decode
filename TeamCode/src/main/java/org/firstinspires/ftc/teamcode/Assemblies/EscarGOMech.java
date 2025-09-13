@@ -26,7 +26,7 @@ public class EscarGOMech {
         wallServo = hwMap.get(Servo.class, "wallServo");
     }
 
-    public void BallSuck (boolean intakeSpin) {
+    public void BallIntake (boolean intakeSpin) {
         if (!lastInput && intakeSpin) {
             intakeFlywheel.setPower(1);
         } else {
