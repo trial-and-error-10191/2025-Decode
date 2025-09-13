@@ -49,7 +49,7 @@ public class EscarGoFieldTeleOp extends LinearOpMode {
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         waitForStart();
-        robot.escarGOMech.initRotateByPower();
+        //robot.escarGOMech.initRotateByPower();
 
         double deadzone = 0.05;
         while (opModeIsActive()) {
@@ -97,9 +97,9 @@ public class EscarGoFieldTeleOp extends LinearOpMode {
             leftBackDrive.setPower(leftBackPower * sensitivity);
             rightBackDrive.setPower(rightBackPower * sensitivity);
 
-            robot.escarGOMech.BallSuck(gamepad2.a);
-            robot.escarGOMech.WallStop(gamepad2.left_bumper || gamepad2.right_bumper);
-            robot.escarGOMech.WheelLaunch();
+//            robot.escarGOMech.BallSuck(gamepad2.a);
+//            robot.escarGOMech.WallStop(gamepad2.left_bumper || gamepad2.right_bumper);
+//            robot.escarGOMech.WheelLaunch();
         }
     }
 }
