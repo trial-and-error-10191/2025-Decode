@@ -6,8 +6,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Robot {
     public EscarGOMech escarGOMech;
+    public DriveTrain driveTrain;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
         escarGOMech = new EscarGOMech(hwMap, telemetry);
+        driveTrain = new DriveTrain(hwMap, telemetry);
     }
 }
