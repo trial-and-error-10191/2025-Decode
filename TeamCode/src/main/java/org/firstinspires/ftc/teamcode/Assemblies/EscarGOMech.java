@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Assemblies;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -27,7 +27,7 @@ public class EscarGOMech {
     }
 
     public void BallSuck (boolean intakeSpin) {
-        if (intakeSpin) {
+        if (!lastInput && intakeSpin) {
             intakeFlywheel.setPower(1);
         } else {
             launchFlywheel.setPower(0);
@@ -43,11 +43,11 @@ public class EscarGOMech {
         lastInput = open;
     }
 
-    public void WheelLaunch(boolean wheelSpin) {
-        if (wheelSpin) {
-            launchFlywheel.setPower(1);
-        } else {
-            launchFlywheel.setPower(0);
-        }
+    public void WheelLaunch() {
+        launchFlywheel.setPower(1);
+    }
+
+    public void initRotateByPower() {
+        launchFlywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }
