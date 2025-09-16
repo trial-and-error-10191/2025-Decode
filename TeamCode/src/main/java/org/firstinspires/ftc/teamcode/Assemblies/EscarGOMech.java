@@ -18,8 +18,6 @@ public class EscarGOMech {
     public EscarGOMech(HardwareMap hwMap, Telemetry telemetry) {
         launchFlywheel = hwMap.get(DcMotor.class, "launchFlywheel");
         launchFlywheel.setDirection(DcMotor.Direction.REVERSE);
-        launchFlywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        launchFlywheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         intakeFlywheel = hwMap.get(CRServo.class, "intakeFlywheel");
 
