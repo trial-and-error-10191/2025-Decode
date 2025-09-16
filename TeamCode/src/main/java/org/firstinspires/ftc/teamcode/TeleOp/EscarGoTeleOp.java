@@ -14,9 +14,10 @@ public class EscarGoTeleOp extends LinearOpMode {
         telemetry.addData("Status", "Waiting for Start");
         telemetry.update();
 
+        waitForStart();
         //robot.escarGOMech.initRotateByPower();
         while(opModeIsActive()) {
-            robot.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            robot.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
 //            robot.escarGOMech.BallIntake(gamepad2.a);
 //            robot.escarGOMech.WallStop(gamepad2.left_bumper || gamepad2.right_bumper);
 //            robot.escarGOMech.WheelLaunch();

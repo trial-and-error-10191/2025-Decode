@@ -9,7 +9,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class EscarGOMech {
     boolean lastInput = false;
-    CRServo intakeFlywheel;
+    CRServo intakeFlywheelLeft;
+    CRServo intakeFlywheelRight;
     Servo wallServo;
     static final double openPos = 0.8;   // Open position for the wall servo
     static final double closePos = 0.47; // Closed position for the wall servo
@@ -19,16 +20,19 @@ public class EscarGOMech {
         launchFlywheel = hwMap.get(DcMotor.class, "launchFlywheel");
         launchFlywheel.setDirection(DcMotor.Direction.REVERSE);
 
-        intakeFlywheel = hwMap.get(CRServo.class, "intakeFlywheel");
+        intakeFlywheelLeft = hwMap.get(CRServo.class, "intakeFlywheelLeft");
+        intakeFlywheelRight = hwMap.get(CRServo.class, "intakeFlywheelRight");
 
         wallServo = hwMap.get(Servo.class, "wallServo");
     }
 
     public void BallIntake (boolean intakeSpin) {
         if (!lastInput && intakeSpin) {
-            intakeFlywheel.setPower(1);
+            intakeFlywheelLeft.setPower(-1);
+            intakeFlywheelRight.setPower(1);
         } else {
-            launchFlywheel.setPower(0);
+            intakeFlywheelLeft.setPower(0);
+            intakeFlywheelRight.setPower(0);
         }
     }
 

@@ -24,8 +24,6 @@ public class DriveTrain {
     static final double WHEEL_DIAMETER_INCHES = 3.5;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 1;
-    static final double TURN_SPEED = 0.5;
     static final double HEADING_THRESHOLD = 5.0;
     static final double P_TURN_GAIN = 0.02;     // Larger is more responsive, but also less stable.
     static final double P_DRIVE_GAIN = 0.03;
@@ -73,52 +71,42 @@ public class DriveTrain {
         imu.resetYaw();
     }
 
-    public void drive(double axial, double lateral, double yaw) {
+    public void drive(double axial, double yaw) {
 
         // initializes deadzone
         double deadzone = 0.05;
         // initializes sensitivity
         double sensitivity = 0.75;
 
-        double leftFrontPower = 0;
-        double rightFrontPower = 0;
-        double leftBackPower = 0;
-        double rightBackPower = 0;
+        double leftPower = 0;
+        double rightPower = 0;
 
-        if (Math.abs(axial) > deadzone || Math.abs(lateral) > deadzone || Math.abs(yaw) > deadzone) {
-            leftFrontPower = axial + lateral + yaw;
-            rightFrontPower = axial - lateral - yaw;
-            leftBackPower = axial - lateral + yaw;
-            rightBackPower = axial + lateral - yaw;
+        if (Math.abs(axial) > deadzone || Math.abs(yaw) > deadzone) {
+            leftPower = axial + yaw;
+            rightPower = axial - yaw;
         }
         double max;
 
         // All code below this comment normalizes the values so no wheel power exceeds 100%.
-        max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-        max = Math.max(max, Math.abs(leftBackPower));
-        max = Math.max(max, Math.abs(rightBackPower));
+        max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
 
 
         if (max > 1.0) {
-            leftFrontPower /= max; // leftFrontPower = leftFrontPower / max;
-            rightFrontPower /= max;
-            leftBackPower /= max;
-            rightBackPower /= max;
+            leftPower /= max; // leftFrontPower = leftFrontPower / max;
+            rightPower /= max;
         }
 
         // Calculates power using sensitivity variable.
-        leftFrontPower *= sensitivity;
-        leftBackPower *= sensitivity;
-        rightFrontPower *= sensitivity;
-        rightBackPower *= sensitivity;
+        leftPower *= sensitivity;
+        rightPower *= sensitivity;
 
-        leftFrontPower *= 0.7; // this motor is 312 rpm, others are 223. 223/312 ~ 0.7
+        //leftFrontPower *= 0.7; // this motor is 312 rpm, others are 223. 223/312 ~ 0.7
 
         // The next four lines gives the calculated power to each motor.
-        leftFrontDrive.setPower(leftFrontPower);
-        rightFrontDrive.setPower(rightFrontPower);
-        leftBackDrive.setPower(leftBackPower);
-        rightBackDrive.setPower(rightBackPower);
+        leftFrontDrive.setPower(leftPower);
+        rightFrontDrive.setPower(rightPower);
+        leftBackDrive.setPower(leftPower);
+        rightBackDrive.setPower(rightPower);
     }
 
     public void driveStraight(double maxDriveSpeed,
