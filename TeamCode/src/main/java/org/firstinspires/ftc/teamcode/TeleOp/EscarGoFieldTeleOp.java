@@ -98,7 +98,6 @@ public class EscarGoFieldTeleOp extends LinearOpMode {
             rightBackDrive.setPower(rightBackPower * sensitivity);
 
 //            robot.escarGOMech.BallIntake(gamepad2.a);
-//            robot.escarGOMech.WallStop(gamepad2.left_bumper || gamepad2.right_bumper);
 //            robot.escarGOMech.WheelLaunch();
         }
     }
