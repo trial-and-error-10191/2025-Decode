@@ -2,8 +2,9 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.teamcode.Assemblies.*;
 
-@TeleOp(name = "ArgoTeleOp", group  = "LinearOpMode")
+@TeleOp(name = "small and focused program where we can drive and operate the west coast drivetrain", group  = "LinearOpMode")
 public class westCoastTeleOp extends LinearOpMode {
 
 
@@ -12,8 +13,12 @@ public class westCoastTeleOp extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        // create an object of each assembly
+        DriveTrain westCoast = new DriveTrain(hardwareMap, telemetry);
+        launchWheels wheels = new launchWheels(telemetry, hardwareMap);
 
+        while (opModeIsActive()) {
+           westCoast.drive(gamepad1.left_stick_y, gamepad1.right_stick_x);
         }
     }
 }
