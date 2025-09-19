@@ -56,46 +56,36 @@ public class EscarGoFieldTeleOp extends LinearOpMode {
             YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
             angles = -orientation.getYaw(AngleUnit.RADIANS);
 
-            double fieldStrafe = gamepad1.left_stick_x;
             double fieldForward = -gamepad1.left_stick_y;
             double fieldTurn = gamepad1.right_stick_x;
 
-            double robotForward = fieldForward * Math.cos(angles) + fieldStrafe * Math.sin(angles);
-            double robotStrafe = fieldStrafe * Math.cos(angles) - fieldForward * Math.sin(angles);
+            double robotForward = fieldForward * Math.cos(angles) * Math.sin(angles);
             double robotTurn = fieldTurn;
 
-            double leftFrontPower = 0;
-            double rightFrontPower = 0;
-            double leftBackPower = 0;
-            double rightBackPower = 0;
+            double leftPower = 0;
+            double rightPower = 0;
 
-            if (Math.abs(robotForward) > deadzone || Math.abs(robotStrafe) > deadzone || Math.abs(robotTurn) > deadzone) {
-                leftFrontPower = robotForward + robotStrafe + robotTurn;
-                rightFrontPower = robotForward - robotStrafe - robotTurn;
-                leftBackPower = robotForward - robotStrafe + robotTurn;
-                rightBackPower = robotForward + robotStrafe - robotTurn;
+            if (Math.abs(robotForward) > deadzone || Math.abs(robotTurn) > deadzone) {
+                leftPower = robotForward + robotTurn;
+                rightPower = robotForward - robotTurn;
             }
 
             double max;
 
             // All code below this comment normalizes the values so no wheel power exceeds 100%.
-            max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-            max = Math.max(max, Math.abs(leftBackPower));
-            max = Math.max(max, Math.abs(rightBackPower));
+            max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
 
             if (max > 1.0) {
-                leftFrontPower /= max; // leftFrontPower = leftFrontPower / max;
-                rightFrontPower /= max;
-                leftBackPower /= max;
-                rightBackPower /= max;
+                leftPower /= max; // leftPower = leftPower / max;
+                rightPower /= max;
             }
 
             double sensitivity = 0.65;
             // The next four lines gives the calculated power to each motor.
-            leftFrontDrive.setPower(leftFrontPower * sensitivity);
-            rightFrontDrive.setPower(rightFrontPower * sensitivity);
-            leftBackDrive.setPower(leftBackPower * sensitivity);
-            rightBackDrive.setPower(rightBackPower * sensitivity);
+            leftFrontDrive.setPower(leftPower * sensitivity);
+            rightFrontDrive.setPower(rightPower * sensitivity);
+            leftBackDrive.setPower(leftPower * sensitivity);
+            rightBackDrive.setPower(rightPower * sensitivity);
 
 //            robot.escarGOMech.BallIntake(gamepad2.a);
 //            robot.escarGOMech.WheelLaunch();

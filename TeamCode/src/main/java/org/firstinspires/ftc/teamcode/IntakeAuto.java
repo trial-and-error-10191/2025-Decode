@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Assemblies.EscarGOMech;
 
-@Autonomous
+@Autonomous(name="IntakeAuto", group="Robot")
 public class IntakeAuto extends LinearOpMode {
     EscarGOMech launcher;
     private final ElapsedTime Time   = new ElapsedTime();
