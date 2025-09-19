@@ -13,6 +13,8 @@ public class EscarGOMech {
     CRServo intakeFlywheelRight;
     Servo wallServo;
     public DcMotor launchFlywheel;
+    final double closePos = 0.8;   // Open position for the wall servo
+    final double openPos = 0.47; // Closed position for the wall servo
 
     public EscarGOMech(HardwareMap hwMap, Telemetry telemetry) {
         launchFlywheel = hwMap.get(DcMotor.class, "launchFlywheel");
@@ -25,17 +27,27 @@ public class EscarGOMech {
     }
 
     public void BallIntake (boolean intakeSpin) {
-        final double closePos = 0.8;   // Open position for the wall servo
-        final double openPos = 0.47; // Closed position for the wall servo
         if (!lastInput && intakeSpin) {
+            wallServo.setPosition(closePos);
             intakeFlywheelLeft.setPower(-1);
             intakeFlywheelRight.setPower(1);
-            wallServo.setPosition(closePos);
         } else {
+            wallServo.setPosition(openPos);
             intakeFlywheelLeft.setPower(0);
             intakeFlywheelRight.setPower(0);
-            wallServo.setPosition(openPos);
         }
+    }
+
+    public void AutoIntakeGrab () {
+        wallServo.setPosition(closePos);
+        intakeFlywheelLeft.setPower(-1);
+        intakeFlywheelRight.setPower(1);
+    }
+
+    public void AutoIntakeLaunch() {
+        wallServo.setPosition(openPos);
+        intakeFlywheelLeft.setPower(0);
+        intakeFlywheelRight.setPower(0);
     }
 
     public void WheelLaunch() {
