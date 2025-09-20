@@ -5,11 +5,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Robot {
-    public EscarGOMech escarGOMech;
+    public DisplayLED displayLED;
     public DriveTrain driveTrain;
+    public EscarGOMech escarGOMech;
+
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
-        escarGOMech = new EscarGOMech(hwMap, telemetry);
+        displayLED = new DisplayLED(hwMap, telemetry);
         driveTrain = new DriveTrain(hwMap, telemetry);
+        escarGOMech = new EscarGOMech(hwMap, telemetry);
     }
 }
