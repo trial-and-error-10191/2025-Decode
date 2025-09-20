@@ -17,10 +17,10 @@ public class EscarGoTeleOp extends LinearOpMode {
         waitForStart();
         //robot.escarGOMech.initRotateByPower();
         while(opModeIsActive()) {
-            robot.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
-            robot.displayLED.IntakeCheck(true);
+//            robot.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
+//            robot.displayLED.IntakeCheck(true);
 //            robot.escarGOMech.BallIntake(gamepad2.a);
-//            robot.escarGOMech.WheelLaunch();
+            robot.escarGOMech.WheelLaunch();
         }
     }
 }
