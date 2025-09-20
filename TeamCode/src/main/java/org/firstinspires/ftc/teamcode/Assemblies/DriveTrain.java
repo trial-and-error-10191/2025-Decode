@@ -72,7 +72,6 @@ public class DriveTrain {
     }
 
     public void drive(double axial, double yaw) {
-
         // initializes deadzone
         double deadzone = 0.05;
         // initializes sensitivity
