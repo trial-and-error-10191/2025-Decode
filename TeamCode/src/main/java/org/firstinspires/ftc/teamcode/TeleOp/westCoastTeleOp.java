@@ -14,11 +14,18 @@ public class westCoastTeleOp extends LinearOpMode {
         waitForStart();
 
         // create an object of each assembly
-        DriveTrain westCoast = new DriveTrain(hardwareMap, telemetry);
+//        DriveTrain westCoast = new DriveTrain(hardwareMap, telemetry);
         launchWheels wheels = new launchWheels(telemetry, hardwareMap);
 
+        // begin wheel thread
+        wheels.begin();
+
         while (opModeIsActive()) {
-           westCoast.drive(gamepad1.left_stick_y, gamepad1.right_stick_x);
+//           westCoast.drive(gamepad1.left_stick_y, gamepad1.right_stick_x);
+
+          if (!opModeIsActive()) {
+              wheels.terminateProcess();
+          }
         }
     }
 }
