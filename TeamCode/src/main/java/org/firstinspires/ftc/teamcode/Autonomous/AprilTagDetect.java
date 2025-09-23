@@ -11,7 +11,7 @@ public class AprilTagDetect {
     private AprilTagProcessor aprilTag; // Sets up the processing of April Tags
     private VisionPortal visionPortal; // Sets up camera
     boolean targetFound = false;
-    private int DESIRED_TAG_ID = 1;
+    private int DESIRED_TAG_ID = 20;
     private AprilTagDetection desiredTag = null;
 
     private void locateTargetAprilTag() {
@@ -34,6 +34,17 @@ public class AprilTagDetect {
 
                     break;  // don't look any further.
                 }
+            }
+            if (DESIRED_TAG_ID == 20) {
+                // Make the bot go to the blue goal
+            } if (DESIRED_TAG_ID == 21) {
+                // Shoot balls in green, purple, purple order
+            } if (DESIRED_TAG_ID == 22) {
+                // Shoot balls in purple, green, purple order
+            } if (DESIRED_TAG_ID == 23) {
+                // Shoot balls in purple, purple, green order
+            } if (DESIRED_TAG_ID == 24) {
+                // Make the bot go to the red goal
             }
         }
     } // end of locateTargetAprilTag
