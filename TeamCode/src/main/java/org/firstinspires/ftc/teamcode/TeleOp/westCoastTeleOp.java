@@ -11,6 +11,9 @@ public class westCoastTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        // Initiates the robots system and subsystems!
+        Robot robot = new Robot(hardwareMap, telemetry);
+
         waitForStart();
 
         // create an object of each assembly

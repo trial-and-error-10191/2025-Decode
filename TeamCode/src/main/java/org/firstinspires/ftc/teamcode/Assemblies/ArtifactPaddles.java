@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class ballPaddles {
+public class ArtifactPaddles {
     CRServo paddles;
 
-    ballPaddles(Telemetry telemetry, HardwareMap hwMap) {
+    ArtifactPaddles(Telemetry telemetry, HardwareMap hwMap) {
         paddles = hwMap.get(CRServo.class, "paddles");
     }
 
