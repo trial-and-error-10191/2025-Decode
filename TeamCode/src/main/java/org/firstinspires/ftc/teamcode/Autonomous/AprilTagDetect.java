@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
+@Disabled
 public class AprilTagDetect {
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
     private AprilTagProcessor aprilTag; // Sets up the processing of April Tags

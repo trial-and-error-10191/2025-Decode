@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import android.util.Size;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.opencv.ImageRegion;
 import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
+@Disabled
 public class BallDetect {
-
     PredominantColorProcessor colorSensor = new PredominantColorProcessor.Builder()
             .setRoi(ImageRegion.asUnityCenterCoordinates(-0.1, 0.1, 0.1, -0.1))
             .setSwatches(
