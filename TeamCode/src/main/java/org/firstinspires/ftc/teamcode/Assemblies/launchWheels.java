@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class launchWheels {
 
@@ -20,7 +19,7 @@ public class launchWheels {
 
     // define restrictive variables
     int rpmTarget = 10;
-    int rpmLeniancy = 1;
+    int rpmLeniancy = 3;
     double leftRpm = 0;
     double rightRpm = 0;
     double leftPower = 0;
@@ -28,7 +27,7 @@ public class launchWheels {
     AtomicBoolean offFlag = new AtomicBoolean(true);
 
     // define fixed values
-    double encodersPerRevolution = 537.6;
+    double encodersPerRevolution = 5330;
 
     // define the Elapsed time for checking RPM
     ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -51,17 +50,26 @@ public class launchWheels {
 
         @Override
         public void run() {
+            int i = 0;
             while (offFlag.get()) {
+                i++;
 
                 // set initial power equalization's
                 if (!(leftRpm > rpmTarget - rpmLeniancy && leftRpm < rpmTarget + rpmLeniancy)) {
-                    leftPower += leftRpm > rpmTarget + rpmLeniancy ? -0.1 : 0;
-                    leftPower += leftRpm < rpmTarget - rpmLeniancy ? 0.1 : 0;
+                    leftPower += leftRpm > rpmTarget + rpmLeniancy ? -0.0005 : 0;
+                    leftPower += leftRpm < rpmTarget - rpmLeniancy ? 0.0005 : 0;
+                    leftPower = Math.max(-1, Math.min(1, leftPower));
                 }
                 if (!(rightRpm > rpmTarget - rpmLeniancy && rightRpm < rpmTarget + rpmLeniancy)) {
-                    rightPower += rightRpm > rpmTarget ? -0.1 : 0;
-                    rightPower += rightRpm < rpmTarget ? 0.1 : 0;
+                    rightPower += rightRpm > rpmTarget ? -0.0005 : 0;
+                    rightPower += rightRpm < rpmTarget ? 0.0005 : 0;
+                    rightPower = Math.max(-1, Math.min(1, rightPower));
                 }
+
+//                telemetry.addData("rightPower", rightPower);
+//                telemetry.addData("rightRPM", rightRpm);
+//                telemetry.addData("ticks", i);
+//                telemetry.update();
 
                 // final power equalization
                 left.setPower(leftPower);
@@ -69,13 +77,8 @@ public class launchWheels {
 
                 // wait to get accurate RPM
                 if (runTime.milliseconds() > lastKnownMS + 1000) {
-                    leftRpm =  (((left.getCurrentPosition() - lastKnownEncL) / encodersPerRevolution) / (60000 / (runTime.milliseconds() - lastKnownMS)));
-                    rightRpm = (((right.getCurrentPosition() - lastKnownEncR) / encodersPerRevolution) / (60000 / (runTime.milliseconds() - lastKnownMS)));
-
-                    telemetry.addData("lrpm", (left.getCurrentPosition() - lastKnownEncL) / encodersPerRevolution);
-                    telemetry.addData("rrpm", (right.getCurrentPosition() - lastKnownEncR) / encodersPerRevolution);
-                    telemetry.addData("pos", right.getCurrentPosition());
-                    telemetry.update();
+                    leftRpm =  (((left.getCurrentPosition() - lastKnownEncL) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
+                    rightRpm = (((right.getCurrentPosition() - lastKnownEncR) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
 
                     lastKnownMS = runTime.milliseconds();
                     lastKnownEncL = left.getCurrentPosition();
@@ -92,7 +95,10 @@ public class launchWheels {
     }
 
     public void terminateProcess() throws InterruptedException {
+        telemetry.addData("closedThread", "");
+        telemetry.update();
         offFlag.set(false);
+        wheels.interrupt();
     }
 
     // alter target RPM
@@ -106,5 +112,11 @@ public class launchWheels {
     }
     public double rpmR() {
         return  rightRpm;
+    }
+
+    // phillips stupid idea
+    public void setMotorPowers(double leftP, double rightP) {
+        left.setPower(leftP);
+        right.setPower(rightP);
     }
 }
