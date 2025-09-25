@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Assemblies.*;
 
 @TeleOp(name = "small and focused program where we can drive and operate the west coast drivetrain", group  = "LinearOpMode")
-public class westCoastTeleOp extends LinearOpMode {
+public class WestCoastTeleOp extends LinearOpMode {
 
 
     @Override
