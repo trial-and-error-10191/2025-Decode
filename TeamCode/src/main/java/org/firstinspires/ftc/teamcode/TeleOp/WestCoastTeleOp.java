@@ -12,7 +12,7 @@ public class WestCoastTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         // Initiates the robots system and subsystems!
-        Robot robot = new Robot(hardwareMap, telemetry);
+//        Robot robot = new Robot(hardwareMap, telemetry);
 
         waitForStart();
 
@@ -22,7 +22,10 @@ public class WestCoastTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
 //           westCoast.drive(gamepad1.left_stick_y, gamepad1.right_stick_x);
-             wheels.setMotorPowers(1, 1);
+             wheels.wheelsTick();
+             telemetry.addData("lRPM", wheels.rpmL());
+            telemetry.addData("RRPM", wheels.rpmR());
+            telemetry.update();
         }
     }
 

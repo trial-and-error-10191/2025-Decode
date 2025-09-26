@@ -18,13 +18,15 @@ public class launchWheels {
     Telemetry telemetry;
 
     // define restrictive variables
-    int rpmTarget = 10;
+    int rpmTarget = 20;
     int rpmLeniancy = 3;
     double leftRpm = 0;
     double rightRpm = 0;
     double leftPower = 0;
     double rightPower = 0;
-    AtomicBoolean offFlag = new AtomicBoolean(true);
+    double lastKnownMS = 0;
+    double lastKnownEncL = 0;
+    double lastKnownEncR = 0;
 
     // define fixed values
     double encodersPerRevolution = 5330;
@@ -39,20 +41,8 @@ public class launchWheels {
         right = hwMap.get(DcMotor.class, "Rwheel");
     }
 
-
-
-    // anonymous runnable class for parallelization
-    Thread wheels = new Thread(new Runnable() {
-
-        double lastKnownMS = 0;
-        double lastKnownEncL = 0;
-        double lastKnownEncR = 0;
-
-        @Override
-        public void run() {
-            int i = 0;
-            while (offFlag.get()) {
-                i++;
+    // tick the wheels forward
+    public void wheelsTick() {
 
                 // set initial power equalization's
                 if (!(leftRpm > rpmTarget - rpmLeniancy && leftRpm < rpmTarget + rpmLeniancy)) {
@@ -65,11 +55,6 @@ public class launchWheels {
                     rightPower += rightRpm < rpmTarget ? 0.0005 : 0;
                     rightPower = Math.max(-1, Math.min(1, rightPower));
                 }
-
-//                telemetry.addData("rightPower", rightPower);
-//                telemetry.addData("rightRPM", rightRpm);
-//                telemetry.addData("ticks", i);
-//                telemetry.update();
 
                 // final power equalization
                 left.setPower(leftPower);
@@ -84,21 +69,6 @@ public class launchWheels {
                     lastKnownEncL = left.getCurrentPosition();
                     lastKnownEncR = right.getCurrentPosition();
                 }
-            }
-        }
-    });
-
-
-    // begin the wheels
-    public void begin() {
-        wheels.start();
-    }
-
-    public void terminateProcess() throws InterruptedException {
-        telemetry.addData("closedThread", "");
-        telemetry.update();
-        offFlag.set(false);
-        wheels.interrupt();
     }
 
     // alter target RPM

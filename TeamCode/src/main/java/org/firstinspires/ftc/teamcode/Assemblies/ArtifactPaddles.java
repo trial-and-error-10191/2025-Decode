@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class ArtifactPaddles {
 
     /* create the servo */
