@@ -14,9 +14,6 @@ public class ArtifactRamp {
     // Define class members
     public static Servo RampServo;
 
-
-
-
     public void rampServo (boolean up, boolean down) {
 
     if (up) {                                     // lifts ramp up
@@ -29,18 +26,10 @@ public class ArtifactRamp {
         if (rotatePosition <= MIN_POS) {
             rotatePosition = MIN_POS;
         }
+
     }
     RampServo.setPosition(rotatePosition);
 }
 
-
-
-
-
-
-
-
-
-
-
 }
+// end of code
