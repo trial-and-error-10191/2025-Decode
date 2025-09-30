@@ -10,12 +10,11 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class TeleTest extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(hardwareMap, telemetry);
         DisplayLED displayLED;
         displayLED = new DisplayLED(hardwareMap, telemetry);
         waitForStart();
         while (opModeIsActive()) {
-            displayLED.IntakeCheck(true, robot);
+            displayLED.IntakeCheck(true);
         }
     }
 }

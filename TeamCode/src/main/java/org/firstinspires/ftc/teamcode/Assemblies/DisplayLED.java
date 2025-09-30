@@ -19,19 +19,21 @@ public class DisplayLED {
 
     public DisplayLED(HardwareMap hwMap, Telemetry telemetry) {
         LEDLight = hwMap.get(SparkFunLEDStick.class, "LED_Light");
+        escarGOMech = new EscarGOMech(hwMap, telemetry);
     }
-    public void IntakeCheck(boolean lightOn, Robot robot) {
+    public EscarGOMech escarGOMech;
+    public void IntakeCheck(boolean lightOn) {
         while (lightOn) {
             LEDLight.setColor(Color.BLUE);
-//            if (!robot.escarGOMech.intakeFlywheelLeft.equals(0) && robot.escarGOMech.wallServo.equals(robot.escarGOMech.closePos)) {
-//                LEDLight.setColor(WorksGreat); // If the intake flywheel & wall servo work in sync
-//            } else if (!robot.escarGOMech.intakeFlywheelLeft.equals(0) && robot.escarGOMech.wallServo.equals(robot.escarGOMech.openPos)) {
-//                LEDLight.setColor(WorksBad); // if the intake flywheel works but not the wall servo
-//            } else if (robot.escarGOMech.intakeFlywheelLeft.equals(0) && robot.escarGOMech.wallServo.equals(robot.escarGOMech.closePos)) {
-//                LEDLight.setColor(WorksOkay); // if the wall servo works but not the intake flywheel
-//            } else {
-//                LEDLight.setColor(WorksOff); // if the wall servo & intake flywheels aren't on
-//            }
+            if (!escarGOMech.intakeFlywheelLeft.equals(0) && escarGOMech.wallServo.equals(escarGOMech.closePos)) {
+                LEDLight.setColor(WorksGreat); // If the intake flywheel & wall servo work in sync
+            } else if (!escarGOMech.intakeFlywheelLeft.equals(0) && escarGOMech.wallServo.equals(escarGOMech.openPos)) {
+                LEDLight.setColor(WorksBad); // if the intake flywheel works but not the wall servo
+            } else if (escarGOMech.intakeFlywheelLeft.equals(0) && escarGOMech.wallServo.equals(escarGOMech.closePos)) {
+                LEDLight.setColor(WorksOkay); // if the wall servo works but not the intake flywheel
+            } else {
+                LEDLight.setColor(WorksOff); // if the wall servo & intake flywheels aren't on
+            }
         }
     }
 }
