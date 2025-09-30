@@ -20,7 +20,7 @@ public class DisplayLED {
     public DisplayLED(HardwareMap hwMap, Telemetry telemetry) {
         LEDLight = hwMap.get(SparkFunLEDStick.class, "LED_Light");
     }
-    public void IntakeCheck(boolean lightOn) {
+    public void IntakeCheck(boolean lightOn, Robot robot) {
         while (lightOn) {
             LEDLight.setColor(Color.BLUE);
 //            if (!robot.escarGOMech.intakeFlywheelLeft.equals(0) && robot.escarGOMech.wallServo.equals(robot.escarGOMech.closePos)) {
