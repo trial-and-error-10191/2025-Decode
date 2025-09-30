@@ -16,7 +16,6 @@ public class DisplayLED {
     public int WorksOkay = Color.BLUE;  // Does this when wall servo works but not the intake flywheel
     public int WorksOff = Color.BLACK;  // Does this when the wall servo & intake flywheels aren't on
     private SparkFunLEDStick LEDLight;
-    Robot robot = new Robot(hardwareMap, telemetry);
 
     public DisplayLED(HardwareMap hwMap, Telemetry telemetry) {
         LEDLight = hwMap.get(SparkFunLEDStick.class, "LED_Light");
