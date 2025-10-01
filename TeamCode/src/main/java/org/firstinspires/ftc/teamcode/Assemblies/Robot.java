@@ -7,18 +7,18 @@ import org.firstinspires.ftc.teamcode.Autonomous.AprilTagDetect;
 import org.firstinspires.ftc.teamcode.Autonomous.BallDetect;
 
 public class Robot {
-    public AprilTagDetect aprilTagDetect;
-    public BallDetect ballDetect;
+//    public AprilTagDetect aprilTagDetect;
+//    public BallDetect ballDetect;
     public DisplayLED displayLED;
-    public DriveTrain driveTrain;
-    public EscarGOMech escarGOMech;
+//    public DriveTrain driveTrain;
+//    public EscarGOMech escarGOMech;
 
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
-        aprilTagDetect = new AprilTagDetect();
-        ballDetect = new BallDetect();
+//        aprilTagDetect = new AprilTagDetect();
+//        ballDetect = new BallDetect();
         displayLED = new DisplayLED(hwMap, telemetry);
-        driveTrain = new DriveTrain(hwMap, telemetry);
-        escarGOMech = new EscarGOMech(hwMap, telemetry);
+//        driveTrain = new DriveTrain(hwMap, telemetry);
+//        escarGOMech = new EscarGOMech(hwMap, telemetry);
     }
 }
