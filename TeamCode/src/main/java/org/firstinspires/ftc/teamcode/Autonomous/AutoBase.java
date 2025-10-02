@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Assemblies.DriveTrain;
 import org.firstinspires.ftc.teamcode.Assemblies.EscarGOMech;
+import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Autonomous
 public class AutoBase extends LinearOpMode {
@@ -23,6 +24,7 @@ public class AutoBase extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            launcher.WheelLaunch();
             // Path stuff maybe?
         }
     }
