@@ -10,21 +10,17 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Autonomous
 public class AutoBase extends LinearOpMode {
-    AprilTagDetect aprilTag;
-    DriveTrain drive;
-    EscarGOMech launcher;
 
     private final ElapsedTime Time = new ElapsedTime();
 
     public void runOpMode() {
-        aprilTag = new AprilTagDetect();
-        launcher = new EscarGOMech(hardwareMap, telemetry);
-        drive    = new DriveTrain(hardwareMap, telemetry);
+        Robot robot = new Robot(hardwareMap, telemetry);
 
         waitForStart();
 
         while (opModeIsActive()) {
-            launcher.WheelLaunch();
+            robot.escarGOMech.WheelLaunch();
+            robot.aprilTagDetect.locateTargetAprilTag();
             // Path stuff maybe?
         }
     }

@@ -1,14 +1,19 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+import org.firstinspires.ftc.teamcode.Assemblies.DriveTrain;
+import org.firstinspires.ftc.teamcode.Assemblies.EscarGOMech;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
-@Disabled
+//@Disabled
 public class AprilTagDetect {
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
     private AprilTagProcessor aprilTag; // Sets up the processing of April Tags
@@ -17,7 +22,13 @@ public class AprilTagDetect {
     private int DESIRED_TAG_ID = 20;
     private AprilTagDetection desiredTag = null;
 
-    private void locateTargetAprilTag() {
+    public DriveTrain driveTrain;
+    public EscarGOMech escarGOMech;
+
+    public void locateTargetAprilTag() {
+        driveTrain = new DriveTrain(hardwareMap, telemetry);
+        escarGOMech = new EscarGOMech(hardwareMap, telemetry);
+
         targetFound = false;
         desiredTag = null;
 
@@ -38,16 +49,18 @@ public class AprilTagDetect {
                     break;  // don't look any further.
                 }
             }
-            if (DESIRED_TAG_ID == 20) {
-                // Make the bot go to the blue goal
+            if (DESIRED_TAG_ID == 20) { // Make the bot go to the blue goal
+                driveTrain.turnToHeading(0.5, 30); // Probably needs fine-tuning
+                escarGOMech.AutoIntakeLaunch();
             } if (DESIRED_TAG_ID == 21) {
                 // Shoot balls in green, purple, purple order
             } if (DESIRED_TAG_ID == 22) {
                 // Shoot balls in purple, green, purple order
             } if (DESIRED_TAG_ID == 23) {
                 // Shoot balls in purple, purple, green order
-            } if (DESIRED_TAG_ID == 24) {
-                // Make the bot go to the red goal
+            } if (DESIRED_TAG_ID == 24) { // Make the bot go to the red goal
+                driveTrain.turnToHeading(0.5, -30); // Probably needs fine-tuning
+                escarGOMech.AutoIntakeLaunch();
             }
         }
     } // end of locateTargetAprilTag
