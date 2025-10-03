@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Assemblies.DriveTrain;
-import org.firstinspires.ftc.teamcode.Assemblies.EscarGOMech;
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Autonomous
@@ -21,6 +19,7 @@ public class AutoBase extends LinearOpMode {
         while (opModeIsActive()) {
             robot.escarGOMech.WheelLaunch();
             robot.aprilTagDetect.locateTargetAprilTag();
+            // robot.displayLED.IntakeCheck(true);
             // Path stuff maybe?
         }
     }

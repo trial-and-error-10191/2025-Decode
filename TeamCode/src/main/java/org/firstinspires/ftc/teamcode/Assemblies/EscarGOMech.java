@@ -40,7 +40,7 @@ public class EscarGOMech {
         }
     }
 
-    public void AutoIntakeGrab () {
+    public void AutoIntakeGrab() {
         wallServo.setPosition(closePos);
         intakeFlywheelLeft.setPower(-1);
         intakeFlywheelRight.setPower(1);
@@ -54,9 +54,5 @@ public class EscarGOMech {
 
     public void WheelLaunch() {
         launchFlywheel.setPower(1);
-    }
-
-    public void initRotateByPower() {
-        launchFlywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }

@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
-import android.graphics.Color;
-
-import com.qualcomm.hardware.sparkfun.SparkFunLEDStick;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 

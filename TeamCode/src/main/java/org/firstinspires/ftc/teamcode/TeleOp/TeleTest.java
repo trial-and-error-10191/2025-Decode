@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Assemblies.DisplayLED;
-import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @TeleOp (name = "TeleTest", group = "LinearOpMode")
 public class TeleTest extends LinearOpMode {
