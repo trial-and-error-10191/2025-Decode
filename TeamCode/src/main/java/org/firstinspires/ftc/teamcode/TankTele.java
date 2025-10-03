@@ -16,7 +16,7 @@ public class TankTele extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
-            robot.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
+            robot.driveTrain.drive(-gamepad1.left_stick_y, -gamepad1.right_stick_x);
         }
     }
 }
