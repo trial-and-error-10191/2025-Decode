@@ -25,6 +25,11 @@ public class WestCoastTeleOp extends LinearOpMode {
              wheels.wheelsTick();
              telemetry.addData("lRPM", wheels.rpmL());
             telemetry.addData("RRPM", wheels.rpmR());
+            telemetry.addData("Rpower", wheels.rightPower);
+            telemetry.addData("Lpower", wheels.leftPower);
+            telemetry.addData("REC", wheels.right.getCurrentPosition());
+            telemetry.addData("", wheels.runTime.milliseconds());
+            telemetry.addData("LastMS", wheels.lastKnownMS);
             telemetry.update();
         }
     }

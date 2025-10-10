@@ -6,33 +6,32 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class launchWheels {
 
     // define wheels
-    DcMotor left;
-    DcMotor right;
+    public DcMotor left;
+    public DcMotor right;
 
     // define telemetry
     Telemetry telemetry;
 
     // define restrictive variables
-    int rpmTarget = 20;
-    int rpmLeniancy = 3;
+    float changeBy = 0.00005f;
+    int rpmTarget = 1000;
+    int rpmLeniency = 60;
     double leftRpm = 0;
-    double rightRpm = 0;
-    double leftPower = 0;
-    double rightPower = 0;
-    double lastKnownMS = 0;
-    double lastKnownEncL = 0;
-    double lastKnownEncR = 0;
+    public double rightRpm = 0;
+    public double leftPower = 0;
+    public double rightPower = 0;
+    public double lastKnownMS = 0;
+    public double lastKnownEncL = 0;
+    public double lastKnownEncR = 0;
 
     // define fixed values
-    double encodersPerRevolution = 5330;
+    double encodersPerRevolution = 28;
 
     // define the Elapsed time for checking RPM
-    ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+    public ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
     public launchWheels(Telemetry telemetry, HardwareMap hwMap) {
         // valuate telemetry and wheels
@@ -45,14 +44,14 @@ public class launchWheels {
     public void wheelsTick() {
 
                 // set initial power equalization's
-                if (!(leftRpm > rpmTarget - rpmLeniancy && leftRpm < rpmTarget + rpmLeniancy)) {
-                    leftPower += leftRpm > rpmTarget + rpmLeniancy ? -0.0005 : 0;
-                    leftPower += leftRpm < rpmTarget - rpmLeniancy ? 0.0005 : 0;
+                if (!(leftRpm > rpmTarget - rpmLeniency && leftRpm < rpmTarget + rpmLeniency)) {
+                    leftPower += leftRpm > rpmTarget + rpmLeniency ? -changeBy : 0;
+                    leftPower += leftRpm < rpmTarget - rpmLeniency ? changeBy : 0;
                     leftPower = Math.max(-1, Math.min(1, leftPower));
                 }
-                if (!(rightRpm > rpmTarget - rpmLeniancy && rightRpm < rpmTarget + rpmLeniancy)) {
-                    rightPower += rightRpm > rpmTarget ? -0.0005 : 0;
-                    rightPower += rightRpm < rpmTarget ? 0.0005 : 0;
+                if (!(rightRpm > rpmTarget - rpmLeniency && rightRpm < rpmTarget + rpmLeniency)) {
+                    rightPower += rightRpm > rpmTarget ? -changeBy : 0;
+                    rightPower += rightRpm < rpmTarget ? changeBy : 0;
                     rightPower = Math.max(-1, Math.min(1, rightPower));
                 }
 
@@ -61,7 +60,7 @@ public class launchWheels {
                 right.setPower(rightPower);
 
                 // wait to get accurate RPM
-                if (runTime.milliseconds() > lastKnownMS + 1000) {
+                if (runTime.milliseconds() > lastKnownMS + 100) {
                     leftRpm =  (((left.getCurrentPosition() - lastKnownEncL) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
                     rightRpm = (((right.getCurrentPosition() - lastKnownEncR) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
 
