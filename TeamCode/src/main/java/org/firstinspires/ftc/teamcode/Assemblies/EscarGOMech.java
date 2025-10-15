@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@Disabled
+//@Disabled
 public class EscarGOMech {
     boolean lastInput = false;
     CRServo intakeFlywheelLeft;
@@ -30,24 +30,24 @@ public class EscarGOMech {
 
     public void BallIntake(boolean intakeSpin) {
         if (!lastInput && intakeSpin) {
-            wallServo.setPosition(closePos);
+//            wallServo.setPosition(closePos);
             intakeFlywheelLeft.setPower(-1);
             intakeFlywheelRight.setPower(1);
         } else {
-            wallServo.setPosition(openPos);
+//            wallServo.setPosition(openPos);
             intakeFlywheelLeft.setPower(0);
             intakeFlywheelRight.setPower(0);
         }
     }
 
     public void AutoIntakeGrab() {
-        wallServo.setPosition(closePos);
+//        wallServo.setPosition(closePos);
         intakeFlywheelLeft.setPower(-1);
         intakeFlywheelRight.setPower(1);
     }
 
     public void AutoIntakeLaunch() {
-        wallServo.setPosition(openPos);
+//        wallServo.setPosition(openPos);
         intakeFlywheelLeft.setPower(0);
         intakeFlywheelRight.setPower(0);
     }
