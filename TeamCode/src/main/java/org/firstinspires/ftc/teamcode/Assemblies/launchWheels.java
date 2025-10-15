@@ -16,16 +16,19 @@ public class launchWheels {
     Telemetry telemetry;
 
     // define restrictive variables
-    float changeBy = 0.00005f;
-    int rpmTarget = 1000;
+    float changeBy = 0.0001f;
+    int rpmTarget = 700;
     int rpmLeniency = 60;
     double leftRpm = 0;
-    public double rightRpm = 0;
-    public double leftPower = 0;
     public double rightPower = 0;
     public double lastKnownMS = 0;
     public double lastKnownEncL = 0;
     public double lastKnownEncR = 0;
+
+    // start motors with minimum movement power
+    public double rightRpm = 0.13;
+    public double leftPower = 0.13;
+
 
     // define fixed values
     double encodersPerRevolution = 28;
@@ -38,29 +41,34 @@ public class launchWheels {
         this.telemetry = telemetry;
         left = hwMap.get(DcMotor.class, "Lwheel");
         right = hwMap.get(DcMotor.class, "Rwheel");
+
+        // reverse the right wheel to obtain the desired direction
+        right.setDirection(DcMotor.Direction.REVERSE);
+
     }
 
     // tick the wheels forward
     public void wheelsTick() {
 
-                // set initial power equalization's
-                if (!(leftRpm > rpmTarget - rpmLeniency && leftRpm < rpmTarget + rpmLeniency)) {
-                    leftPower += leftRpm > rpmTarget + rpmLeniency ? -changeBy : 0;
-                    leftPower += leftRpm < rpmTarget - rpmLeniency ? changeBy : 0;
-                    leftPower = Math.max(-1, Math.min(1, leftPower));
-                }
-                if (!(rightRpm > rpmTarget - rpmLeniency && rightRpm < rpmTarget + rpmLeniency)) {
-                    rightPower += rightRpm > rpmTarget ? -changeBy : 0;
-                    rightPower += rightRpm < rpmTarget ? changeBy : 0;
-                    rightPower = Math.max(-1, Math.min(1, rightPower));
-                }
-
-                // final power equalization
-                left.setPower(leftPower);
-                right.setPower(rightPower);
-
                 // wait to get accurate RPM
-                if (runTime.milliseconds() > lastKnownMS + 100) {
+                if (runTime.milliseconds() > lastKnownMS + 80) {
+
+                    // set initial power equalization's
+                    if (!(leftRpm > rpmTarget - rpmLeniency && leftRpm < rpmTarget + rpmLeniency)) {
+                        leftPower += leftRpm > rpmTarget + rpmLeniency ? -changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
+                        leftPower += leftRpm < rpmTarget - rpmLeniency ? changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
+                        leftPower = Math.max(-1, Math.min(1, leftPower));
+                    }
+                    if (!(rightRpm > rpmTarget - rpmLeniency && rightRpm < rpmTarget + rpmLeniency)) {
+                        rightPower += rightRpm > rpmTarget ? -changeBy * ((Math.abs(rightRpm - rpmTarget)) / 10): 0;
+                        rightPower += rightRpm < rpmTarget ? changeBy * ((Math.abs(rightRpm - rpmTarget)) / 10) : 0;
+                        rightPower = Math.max(-1, Math.min(1, rightPower));
+                    }
+
+                    // final power equalization
+                    left.setPower(leftPower);
+                    right.setPower(rightPower);
+
                     leftRpm =  (((left.getCurrentPosition() - lastKnownEncL) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
                     rightRpm = (((right.getCurrentPosition() - lastKnownEncR) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
 

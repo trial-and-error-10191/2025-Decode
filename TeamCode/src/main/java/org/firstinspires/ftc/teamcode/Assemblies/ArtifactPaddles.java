@@ -16,7 +16,7 @@ public class ArtifactPaddles {
     CRServo paddles;
 
     /* create the sensor */
-    TouchSensor sensor;
+    public TouchSensor sensor;
 
     /* variable for storing the queued pass amounts and pass lock */
     int queuedMovements = 0;
@@ -27,7 +27,7 @@ public class ArtifactPaddles {
     /* time for iteration limitation */
     ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-    ArtifactPaddles(Telemetry telemetry, HardwareMap hwMap) {
+    public ArtifactPaddles(Telemetry telemetry, HardwareMap hwMap) {
         paddles = hwMap.get(CRServo.class, "paddles");
         sensor = hwMap.get(TouchSensor.class, "MagneticSwitch");
     }
@@ -41,8 +41,7 @@ public class ArtifactPaddles {
             paddles.setPower(forward  ? 1 : -1);
         }
         if (sensor.isPressed()) {
-           if (runTime.milliseconds() > lastMS + 100) {
-               lastMS = runTime.milliseconds();
+           if (runTime.milliseconds() > lastMS + 500) {
                queuedMovements--;
                queuedMovements = Math.max(0, queuedMovements);
            }
@@ -57,10 +56,21 @@ public class ArtifactPaddles {
 
     public void QueueCooldowns(int state, boolean forward) {
         if (!moveCooldown) {
+            runTime.reset();
+            lastMS = 0;
             state = Math.max(0, Math.min(state, 3));
             queuedMovements = state;
             moveCooldown = true;
             this.forward = forward;
+        }
+    }
+
+    // autonomous function -_-
+    public void AutoRot(int state, boolean forward) {
+        QueueCooldowns(state, forward);
+
+        while (queuedMovements > 0) {
+            IteratePaddles();
         }
     }
     }

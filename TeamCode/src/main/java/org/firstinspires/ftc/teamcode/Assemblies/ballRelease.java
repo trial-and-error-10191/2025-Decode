@@ -1,24 +1,48 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ballRelease {
+
+    // define the servo
     Servo servo;
 
-    ballRelease(Telemetry telemetry, HardwareMap hwMap) {
+    // define supportive vars
+    boolean previousInput = false;
+    boolean open = false;
+
+    public ballRelease(Telemetry telemetry, HardwareMap hwMap) {
         servo = hwMap.get(Servo.class, "dropServo");
     }
 
     // function to drop the ball
     public void Open() {
         servo.setPosition(0);
+        open = true;
     }
 
     // function to close the hole for next ball
     public void Close() {
-        servo.setPosition(1);
+        servo.setPosition(0.5);
+        open = false;
+    }
+
+    public void releaseLogic(Gamepad game) {
+        if (!previousInput && game.a) {
+            if (open) {
+                Close();
+            } else {
+                Open();
+            }
+            previousInput = true;
+        }
+
+        if (!game.a) {
+            previousInput = false;
+        }
     }
 }

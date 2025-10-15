@@ -19,17 +19,20 @@ public class WestCoastTeleOp extends LinearOpMode {
         // create an object of each assembly
 //        DriveTrain westCoast = new DriveTrain(hardwareMap, telemetry);
         launchWheels wheels = new launchWheels(telemetry, hardwareMap);
+        ballRelease release = new ballRelease(telemetry, hardwareMap);
+        ArtifactPaddles paddles = new ArtifactPaddles(telemetry, hardwareMap);
 
         while (opModeIsActive()) {
 //           westCoast.drive(gamepad1.left_stick_y, gamepad1.right_stick_x);
              wheels.wheelsTick();
-             telemetry.addData("lRPM", wheels.rpmL());
-            telemetry.addData("RRPM", wheels.rpmR());
-            telemetry.addData("Rpower", wheels.rightPower);
-            telemetry.addData("Lpower", wheels.leftPower);
-            telemetry.addData("REC", wheels.right.getCurrentPosition());
-            telemetry.addData("", wheels.runTime.milliseconds());
-            telemetry.addData("LastMS", wheels.lastKnownMS);
+
+             release.releaseLogic(gamepad1);
+
+             paddles.IteratePaddles();
+
+             if (gamepad1.right_bumper) { paddles.QueueCooldowns(1, true); }
+
+             telemetry.addData("SP", paddles.sensor.isPressed());
             telemetry.update();
         }
     }
