@@ -25,7 +25,7 @@ public class EscarGOMech {
         intakeFlywheelLeft = hwMap.get(CRServo.class, "intakeFlywheelLeft");
         intakeFlywheelRight = hwMap.get(CRServo.class, "intakeFlywheelRight");
 
-        wallServo = hwMap.get(Servo.class, "wallServo");
+//        wallServo = hwMap.get(Servo.class, "wallServo");
     }
 
     public void BallIntake(boolean intakeSpin) {
