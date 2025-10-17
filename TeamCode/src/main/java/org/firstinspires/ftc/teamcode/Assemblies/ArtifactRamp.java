@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ArtifactRamp {
 
@@ -14,6 +18,9 @@ public class ArtifactRamp {
     // Define class members
     public static Servo RampServo;
 
+    public ArtifactRamp(Telemetry telemetry, HardwareMap hwMap) {
+        RampServo = hwMap.get(Servo.class, "RampServo");
+    }
     public void rampServo (boolean up, boolean down) {
 
     if (up) {                                     // lifts ramp up
