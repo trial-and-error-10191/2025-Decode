@@ -22,12 +22,15 @@ public class WestCoastTeleOp extends LinearOpMode {
         launchWheels wheels = new launchWheels(telemetry, hardwareMap);
         ballRelease release = new ballRelease(telemetry, hardwareMap);
         ArtifactPaddles paddles = new ArtifactPaddles(telemetry, hardwareMap);
+        ArtifactRamp servo = new ArtifactRamp(telemetry, hardwareMap);
 
         while (opModeIsActive()) {
 
              wheels.wheelsTick();
 
              paddles.IteratePaddles();
+
+            servo.rampServo(gamepad2.dpad_up, gamepad2.dpad_down);
 
              if (gamepad1.right_bumper && !isPressed) {
                  paddles.QueueCooldowns(1, true);
