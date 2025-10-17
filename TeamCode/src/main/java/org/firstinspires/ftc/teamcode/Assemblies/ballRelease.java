@@ -31,8 +31,8 @@ public class ballRelease {
         open = false;
     }
 
-    public void releaseLogic(Gamepad game) {
-        if (!previousInput && game.a) {
+    public void releaseLogic(boolean release) {
+        if (!previousInput && release) {
             if (open) {
                 Close();
             } else {
@@ -41,7 +41,7 @@ public class ballRelease {
             previousInput = true;
         }
 
-        if (!game.a) {
+        if (!release) {
             previousInput = false;
         }
     }
