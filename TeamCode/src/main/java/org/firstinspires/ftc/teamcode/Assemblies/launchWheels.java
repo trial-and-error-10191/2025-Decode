@@ -17,7 +17,7 @@ public class launchWheels {
 
     // define restrictive variables
     float changeBy = 0.0001f;
-    public int rpmTarget = 700;
+    public int rpmTarget = 4000;
     int rpmLeniency = 60;
     double leftRpm = 0;
     public double rightPower = 0;

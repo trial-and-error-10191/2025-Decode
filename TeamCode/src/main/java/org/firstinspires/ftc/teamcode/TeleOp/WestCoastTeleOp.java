@@ -30,8 +30,9 @@ public class WestCoastTeleOp extends LinearOpMode {
 
              paddles.IteratePaddles();
 
-            servo.rampServo(gamepad2.dpad_up, gamepad2.dpad_down);
+            servo.rampServo(gamepad1.dpad_up, gamepad1.dpad_down);
 
+            // logic for opening thingymabober
              if (gamepad1.right_bumper && !isPressed) {
                  paddles.QueueCooldowns(1, true);
                  iterations = 0;
