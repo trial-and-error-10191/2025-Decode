@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+//@Disabled
 public class DriveTrain {
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
     private IMU imu = null;

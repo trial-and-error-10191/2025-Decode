@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+@Disabled
 public class DisplayLED {
     private Servo LEDLight;
     public double WorksGreat = 0.611;  // Does this when if intake flywheel & wall servo work in sync, turns to a blue

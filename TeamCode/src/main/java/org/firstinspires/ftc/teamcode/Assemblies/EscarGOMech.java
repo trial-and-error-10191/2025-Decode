@@ -20,12 +20,11 @@ public class EscarGOMech {
 
     public EscarGOMech(HardwareMap hwMap, Telemetry telemetry) {
         launchFlywheel = hwMap.get(DcMotor.class, "launchFlywheel");
-        launchFlywheel.setDirection(DcMotor.Direction.REVERSE);
 
         intakeFlywheelLeft = hwMap.get(CRServo.class, "intakeFlywheelLeft");
         intakeFlywheelRight = hwMap.get(CRServo.class, "intakeFlywheelRight");
 
-//        wallServo = hwMap.get(Servo.class, "wallServo");
+        wallServo = hwMap.get(Servo.class, "wallServo");
     }
 
     public void BallIntake(boolean intakeSpin) {
@@ -54,5 +53,5 @@ public class EscarGOMech {
 
     public void WheelLaunch() {
         launchFlywheel.setPower(1);
-    }
+    } // put power as 0.75?
 }

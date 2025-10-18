@@ -7,8 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Autonomous
-public class AutoBase extends LinearOpMode {
-
+public class BlueAlliance extends LinearOpMode {
     private final ElapsedTime Time = new ElapsedTime();
 
     public void runOpMode() {
@@ -17,10 +16,7 @@ public class AutoBase extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.escarGOMech.WheelLaunch();
-            robot.aprilTagDetect.locateTargetAprilTag();
-            robot.displayLED.IntakeCheck(true);
-            // Path stuff maybe?
+
         }
     }
     public void Wait(double seconds) {

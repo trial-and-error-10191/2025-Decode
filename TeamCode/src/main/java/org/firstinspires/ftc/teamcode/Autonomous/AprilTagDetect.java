@@ -13,7 +13,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
-//@Disabled
+@Disabled
 public class AprilTagDetect {
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
     private AprilTagProcessor aprilTag; // Sets up the processing of April Tags
@@ -52,12 +52,12 @@ public class AprilTagDetect {
             if (DESIRED_TAG_ID == 20) { // Make the bot go to the blue goal
                 driveTrain.turnToHeading(0.5, 30); // Probably needs fine-tuning
                 escarGOMech.AutoIntakeLaunch();
-            } if (DESIRED_TAG_ID == 21) {
-                // Shoot balls in green, purple, purple order
-            } if (DESIRED_TAG_ID == 22) {
-                // Shoot balls in purple, green, purple order
-            } if (DESIRED_TAG_ID == 23) {
-                // Shoot balls in purple, purple, green order
+            } if (DESIRED_TAG_ID == 21) { // Shoot balls in green, purple, purple order
+
+            } if (DESIRED_TAG_ID == 22) { // Shoot balls in purple, green, purple order
+
+            } if (DESIRED_TAG_ID == 23) { // Shoot balls in purple, purple, green order
+
             } if (DESIRED_TAG_ID == 24) { // Make the bot go to the red goal
                 driveTrain.turnToHeading(0.5, -30); // Probably needs fine-tuning
                 escarGOMech.AutoIntakeLaunch();
