@@ -4,21 +4,21 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Assemblies.Robot;
+import org.firstinspires.ftc.teamcode.Assemblies.AprilTags;
+import org.firstinspires.ftc.teamcode.Assemblies.LEDLight;
 
 @Autonomous
 public class AutoBase extends LinearOpMode {
     private final ElapsedTime Time = new ElapsedTime();
 
     public void runOpMode() {
-        Robot robot = new Robot(hardwareMap, telemetry);
+        LEDLight displayLED = new LEDLight();
+        AprilTags aprilTags = new AprilTags();
 
         waitForStart();
-
         while (opModeIsActive()) {
-            robot.aprilTagDetect.locateTargetAprilTag();
-            robot.displayLED.IntakeCheck(true);
-            // Path stuff maybe?
+            aprilTags.locateTargetAprilTag();
+            displayLED.IntakeCheck(true);
         }
     }
 }
