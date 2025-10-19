@@ -15,8 +15,11 @@ public class BlueAuto extends LinearOpMode {
             robot.autoBase.runOpMode();
             /// All of this may need to be fine-tuned
             robot.driveTrain.driveStraight(1.0, 20, 0);
+            robot.autoBase.Wait(1);
             robot.driveTrain.driveStraight(1.0, 60, -90);
+            robot.autoBase.Wait(1);
             robot.driveTrain.driveStraight(1.0, 20, 0);
+            robot.autoBase.Wait(1);
             robot.driveTrain.turnToHeading(1.0, 30);
         }
     }

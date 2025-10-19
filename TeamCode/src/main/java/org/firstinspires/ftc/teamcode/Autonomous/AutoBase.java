@@ -21,4 +21,10 @@ public class AutoBase extends LinearOpMode {
             displayLED.IntakeCheck(true);
         }
     }
+    public void Wait(double seconds) {
+        Time.reset();
+        while (Time.milliseconds()  < seconds * 1000) {
+            // doesn't need anything
+        } // end of while loop
+    } // end of public void Wait
 }
