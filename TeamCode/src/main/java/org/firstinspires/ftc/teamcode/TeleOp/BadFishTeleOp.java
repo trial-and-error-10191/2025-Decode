@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
-@TeleOp
+@TeleOp (name = "BasFishTeleOp", group = "LinearOpMode")
 public class BadFishTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
