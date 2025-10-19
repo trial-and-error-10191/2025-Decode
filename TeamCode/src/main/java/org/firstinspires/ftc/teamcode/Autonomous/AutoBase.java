@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
-@Autonomous (name = "AutoBase", group = "Autonomous")
+@Autonomous
 public class AutoBase extends LinearOpMode {
     private final ElapsedTime Time = new ElapsedTime();
 
