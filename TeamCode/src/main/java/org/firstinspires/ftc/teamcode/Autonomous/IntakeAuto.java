@@ -13,7 +13,7 @@ public class IntakeAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         launcher = new EscarGOMech(hardwareMap, telemetry);
-
+//a
         launcher.WheelLaunch();
         launcher.AutoIntakeGrab();
         Wait(2);
