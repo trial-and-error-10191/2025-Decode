@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
 public class Robot {
     public AprilTags aprilTags;
     public AutoBase autoBase;
-    public BadFishLaunch badFishLaunch;
+//    public BadFishLaunch badFishLaunch;
     public BallDetect ballDetect;
     public LEDLight displayLED;
     public DriveTrain driveTrain;
@@ -17,7 +17,7 @@ public class Robot {
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
         aprilTags = new AprilTags();
         autoBase = new AutoBase();
-        badFishLaunch = new BadFishLaunch(hwMap);
+//        badFishLaunch = new BadFishLaunch(hwMap);
         ballDetect = new BallDetect();
         displayLED = new LEDLight();
         driveTrain = new DriveTrain(hwMap, telemetry);

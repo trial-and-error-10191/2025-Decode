@@ -21,11 +21,11 @@ public class BadFishLaunch {
     int rotatePos;                         // Encoder counter for lift rotation
 
     public BadFishLaunch(HardwareMap hwMap) {
-        bandIntake = hwMap.get(DcMotor.class, "band_Intake");
-        wheelLaunch = hwMap.get(DcMotor.class, "wheel_Launch");
-        ballHold = hwMap.get(CRServo.class, "ball_Hold");
-
-        ferrisRotate = hwMap.get(DcMotor.class, "ferris_Rotate");
+//        bandIntake = hwMap.get(DcMotor.class, "band_Intake");
+//        wheelLaunch = hwMap.get(DcMotor.class, "wheel_Launch");
+//        ballHold = hwMap.get(CRServo.class, "ball_Hold");
+//
+//        ferrisRotate = hwMap.get(DcMotor.class, "ferris_Rotate");
         ferrisRotate.setDirection(DcMotor.Direction.FORWARD);
         rotatePos = ferrisRotate.getCurrentPosition();
         ferrisRotate.setTargetPosition(rotatePos);
