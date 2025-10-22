@@ -17,6 +17,10 @@ public class BadFishTeleOp extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()) {
+            robot.badFishLaunch.Yeet();
+            robot.badFishLaunch.Intake(gamepad2.b);
+            robot.badFishLaunch.Rotate(gamepad2.left_stick_y);
+            robot.badFishLaunch.ballHoldRotate(gamepad2.right_stick_x, gamepad2.y);
             robot.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
             robot.displayLED.IntakeCheck(true);
         }
