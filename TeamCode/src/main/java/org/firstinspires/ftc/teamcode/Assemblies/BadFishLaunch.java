@@ -77,9 +77,9 @@ public class BadFishLaunch {
 
         if (!lastInput && slow) {
             Fall = !Fall;
-            if (Fall) { // Makes a ball fall through the top hole
+            if (Fall) { // Makes a ball fall through the top hole, if we chose to do this
                 ballHold.setPower(0.5);
-            } else { // Makes a ball not fall through the top hole
+            } else { // Makes a ball not fall through the top hole, if we chose to do this
                 bandIntake.setPower(1);
             }
         }
