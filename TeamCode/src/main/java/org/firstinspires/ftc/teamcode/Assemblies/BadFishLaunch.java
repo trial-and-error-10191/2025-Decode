@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -7,6 +10,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 @Disabled
 public class BadFishLaunch {
+    ArtifactPaddles artifactPaddles = new ArtifactPaddles(hardwareMap, telemetry);
+
     boolean Spin = false;
     boolean Fall = false;
     boolean lastInput = false;
@@ -34,17 +39,18 @@ public class BadFishLaunch {
 
     }
 
-//    public void Intake(boolean intakeSpin) {
-//        if (!lastInput && intakeSpin) {
-//            Spin = !Spin;
-//            if (Spin) {
-//                bandIntake.setPower(1);
-//            } else {
-//                bandIntake.setPower(-1);
-//            }
-//        }
-//        lastInput = intakeSpin;
-//    }
+    public void Intake(boolean intakeSpin) {
+        if (!lastInput && intakeSpin) {
+            Spin = !Spin;
+            if (Spin) {
+                bandIntake.setPower(1);
+            } else {
+                bandIntake.setPower(0);
+                artifactPaddles.AutoRot(1, true);
+            }
+        }
+        lastInput = intakeSpin;
+    }
 //
 //    public void Yeet() {
 //        wheelLaunch.setPower(1);
