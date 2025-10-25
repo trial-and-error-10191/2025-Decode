@@ -6,7 +6,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
 
 public class Robot {
-    public AprilTags aprilTags;
     public AutoBase autoBase;
 //    public BadFishLaunch badFishLaunch;
     public BallDetect ballDetect;
@@ -15,7 +14,6 @@ public class Robot {
 
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
-        aprilTags = new AprilTags();
         autoBase = new AutoBase();
 //        badFishLaunch = new BadFishLaunch(hwMap);
         ballDetect = new BallDetect();
