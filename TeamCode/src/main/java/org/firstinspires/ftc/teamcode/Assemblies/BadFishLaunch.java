@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 @Disabled
 public class BadFishLaunch {
-//    ArtifactPaddles artifactPaddles = new ArtifactPaddles(hardwareMap, telemetry);
 
     boolean Spin = false;
     boolean Fall = false;
@@ -46,12 +45,11 @@ public class BadFishLaunch {
                 bandIntake.setPower(1);
             } else {
                 bandIntake.setPower(0);
-//                artifactPaddles.AutoRot(1, true);
             }
         }
         lastInput = intakeSpin;
     }
-//
+
 //    public void Yeet() {
 //        wheelLaunch.setPower(1);
 //    }
