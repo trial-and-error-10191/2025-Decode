@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
+import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
 public class Robot {
     public ArtifactPaddles artifactPaddles;
@@ -23,7 +24,25 @@ public class Robot {
     }
     // after badfish.intake off, artifactpaddle.AutoRot
 
-//    public void intakeArtifact(...) {
-//
-//    }
+    public void intakeArtifact() {
+        if (badFishLaunch.bandIntake.getPower() == 0) {
+            artifactPaddles.AutoRot(1, true);
+            autoBase.Wait(90);
+        }
+    }
+    public void colorCheck(PredominantColorProcessor.Swatch desireBall) {
+        PredominantColorProcessor.Result result = ballDetect.colorSensor.getAnalysis();
+        if (result.closestSwatch == desireBall) {
+            badFishLaunch.bandIntake.setPower(1);
+        } else {
+            badFishLaunch.bandIntake.setPower(0.1);
+        }
+        if (result.closestSwatch == PredominantColorProcessor.Swatch.GREEN) {
+            displayLED.LEDLight.setPosition(0.5); // turns the light green
+        } if (result.closestSwatch == PredominantColorProcessor.Swatch.PURPLE) {
+            displayLED.LEDLight.setPosition(0.722); // turns the light purple
+        } else {
+            displayLED.LEDLight.setPosition(0); // turns the light off
+        }
+    }
 }

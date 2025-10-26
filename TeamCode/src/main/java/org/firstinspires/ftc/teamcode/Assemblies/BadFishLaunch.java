@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 @Disabled
 public class BadFishLaunch {
-    ArtifactPaddles artifactPaddles = new ArtifactPaddles(hardwareMap, telemetry);
+//    ArtifactPaddles artifactPaddles = new ArtifactPaddles(hardwareMap, telemetry);
 
     boolean Spin = false;
     boolean Fall = false;
@@ -26,7 +26,7 @@ public class BadFishLaunch {
     int rotatePos;                         // Encoder counter for lift rotation
 
     public BadFishLaunch(HardwareMap hwMap) {
-//        bandIntake = hwMap.get(DcMotor.class, "band_Intake");
+        bandIntake = hwMap.get(DcMotor.class, "band_Intake");
 //        wheelLaunch = hwMap.get(DcMotor.class, "wheel_Launch");
         ballHold = hwMap.get(CRServo.class, "ball_Hold");
 //
@@ -46,7 +46,7 @@ public class BadFishLaunch {
                 bandIntake.setPower(1);
             } else {
                 bandIntake.setPower(0);
-                artifactPaddles.AutoRot(1, true);
+//                artifactPaddles.AutoRot(1, true);
             }
         }
         lastInput = intakeSpin;

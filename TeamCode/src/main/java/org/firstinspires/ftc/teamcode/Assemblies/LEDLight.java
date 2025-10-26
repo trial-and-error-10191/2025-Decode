@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Disabled
 public class LEDLight {
-    private Servo LEDLight;
+    public Servo LEDLight;
     public double WorksGreat = 0.611;  // Does this when if intake flywheel & wall servo work in sync, turns to a blue
     public double WorksBad = 0.277;    // Does this when intake flywheel works but not the wall servo, turns red
     public double WorksOkay = 0.666;   // Does this when wall servo works but not the intake flywheel, turns indigo
