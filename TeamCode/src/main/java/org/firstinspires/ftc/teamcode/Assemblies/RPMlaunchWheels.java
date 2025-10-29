@@ -20,14 +20,16 @@ public class RPMlaunchWheels {
     public int rpmTarget = 4000;
     int rpmLeniency = 60;
     double leftRpm = 0;
-    public double rightPower = 0;
+    public double rightRpm = 0;
+    public double dualRPM = 0;
     public double lastKnownMS = 0;
     public double lastKnownEncL = 0;
     public double lastKnownEncR = 0;
 
     // start motors with minimum movement power
-    public double rightRpm = 0.13;
+    public double rightPower = 0;
     public double leftPower = 0.13;
+    public double dualPower = 0.13;
 
 
     // define fixed values
@@ -49,6 +51,7 @@ public class RPMlaunchWheels {
 
     // tick the wheels forward
     public void wheelsTick() {
+        boolean cataclysmicError = false;
 
                 // wait to get accurate RPM
                 if (runTime.milliseconds() > lastKnownMS + 80) {
@@ -64,18 +67,33 @@ public class RPMlaunchWheels {
                         rightPower += rightRpm < rpmTarget ? changeBy * ((Math.abs(rightRpm - rpmTarget)) / 10) : 0;
                         rightPower = Math.max(-1, Math.min(1, rightPower));
                     }
+                    // set dual power equalization
+                    if (!(dualRPM > rpmTarget - rpmLeniency && dualRPM < rpmTarget + rpmLeniency)) {
+                        dualPower += dualRPM > rpmTarget ? -changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10): 0;
+                        dualPower += dualRPM < rpmTarget ? changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10) : 0;
+                        dualPower = Math.max(-1, Math.min(1, dualPower));
+                    }
 
                     // final power equalization
-                    left.setPower(leftPower);
-                    right.setPower(rightPower);
+                    left.setPower(cataclysmicError ?  dualPower : leftPower);
+                    right.setPower(cataclysmicError ? dualPower : rightPower);
 
                     leftRpm =  (((left.getCurrentPosition() - lastKnownEncL) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
                     rightRpm = (((right.getCurrentPosition() - lastKnownEncR) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
+                    dualRPM = (leftRpm + rightRpm) / 2;
 
                     lastKnownMS = runTime.milliseconds();
                     lastKnownEncL = left.getCurrentPosition();
                     lastKnownEncR = right.getCurrentPosition();
+
+                    if ((Math.abs(leftRpm - rightRpm) / rpmTarget / 100) > 20) {
+                        cataclysmicError = true;
+                    } else {
+                        cataclysmicError = false;
+                    }
                 }
+
+
     }
 
     // alter target RPM
