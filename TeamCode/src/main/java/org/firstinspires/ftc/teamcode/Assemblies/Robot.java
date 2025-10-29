@@ -32,10 +32,10 @@ public class Robot {
     }
     public void colorCheck(PredominantColorProcessor.Swatch desireBall) {
         PredominantColorProcessor.Result result = ballDetect.colorSensor.getAnalysis();
-        if (result.closestSwatch == desireBall) {
+        if (result.closestSwatch == desireBall) { // Lets intake suck in balls of the correct color
             badFishLaunch.bandIntake.setPower(1);
-        } else {
-            badFishLaunch.bandIntake.setPower(0.1);
+        } else { // Prevents accidental intake of incorrect balls
+            badFishLaunch.bandIntake.setPower(-0.1);
         }
         if (result.closestSwatch == PredominantColorProcessor.Swatch.GREEN) {
             displayLED.LEDLight.setPosition(0.5); // turns the light green
