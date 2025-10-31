@@ -19,39 +19,39 @@ public class EscarGOMech {
     final double openPos = 0.47; // Closed position for the wall servo
 
     public EscarGOMech(HardwareMap hwMap, Telemetry telemetry) {
-        launchFlywheel = hwMap.get(DcMotor.class, "launchFlywheel");
+//        launchFlywheel = hwMap.get(DcMotor.class, "launchFlywheel");
 
-        intakeFlywheelLeft = hwMap.get(CRServo.class, "intakeFlywheelLeft");
-        intakeFlywheelRight = hwMap.get(CRServo.class, "intakeFlywheelRight");
-
-        wallServo = hwMap.get(Servo.class, "wallServo");
+//        intakeFlywheelLeft = hwMap.get(CRServo.class, "intakeFlywheelLeft");
+//        intakeFlywheelRight = hwMap.get(CRServo.class, "intakeFlywheelRight");
+//
+//        wallServo = hwMap.get(Servo.class, "wallServo");
     }
 
-    public void BallIntake(boolean intakeSpin) {
-        if (!lastInput && intakeSpin) {
-//            wallServo.setPosition(closePos);
-            intakeFlywheelLeft.setPower(-1);
-            intakeFlywheelRight.setPower(1);
-        } else {
-//            wallServo.setPosition(openPos);
-            intakeFlywheelLeft.setPower(0);
-            intakeFlywheelRight.setPower(0);
-        }
-    }
+//    public void BallIntake(boolean intakeSpin) {
+//        if (!lastInput && intakeSpin) {
+////            wallServo.setPosition(closePos);
+//            intakeFlywheelLeft.setPower(-1);
+//            intakeFlywheelRight.setPower(1);
+//        } else {
+////            wallServo.setPosition(openPos);
+//            intakeFlywheelLeft.setPower(0);
+//            intakeFlywheelRight.setPower(0);
+//        }
+//    }
+//
+//    public void AutoIntakeGrab() {
+////        wallServo.setPosition(closePos);
+//        intakeFlywheelLeft.setPower(-1);
+//        intakeFlywheelRight.setPower(1);
+//    }
+//
+//    public void AutoIntakeLaunch() {
+////        wallServo.setPosition(openPos);
+//        intakeFlywheelLeft.setPower(0);
+//        intakeFlywheelRight.setPower(0);
+//    }
 
-    public void AutoIntakeGrab() {
-//        wallServo.setPosition(closePos);
-        intakeFlywheelLeft.setPower(-1);
-        intakeFlywheelRight.setPower(1);
-    }
-
-    public void AutoIntakeLaunch() {
-//        wallServo.setPosition(openPos);
-        intakeFlywheelLeft.setPower(0);
-        intakeFlywheelRight.setPower(0);
-    }
-
-    public void WheelLaunch() {
-        launchFlywheel.setPower(1);
-    } // put power as 0.75?
+//    public void WheelLaunch(float launchPower) {
+//        launchFlywheel.setPower(launchPower);
+//    } // put power as 0.75?
 }
