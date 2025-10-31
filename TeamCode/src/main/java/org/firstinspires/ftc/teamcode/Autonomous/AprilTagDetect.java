@@ -1,20 +1,20 @@
-//package org.firstinspires.ftc.teamcode.Autonomous;
-//
-//import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-//import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-//
-//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-//
-//import org.firstinspires.ftc.teamcode.Assemblies.DriveTrain;
-//import org.firstinspires.ftc.teamcode.Assemblies.EscarGOMech;
-//import org.firstinspires.ftc.vision.VisionPortal;
-//import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-//import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-//
-//import java.util.List;
-//
-//@Disabled
-//public class AprilTagDetect {
+package org.firstinspires.ftc.teamcode.Autonomous;
+
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
+import org.firstinspires.ftc.teamcode.Assemblies.DriveTrain;
+import org.firstinspires.ftc.teamcode.Assemblies.EscarGOMech;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.List;
+
+@Disabled
+public class AprilTagDetect {
 //    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 //    private AprilTagProcessor aprilTag; // Sets up the processing of April Tags
 //    private VisionPortal visionPortal; // Sets up camera
@@ -64,4 +64,4 @@
 //            }
 //        }
 //    } // end of locateTargetAprilTag
-//}
+}
