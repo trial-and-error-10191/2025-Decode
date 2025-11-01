@@ -32,8 +32,8 @@ public class BallDetect {
      *  or
      *      .setCamera(BuiltinCameraDirection.BACK)    ... for a Phone Camera
      */
-    VisionPortal portal = new VisionPortal.Builder()
-            .addProcessor(colorSensor)
-            .setCameraResolution(new Size(320, 240))
-            .build();
+//    VisionPortal portal = new VisionPortal.Builder()
+//            .addProcessor(colorSensor)
+//            .setCameraResolution(new Size(320, 240))
+//            .build();
 }

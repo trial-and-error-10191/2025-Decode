@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+@Disabled
 public class ArtifactPaddles {
 
     /* create the servo */

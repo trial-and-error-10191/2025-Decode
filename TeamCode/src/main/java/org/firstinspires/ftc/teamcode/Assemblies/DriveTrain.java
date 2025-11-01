@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+@Disabled
 public class DriveTrain {
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
     private IMU imu = null;
@@ -38,29 +40,29 @@ public class DriveTrain {
     // All subsystems should have a hardware function that labels all of the hardware required of it.
     public DriveTrain(HardwareMap hwMap, Telemetry telemetry) {
         // Initializes motor names:
-        leftFrontDrive = hwMap.get(DcMotor.class, "leftFront");
-        leftBackDrive = hwMap.get(DcMotor.class, "leftBack");
-        rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
-        rightBackDrive = hwMap.get(DcMotor.class, "rightBack");
+//        leftFrontDrive = hwMap.get(DcMotor.class, "leftFront");
+//        leftBackDrive = hwMap.get(DcMotor.class, "leftBack");
+//        rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
+//        rightBackDrive = hwMap.get(DcMotor.class, "rightBack");
+//
+//        // Initializes motor directions:
+//        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+//        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+//        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+//        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
-        // Initializes motor directions:
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;

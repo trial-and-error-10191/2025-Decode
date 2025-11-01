@@ -12,11 +12,11 @@ public class BlueAuto extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            robot.autoBase.runOpMode();
-            /// All of this may need to be fine-tuned
-            robot.driveTrain.driveStraight(1.0, 5, 0);
-            robot.autoBase.Wait(1);
-            robot.driveTrain.turnToHeading(1.0, 90);
+//            robot.autoBase.runOpMode();
+//            /// All of this may need to be fine-tuned
+//            robot.driveTrain.driveStraight(1.0, 5, 0);
+//            robot.autoBase.Wait(1);
+//            robot.driveTrain.turnToHeading(1.0, 90);
         }
     }
 }

@@ -11,11 +11,11 @@ public class AutoBase extends LinearOpMode {
     private final ElapsedTime Time = new ElapsedTime();
 
     public void runOpMode() {
-        LEDLight displayLED = new LEDLight();
+//        LEDLight displayLED = new LEDLight();
 
         waitForStart();
         while (opModeIsActive()) {
-            displayLED.IntakeCheck(true);
+//            displayLED.IntakeCheck(true);
         }
     }
     public void Wait(double seconds) {

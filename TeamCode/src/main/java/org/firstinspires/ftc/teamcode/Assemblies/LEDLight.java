@@ -14,9 +14,9 @@ public class LEDLight {
     public double WorksOkay = 0.666;   // Does this when wall servo works but not the intake flywheel, turns indigo
     public double WorksOff = 0;        // Does this when the wall servo & intake flywheels aren't on, turns off
 
-    public void DisplayLED(HardwareMap hwMap) {
-        LEDLight = hwMap.get(Servo.class, "LED_Light");
-    }
+//    public void DisplayLED(HardwareMap hwMap) {
+//        LEDLight = hwMap.get(Servo.class, "LED_Light");
+//    }
     //    public EscarGOMech escarGOMech;
     public void IntakeCheck(boolean lightOn) {
         while (lightOn) {
