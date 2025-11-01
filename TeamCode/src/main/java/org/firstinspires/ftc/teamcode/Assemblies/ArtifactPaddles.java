@@ -38,7 +38,7 @@ public class ArtifactPaddles {
             moveCooldown = false;
             paddles.setPower(0);
         } else {
-            paddles.setPower(forward  ? 1 : -1);
+            paddles.setPower(forward  ? 0.6 : -0.6);
         }
         if (sensor.isPressed()) {
             if (runTime.milliseconds() > lastMS + 500) {

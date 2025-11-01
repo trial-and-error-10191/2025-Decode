@@ -9,8 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class RPMlaunchWheels {
 
     // define wheels
-    public DcMotor left;
-    public DcMotor right;
+    public DcMotor MainMotor;
 
     // define telemetry
     Telemetry telemetry;
@@ -19,18 +18,13 @@ public class RPMlaunchWheels {
     float changeBy = 0.0001f;
     public int rpmTarget = 4000;
     int rpmLeniency = 60;
-    double leftRpm = 0;
-    public double rightRpm = 0;
-    public double dualRPM = 0;
+    public double RPM = 0;
     public double lastKnownMS = 0;
-    public double lastKnownEncL = 0;
-    public double lastKnownEncR = 0;
+    public double lastKnownEncC = 0;
     boolean cataclysmicError = false;
 
     // start motors with minimum movement power
-    public double rightPower = 0;
-    public double leftPower = 0.13;
-    public double dualPower = 0.13;
+    public double Power = 0.13;
 
 
     // define fixed values
@@ -42,11 +36,10 @@ public class RPMlaunchWheels {
     public RPMlaunchWheels(Telemetry telemetry, HardwareMap hwMap) {
         // valuate telemetry and wheels
         this.telemetry = telemetry;
-        left = hwMap.get(DcMotor.class, "Lwheel");
-        right = hwMap.get(DcMotor.class, "Rwheel");
+        MainMotor = hwMap.get(DcMotor.class, "LaunchWheel");
 
-        // reverse the right wheel to obtain the desired direction
-        right.setDirection(DcMotor.Direction.REVERSE);
+        // reverse the MainMotor wheel to obtain the desired direction
+        MainMotor.setDirection(DcMotor.Direction.REVERSE);
 
     }
 
@@ -56,37 +49,20 @@ public class RPMlaunchWheels {
                 // wait to get accurate RPM
                 if (runTime.milliseconds() > lastKnownMS + 80) {
 
-                    // set initial power equalization's
-                    if (!(leftRpm > rpmTarget - rpmLeniency && leftRpm < rpmTarget + rpmLeniency)) {
-                        leftPower += leftRpm > rpmTarget + rpmLeniency ? -changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
-                        leftPower += leftRpm < rpmTarget - rpmLeniency ? changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
-                        leftPower = Math.max(-1, Math.min(1, leftPower));
-                    }
-                    if (!(rightRpm > rpmTarget - rpmLeniency && rightRpm < rpmTarget + rpmLeniency)) {
-                        rightPower += rightRpm > rpmTarget ? -changeBy * ((Math.abs(rightRpm - rpmTarget)) / 10): 0;
-                        rightPower += rightRpm < rpmTarget ? changeBy * ((Math.abs(rightRpm - rpmTarget)) / 10) : 0;
-                        rightPower = Math.max(-1, Math.min(1, rightPower));
-                    }
                     // set dual power equalization
-                    if (!(dualRPM > rpmTarget - rpmLeniency && dualRPM < rpmTarget + rpmLeniency)) {
-                        dualPower += dualRPM > rpmTarget ? -changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10): 0;
-                        dualPower += dualRPM < rpmTarget ? changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10) : 0;
-                        dualPower = Math.max(-1, Math.min(1, dualPower));
+                    if (!(RPM > rpmTarget - rpmLeniency && RPM < rpmTarget + rpmLeniency)) {
+                        Power += RPM > rpmTarget ? -changeBy * ((Math.abs(RPM - rpmTarget)) / 10): 0;
+                        Power += RPM < rpmTarget ? changeBy * ((Math.abs(RPM - rpmTarget)) / 10) : 0;
+                        Power = Math.max(-1, Math.min(1, Power));
                     }
 
-                    // final power equalization
-                    left.setPower(cataclysmicError ?  dualPower : leftPower);
-                    right.setPower(cataclysmicError ? dualPower : rightPower);
+                    MainMotor.setPower(Power);
 
-                    leftRpm =  (((left.getCurrentPosition() - lastKnownEncL) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
-                    rightRpm = (((right.getCurrentPosition() - lastKnownEncR) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
-                    dualRPM = (leftRpm + rightRpm) / 2;
+                    RPM = (((MainMotor.getCurrentPosition() - lastKnownEncC) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
 
                     lastKnownMS = runTime.milliseconds();
-                    lastKnownEncL = left.getCurrentPosition();
-                    lastKnownEncR = right.getCurrentPosition();
+                    lastKnownEncC = MainMotor.getCurrentPosition();
 
-                    cataclysmicError = (Math.abs(leftRpm - rightRpm) / rpmTarget * 100) > 20;
                 }
 
 
@@ -95,19 +71,5 @@ public class RPMlaunchWheels {
     // alter target RPM
     public void rpmReset(int newRPM) {
         rpmTarget = newRPM;
-    }
-
-    // functions for retrieving left and right RPM
-    public double rpmL() {
-       return leftRpm;
-    }
-    public double rpmR() {
-        return  rightRpm;
-    }
-
-    // phillips stupid idea
-    public void setMotorPowers(double leftP, double rightP) {
-        left.setPower(leftP);
-        right.setPower(rightP);
     }
 }
