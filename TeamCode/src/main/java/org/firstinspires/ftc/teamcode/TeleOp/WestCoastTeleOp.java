@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Assemblies.*;
-import org.firstinspires.ftc.teamcode.DriveTrain;
 
 @TeleOp(name = "small and focused program where we can drive and operate the west coast drivetrain", group  = "LinearOpMode")
 public class WestCoastTeleOp extends LinearOpMode {
@@ -31,7 +30,7 @@ public class WestCoastTeleOp extends LinearOpMode {
 
              wheels.wheelsTick();
 
-             tank.drive(-gamepad1.left_stick_y * 1.2, gamepad1.right_stick_x * 5);
+             tank.drive(gamepad1.left_stick_y * 1.2, gamepad1.right_stick_x * 5);
 
             // logic for opening thingymabober
              if (gamepad1.right_bumper && !isPressed) {
