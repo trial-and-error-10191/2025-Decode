@@ -10,8 +10,8 @@ public class Robot {
 //    public ArtifactPaddles artifactPaddles;
 //    public AutoBase autoBase;
 //    public BadFishLaunch badFishLaunch;
-//    public BallDetect ballDetect;
-    public HuskyLensSense huskyLensSense;
+    public BallDetect ballDetect;
+//    public HuskyLensSense huskyLensSense;
 //    public LEDLight displayLED;
 //    public DriveTrain driveTrain;
 
@@ -19,8 +19,8 @@ public class Robot {
 //        artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
 //        autoBase = new AutoBase();
 //        badFishLaunch = new BadFishLaunch(hwMap);
-//        ballDetect = new BallDetect();
-        huskyLensSense = new HuskyLensSense();
+        ballDetect = new BallDetect(hwMap);
+//        huskyLensSense = new HuskyLensSense();
 //        displayLED = new LEDLight();
 //        driveTrain = new DriveTrain(hwMap, telemetry);
     }
@@ -31,16 +31,16 @@ public class Robot {
 //            autoBase.Wait(90);
 //        }
 //    }
-//    public void colorCheck(PredominantColorProcessor.Swatch desireBall) {
-//        PredominantColorProcessor.Result result = ballDetect.colorSensor.getAnalysis();
-//        if (result.closestSwatch == desireBall) { // Lets intake suck in balls of the correct color
+//    public void colorCheck(int desireBall) {
+//        PredominantColorProcessor.Result result = ballDetect.colorFound;
+//        if (ballDetect.colorFound == desireBall) { // Lets intake suck in balls of the correct color
 //            badFishLaunch.bandIntake.setPower(1);
 //        } else { // Prevents accidental intake of incorrect balls
 //            badFishLaunch.bandIntake.setPower(-0.1);
 //        }
-//        if (result.closestSwatch == PredominantColorProcessor.Swatch.GREEN) {
+//        if (ballDetect.colorFound == 1) {
 //            displayLED.LEDLight.setPosition(0.5); // turns the light green
-//        } if (result.closestSwatch == PredominantColorProcessor.Swatch.PURPLE) {
+//        } if (ballDetect.colorFound == 2) {
 //            displayLED.LEDLight.setPosition(0.722); // turns the light purple
 //        } else {
 //            displayLED.LEDLight.setPosition(0); // turns the light off

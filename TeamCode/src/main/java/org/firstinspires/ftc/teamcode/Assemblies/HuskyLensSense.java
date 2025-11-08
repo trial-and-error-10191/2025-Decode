@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 @Autonomous(name = "Sensor: HuskyLens", group = "Sensor")
-//@Disabled
+@Disabled
 public class HuskyLensSense extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
@@ -110,9 +110,9 @@ public class HuskyLensSense extends LinearOpMode {
             HuskyLens.Block[] blocks = huskyLens.blocks();
             telemetry.addData("Block count", blocks.length);
             for (int i = 0; i < blocks.length; i++) {
-                if (blocks[i].id == 1) {
+                if (blocks[i].id == 1) { // Checking if it sees the color green
                     telemetry.addData("Green seen", blocks[i].toString());
-                } if (blocks[i].id == 2) {
+                } if (blocks[i].id == 2) { // Checking if it sees the color purple
                     telemetry.addData("Purple seen", blocks[i].toString());
                 }
 
