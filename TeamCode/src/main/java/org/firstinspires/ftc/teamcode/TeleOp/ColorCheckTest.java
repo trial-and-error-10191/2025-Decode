@@ -18,12 +18,13 @@ public class ColorCheckTest extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()) {
-            int color = ballDetect.colorFind(gamepad1.a);
-
+            int color = ballDetect.colorFind(true);
             if (color == 1) {
                 telemetry.addData("Color Found Green", "");
             } else if (color == 2) {
                 telemetry.addData("Color Found Purple", "");
+            } else if (color == -1) {
+                telemetry.addData("Rate Limit Has Expired", "");
             } else {
                 telemetry.addData("Color Null", "");
             }
