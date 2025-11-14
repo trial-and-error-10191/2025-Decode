@@ -4,7 +4,9 @@ import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.concurrent.TimeUnit;
@@ -27,64 +29,46 @@ import java.util.concurrent.TimeUnit;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
-@Autonomous(name = "Sensor: HuskyLens", group = "Sensor")
-@Disabled
-public class HuskyLensSense extends LinearOpMode {
+//@Disabled
+public class HuskyLensSense {
 
     private final int READ_PERIOD = 1;
 
+    int colorFound = 0;
+
     private HuskyLens huskyLens;
 
-    @Override
-    public void runOpMode()
-    {
-        huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
+    Telemetry telemetry;
+
+    public HuskyLensSense(HardwareMap hwMap, Telemetry telemetry) {
+        huskyLens = hwMap.get(HuskyLens.class, "huskylens");
+
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
+
+        this.telemetry = telemetry;
+
+        if (!huskyLens.knock()) {
+            telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());
+        } else {
+            telemetry.addData(">>", "Press start to continue");
+        }
+    }
+
+    public int SendHelp(boolean HelpFound) {
 
         /*
          * This sample rate limits the reads solely to allow a user time to observe
          * what is happening on the Driver Station telemetry.  Typical applications
          * would not likely rate limit.
          */
-        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
+//        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
 
         /*
          * Immediately expire so that the first time through we'll do the read.
          */
-        rateLimit.expire();
+//        rateLimit.expire();
 
-        /*
-         * Basic check to see if the device is alive and communicating.  This is not
-         * technically necessary here as the HuskyLens class does this in its
-         * doInitialization() method which is called when the device is pulled out of
-         * the hardware map.  However, sometimes it's unclear why a device reports as
-         * failing on initialization.  In the case of this device, it's because the
-         * call to knock() failed.
-         */
-        if (!huskyLens.knock()) {
-            telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());
-        } else {
-            telemetry.addData(">>", "Press start to continue");
-        }
-
-        /*
-         * The device uses the concept of an algorithm to determine what types of
-         * objects it will look for and/or what mode it is in.  The algorithm may be
-         * selected using the scroll wheel on the device, or via software as shown in
-         * the call to selectAlgorithm().
-         *
-         * The SDK itself does not assume that the user wants a particular algorithm on
-         * startup, and hence does not set an algorithm.
-         *
-         * Users, should, in general, explicitly choose the algorithm they want to use
-         * within the OpMode by calling selectAlgorithm() and passing it one of the values
-         * found in the enumeration HuskyLens.Algorithm.
-         *
-         * Other algorithm choices for FTC might be: OBJECT_RECOGNITION, COLOR_RECOGNITION or OBJECT_CLASSIFICATION.
-         */
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
-
-        telemetry.update();
-        waitForStart();
+//        telemetry.update();
 
         /*
          * Looking for AprilTags per the call to selectAlgorithm() above.  A handy grid
@@ -92,11 +76,11 @@ public class HuskyLensSense extends LinearOpMode {
          *
          * Note again that the device only recognizes the 36h11 family of tags out of the box.
          */
-        while(opModeIsActive()) {
-            if (!rateLimit.hasExpired()) {
-                continue;
-            }
-            rateLimit.reset();
+        if(HelpFound) {
+//            if (!rateLimit.hasExpired()) {
+//                continue;
+//            }
+//            rateLimit.reset();
 
             /*
              * All algorithms, except for LINE_TRACKING, return a list of Blocks where a
@@ -109,11 +93,17 @@ public class HuskyLensSense extends LinearOpMode {
              */
             HuskyLens.Block[] blocks = huskyLens.blocks();
             telemetry.addData("Block count", blocks.length);
+            if (blocks.length == 0) {
+                telemetry.addData("Nothing seen", "");
+                colorFound = 0;
+            }
             for (int i = 0; i < blocks.length; i++) {
                 if (blocks[i].id == 1) { // Checking if it sees the color green
-                    telemetry.addData("Green seen", blocks[i].toString());
+//                    telemetry.addData("Green seen", blocks[i].toString());
+                    colorFound = 1;
                 } if (blocks[i].id == 2) { // Checking if it sees the color purple
-                    telemetry.addData("Purple seen", blocks[i].toString());
+//                    telemetry.addData("Purple seen", blocks[i].toString());
+                    colorFound = 2;
                 }
 
                 telemetry.addData("Block", blocks[i].toString());
@@ -127,7 +117,8 @@ public class HuskyLensSense extends LinearOpMode {
                  * These values have Java type int (integer).
                  */
             }
-            telemetry.update();
+//            telemetry.update();
         }
+        return colorFound;
     }
 }
