@@ -6,6 +6,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
 import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
+import java.lang.reflect.Array;
+
 public class Robot {
     public ArtifactPaddles artifactPaddles;
     public AutoBase autoBase;
@@ -27,6 +29,16 @@ public class Robot {
         if (badFishLaunch.bandIntake.getPower() == 0) {
             artifactPaddles.AutoRot(1, true);
             autoBase.Wait(90);
+        }
+    }
+
+    public void obeliskOrder(int desiredTag, double purple, double green) {
+        if (desiredTag == 21) {
+            Array list = new java.sql.Array();
+        } if (desiredTag == 22) {
+            Array <purple, green, purple> list =
+        } if (desiredTag == 23) {
+            Array list = new java.sql.Array();
         }
     }
     public void colorCheck(int desireBall) {
