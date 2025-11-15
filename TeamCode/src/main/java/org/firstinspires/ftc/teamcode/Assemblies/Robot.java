@@ -42,21 +42,23 @@ public class Robot {
     // Array to store artifact color and spot
     ArrayList<Color> order = new ArrayList<>();
 
-    public ArrayList<Color> obeliskOrder(int desiredTag, double purple, double green) {
+    public ArrayList<Color> obeliskOrder(int desiredTag) { // Used to contain pattern info from the obelisk
         ArrayList<Color> patternOrder = new ArrayList<>();
-
-        if (desiredTag == 21) {
+        if (desiredTag == 21) { // Setting up order for the balls
            patternOrder.add(Color.Green);
            patternOrder.add(Color.Purple);
            patternOrder.add(Color.Purple);
-           return patternOrder;
-        } if (desiredTag == 22) {
-
-        } if (desiredTag == 23) {
-
+        } if (desiredTag == 22) { // Setting up order for the balls
+            patternOrder.add(Color.Purple);
+            patternOrder.add(Color.Green);
+            patternOrder.add(Color.Purple);
+        } if (desiredTag == 23) { // Setting up order for the balls
+            patternOrder.add(Color.Purple);
+            patternOrder.add(Color.Purple);
+            patternOrder.add(Color.Green);
         }
+        return patternOrder; // Returning the order of the pattern
     }
-
     public void colorCheck(int desireBall) {
         int color = ballDetect.colorFind(true);
         if (color == desireBall) { // Lets intake suck in balls of the correct color
