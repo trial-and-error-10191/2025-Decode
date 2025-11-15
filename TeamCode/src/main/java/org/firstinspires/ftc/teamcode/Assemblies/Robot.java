@@ -34,9 +34,15 @@ public class Robot {
     }
 
     enum Color {
-        Purple(),
-        Green(),
-        Nothing;
+        Purple("Purple"),
+        Green("Green"),
+        Nothing("Empty");
+
+        final String stringOf;
+
+        Color(String stringOf) {
+            this.stringOf = stringOf;
+        }
     }
 
     // Array to store artifact color and spot
@@ -59,6 +65,7 @@ public class Robot {
         }
         return patternOrder; // Returning the order of the pattern
     }
+
     public void colorCheck(int desireBall) {
         int color = ballDetect.colorFind(true);
         if (color == desireBall) { // Lets intake suck in balls of the correct color
