@@ -17,11 +17,10 @@ public class TelemetryUI {
     Robot robot;
 
     // storage for ball types //
-    ArrayList<String> list = new ArrayList<>();
-    HashMap<String, String> links = new HashMap<String, String>();
-    String greenArtifact = "";
-    String purpleArtifact = "";
-    String emptySlot = "";
+    HashMap<String, String> spacelinks = new HashMap<String, String>();
+    String greenArtifact = "    │";
+    String purpleArtifact = "   │";
+    String emptySlot = "   │";
 
     // calculation values. //
     // Length unit : Meters //
@@ -39,13 +38,9 @@ public class TelemetryUI {
         telemetry.setCaptionValueSeparator("");
         telemetry.setItemSeparator("");
 
-        list.add("blue");
-        list.add("green");
-        list.add("purple");
-
-        links.put("green", greenArtifact);
-        links.put("purple", purpleArtifact);
-        links.put("", emptySlot);
+        spacelinks.put("Green", greenArtifact);
+        spacelinks.put("Purple", purpleArtifact);
+        spacelinks.put("Empty", emptySlot);
 
         for (int i = 0; i < 20; i++) {
             lines.add(telemetry.addLine());
@@ -61,11 +56,10 @@ public class TelemetryUI {
         Boolean heightCheck = finalHeight > 1.1 && finalHeight < 1.4;
 
         lines.get(0).addData("", String.format("%27s", "⌦")).addData(" ", heightCheck).addData(" ", "⌫");
-        lines.get(1).addData(" test ", "\n" + " test 2");
 
         for (int i = 1; i < 4; i++) {
             lines.get((i * 3) - 2).addData(String.format("%27s", ""), "┌─────┐");
-            lines.get((i * 3) - 1).addData(String.format("%27s", ""), "│" + list.get(i - 1) + "    │");
+            lines.get((i * 3) - 1).addData(String.format("%27s", ""), "│" + order.get(i - 1).stringOf + spacelinks.get(order.get(i - 1).stringOf));
             lines.get((i * 3) - 0).addData(String.format("%27s", ""), "└─────┘");
         }
 

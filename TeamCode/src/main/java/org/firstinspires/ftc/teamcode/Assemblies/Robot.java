@@ -33,7 +33,7 @@ public class Robot {
         }
     }
 
-    enum Color {
+    public enum Color {
         Purple("Purple"),
         Green("Green"),
         Nothing("Empty");
