@@ -4,9 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
-import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Robot {
@@ -14,16 +12,18 @@ public class Robot {
     public AutoBase autoBase;
     public BadFishLaunch badFishLaunch;
     public BallDetect ballDetect;
-    public LEDLight displayLED;
     public DriveTrain driveTrain;
+    public LEDLight displayLED;
+    public ObeliskOrder obeliskOrder;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
         artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
         autoBase = new AutoBase();
         badFishLaunch = new BadFishLaunch(hwMap);
         ballDetect = new BallDetect(hwMap);
-        displayLED = new LEDLight();
         driveTrain = new DriveTrain(hwMap, telemetry);
+        displayLED = new LEDLight();
+        obeliskOrder = new ObeliskOrder(hwMap);
     }
 
     public void intakeArtifact() {
@@ -47,24 +47,6 @@ public class Robot {
 
     // Array to store artifact color and spot
     ArrayList<Color> order = new ArrayList<>();
-
-    public ArrayList<Color> obeliskOrder(int desiredTag) { // Used to contain pattern info from the obelisk
-        ArrayList<Color> patternOrder = new ArrayList<>();
-        if (desiredTag == 21) { // Setting up order for the balls
-           patternOrder.add(Color.Green);
-           patternOrder.add(Color.Purple);
-           patternOrder.add(Color.Purple);
-        } if (desiredTag == 22) { // Setting up order for the balls
-            patternOrder.add(Color.Purple);
-            patternOrder.add(Color.Green);
-            patternOrder.add(Color.Purple);
-        } if (desiredTag == 23) { // Setting up order for the balls
-            patternOrder.add(Color.Purple);
-            patternOrder.add(Color.Purple);
-            patternOrder.add(Color.Green);
-        }
-        return patternOrder; // Returning the order of the pattern
-    }
 
     public void colorCheck(int desireBall) {
         int color = ballDetect.colorFind(true);
