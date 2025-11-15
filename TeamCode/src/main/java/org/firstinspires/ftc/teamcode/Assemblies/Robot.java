@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
 import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Robot {
     public ArtifactPaddles artifactPaddles;
@@ -32,15 +33,30 @@ public class Robot {
         }
     }
 
-    public void obeliskOrder(int desiredTag, double purple, double green) {
+    enum Color {
+        Purple(),
+        Green(),
+        Nothing;
+    }
+
+    // Array to store artifact color and spot
+    ArrayList<Color> order = new ArrayList<>();
+
+    public ArrayList<Color> obeliskOrder(int desiredTag, double purple, double green) {
+        ArrayList<Color> patternOrder = new ArrayList<>();
+
         if (desiredTag == 21) {
-            Array list = new java.sql.Array();
+           patternOrder.add(Color.Green);
+           patternOrder.add(Color.Purple);
+           patternOrder.add(Color.Purple);
+           return patternOrder;
         } if (desiredTag == 22) {
-            Array <purple, green, purple> list =
+
         } if (desiredTag == 23) {
-            Array list = new java.sql.Array();
+
         }
     }
+
     public void colorCheck(int desireBall) {
         int color = ballDetect.colorFind(true);
         if (color == desireBall) { // Lets intake suck in balls of the correct color
