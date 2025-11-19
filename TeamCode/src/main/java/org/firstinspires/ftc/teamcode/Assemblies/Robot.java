@@ -6,6 +6,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Robot {
     public ArtifactPaddles artifactPaddles;
@@ -15,9 +18,13 @@ public class Robot {
     public DriveTrain driveTrain;
     public LEDLight displayLED;
     public ObeliskOrder obeliskOrder;
+    public TelemetryUI UI;
+    public RPMlaunchWheels wheels;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
         artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
+        UI = new TelemetryUI(telemetry, this);
+        wheels = new RPMlaunchWheels(telemetry, hwMap);
         autoBase = new AutoBase();
         badFishLaunch = new BadFishLaunch(hwMap);
         ballDetect = new BallDetect(hwMap);
@@ -47,6 +54,25 @@ public class Robot {
 
     // Array to store artifact color and spot
     ArrayList<Color> order = new ArrayList<>();
+
+    public ArrayList<Color> Cycle(ArrayList<Color> cycleTarget, boolean forward) {
+        ArrayList<Color> cycleTemp = new ArrayList<>(); // store temporary new values
+
+        if (forward) {
+            cycleTemp.add(cycleTarget.get(cycleTarget.size() - 1));
+            for (int i = 0; i < cycleTarget.size() - 1; i++) { // only iterate if forward is true
+                cycleTemp.add(cycleTarget.get(i - 1));
+            }
+        } else {
+            for (int i = 1; i < cycleTarget.size() - 1; i++) { // only iterate if forward is false
+                cycleTemp.add(cycleTarget.get(i));
+            }
+            cycleTemp.add(cycleTarget.get(0));
+        }
+
+        cycleTarget = cycleTemp;
+        return cycleTarget;
+    }
 
     public void colorCheck(int desireBall) {
         int color = ballDetect.colorFind(true);
