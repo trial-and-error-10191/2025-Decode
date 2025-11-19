@@ -22,8 +22,9 @@ public class TelemetryUI {
     String purpleArtifact = "   │";
     String emptySlot = "   │";
 
-    // calculation values. //
-    // Length unit : Meters //
+    /** calculation values.
+        Length unit : Meters
+        Time unit: Seconds **/
     boolean canLand;
     float aprilTagHeight = 0;
     float finalHeight = 0;
@@ -32,8 +33,9 @@ public class TelemetryUI {
     float distance = 0;
     float acceleration = -9.8f;
     float initAngle = 0;
+    float wheelRadius = 0;
 
-    public TelemetryUI(Telemetry telemetry) {
+    public TelemetryUI(Telemetry telemetry, Robot robot) {
         this.telemetry = telemetry;
         telemetry.setCaptionValueSeparator("");
         telemetry.setItemSeparator("");
@@ -45,6 +47,8 @@ public class TelemetryUI {
         for (int i = 0; i < 20; i++) {
             lines.add(telemetry.addLine());
         }
+
+        initVel = (float) ((robot.wheels.dualRPM / 60) * wheelRadius);
     }
 
     @SuppressLint("DefaultLocale")
