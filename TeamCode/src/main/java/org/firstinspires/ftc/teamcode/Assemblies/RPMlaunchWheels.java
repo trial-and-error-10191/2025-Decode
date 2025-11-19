@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+@Disabled
 public class RPMlaunchWheels {
 
     // define wheels
@@ -42,11 +44,11 @@ public class RPMlaunchWheels {
     public RPMlaunchWheels(Telemetry telemetry, HardwareMap hwMap) {
         // valuate telemetry and wheels
         this.telemetry = telemetry;
-        left = hwMap.get(DcMotor.class, "Lwheel");
-        right = hwMap.get(DcMotor.class, "Rwheel");
+//        left = hwMap.get(DcMotor.class, "Lwheel");
+//        right = hwMap.get(DcMotor.class, "Rwheel");
 
         // reverse the right wheel to obtain the desired direction
-        right.setDirection(DcMotor.Direction.REVERSE);
+//        right.setDirection(DcMotor.Direction.REVERSE);
 
     }
 

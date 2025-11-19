@@ -66,7 +66,6 @@ public class ArtifactPaddles {
             this.forward = forward;
         }
     }
-
     // autonomous function -_-
     public void AutoRot(int state, boolean forward) {
         QueueCooldowns(state, forward);

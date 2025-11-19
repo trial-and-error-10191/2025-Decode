@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-//@Disabled
+@Disabled
 public class BallDetect {
     private final ElapsedTime Time = new ElapsedTime();
 //    private final int READ_PERIOD = 1;
@@ -22,9 +23,9 @@ public class BallDetect {
 //    private Deadline rateLimit;
 
     public BallDetect(HardwareMap hwMap) {
-        huskyLens = hwMap.get(HuskyLens.class, "huskylens");
+//        huskyLens = hwMap.get(HuskyLens.class, "huskylens");
 
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
+//        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
     }
 
     public int colorFind(boolean findBall) {

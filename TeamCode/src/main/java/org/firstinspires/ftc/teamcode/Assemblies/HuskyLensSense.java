@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
-//@Disabled
+@Disabled
 public class HuskyLensSense {
 
     private final int READ_PERIOD = 1;
@@ -41,9 +41,9 @@ public class HuskyLensSense {
     Telemetry telemetry;
 
     public HuskyLensSense(HardwareMap hwMap, Telemetry telemetry) {
-        huskyLens = hwMap.get(HuskyLens.class, "huskylens");
+//        huskyLens = hwMap.get(HuskyLens.class, "huskylens");
 
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
+//        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
         this.telemetry = telemetry;
 

@@ -11,11 +11,11 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 public class ObeliskOrder {
-    private AprilTagProcessor aprilTag;
-    private VisionPortal visionPortal;
+    private final AprilTagProcessor aprilTag;
+
+    private final VisionPortal visionPortal;
 
     int desiredTag;
-
     public ObeliskOrder(HardwareMap hwMap) {
         /// This first part sets up the camera so it can scan AprilTags
         // Create the AprilTag processor.
@@ -42,6 +42,7 @@ public class ObeliskOrder {
         // Build the Vision Portal, using the above settings.
         visionPortal = builder.build();
     }
+
     public int findTag() {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         for (AprilTagDetection detection : currentDetections) {
@@ -54,7 +55,6 @@ public class ObeliskOrder {
         }
         return desiredTag;
     }
-
     public ArrayList<Robot.Color> patternOrder() { // Used to contain pattern info from the obelisk
         ArrayList<Robot.Color> patternOrder = new ArrayList<>();
         if (desiredTag == 21) { // Setting up order for the balls
