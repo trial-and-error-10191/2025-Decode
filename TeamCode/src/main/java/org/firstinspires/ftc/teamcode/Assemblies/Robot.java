@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
@@ -36,11 +37,14 @@ public class Robot {
         obeliskOrder = new ObeliskOrder(hwMap);
         UI = new TelemetryUI(telemetry, this);
         wheels = new RPMlaunchWheels(telemetry, hwMap);
+        order.add(Color.Green);
+        order.add(Color.Purple);
+        order.add(Color.Purple);
     }
 
 //    public void intakeArtifact() {
 //        if (badFishLaunch.bandIntake.getPower() == 0) {
-//            artifactPaddles.AutoRot(1, true);
+//            artifactPaddles.AutoRot(1, true, order);
 //            autoBase.Wait(90);
 //        }
 //    }
@@ -96,19 +100,47 @@ public class Robot {
 //    }
     public void ShootAll(boolean sendAll) {
         if (sendAll) {
-            timeElapsed = System.nanoTime() - start;
+            float wait = 0.5f;
+            ElapsedTime timer = new ElapsedTime();
             ballRelease.Open();
-            start = System.nanoTime();
-            while (timeElapsed == 3E8) {
-                artifactPaddles.AutoRot(1, artifactPaddles.forward);
-                timeElapsed = System.nanoTime() - start;
-                start = System.nanoTime();
-                while (timeElapsed == 6E8) {
-                    artifactPaddles.AutoRot(1, artifactPaddles.forward);
-                    ballRelease.Close();
-                    finish = System.nanoTime();
-                }
+            timer.reset();
+            // Need to move the paddle twice
+            for (int i = 0; i < 2; i++) {
+                // Just casually waiting for time to pass
+                while (timer.seconds() <= wait) {}
+                artifactPaddles.AutoRot(1, true, order);
+                timer.reset();
             }
+            // Want to ensure the ball fully falls through before closing the release paddle
+            while (timer.seconds() <= wait) {}
+            ballRelease.Close();
+//            timeElapsed = System.nanoTime() - start;
+//            ballRelease.Open();
+//            start = System.nanoTime();
+//            while (timeElapsed == 3E8) {
+//                artifactPaddles.AutoRot(1, true, order);
+//                timeElapsed = System.nanoTime() - start;
+//                start = System.nanoTime();
+//                while (timeElapsed == 6E8) {
+//                    artifactPaddles.AutoRot(1, true, order);
+//                    ballRelease.Close();
+//                    finish = System.nanoTime();
+//                }
+//            }
+        }
+    }
+    public void patternMatchAuto() {
+        // Makes the robot's ball holder set up to shoot the balls it contains in the order told by the obelisk.
+        if (obeliskOrder.desiredTag == 22) {
+            artifactPaddles.AutoRot(1, true, order);
+        } if (obeliskOrder.desiredTag == 23) {
+            artifactPaddles.AutoRot(2, true, order);
+        }
+    }
+    public void patternCorrectionTeleOp (boolean patternCorrection) {
+        // Makes the robot's ball order in the ball holder move over by one in case we need it.
+        if (patternCorrection) {
+            artifactPaddles.AutoRot(1, true, order);
         }
     }
 }

@@ -67,11 +67,16 @@ public class ArtifactPaddles {
         }
     }
     // autonomous function -_-
-    public void AutoRot(int state, boolean forward) {
+    public void AutoRot(int state, boolean forward, ArrayList<Robot.Color> order) {
         QueueCooldowns(state, forward);
 
         while (queuedMovements > 0) {
             IteratePaddles();
+            // Changes the order of the balls in the code for telemetry purposes
+            Robot.Color valueHold = order.get(0);
+            order.set(0, order.get(1));
+            order.set(1, order.get(2));
+            order.set(2, valueHold);
         }
     }
 }

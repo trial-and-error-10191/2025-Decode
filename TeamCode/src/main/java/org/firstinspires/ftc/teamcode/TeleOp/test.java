@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
@@ -18,7 +19,7 @@ public class test extends LinearOpMode {
 
         waitForStart();
 
-        TelemetryUI telem = new TelemetryUI(telemetry);
+//        TelemetryUI telem = new TelemetryUI(telemetry);
 
         ArrayList<Robot.Color> colors = new ArrayList<>();
         colors.add(Robot.Color.Purple);
@@ -26,7 +27,7 @@ public class test extends LinearOpMode {
         colors.add(Robot.Color.Nothing);
 
         while (opModeIsActive()) {
-            telem.update(colors);
+//            telem.update(colors);
         }
     }
 }
