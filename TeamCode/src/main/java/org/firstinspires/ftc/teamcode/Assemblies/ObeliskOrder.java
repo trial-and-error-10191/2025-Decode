@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import java.util.ArrayList;
@@ -10,10 +11,11 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
+@Disabled
 public class ObeliskOrder {
     private final AprilTagProcessor aprilTag;
 
-    private final VisionPortal visionPortal;
+//    private final VisionPortal visionPortal;
 
     int desiredTag;
     public ObeliskOrder(HardwareMap hwMap) {
@@ -33,14 +35,14 @@ public class ObeliskOrder {
         aprilTag.setDecimation(1);
 
         // Create the vision portal by using a builder.
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-            builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
+//        VisionPortal.Builder builder = new VisionPortal.Builder();
+//            builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
 
-        // Set and enable the processor.
-        builder.addProcessor(aprilTag);
-
-        // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
+//        // Set and enable the processor.
+//        builder.addProcessor(aprilTag);
+//
+//        // Build the Vision Portal, using the above settings.
+//        visionPortal = builder.build();
     }
 
     public int findTag() {

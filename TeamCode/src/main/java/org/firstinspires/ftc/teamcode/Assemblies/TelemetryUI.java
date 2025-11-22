@@ -48,7 +48,7 @@ public class TelemetryUI {
             lines.add(telemetry.addLine());
         }
 
-        initVel = (float) ((robot.wheels.dualRPM / 60) * wheelRadius);
+//        initVel = (float) ((robot.wheels.dualRPM / 60) * wheelRadius);
     }
 
     @SuppressLint("DefaultLocale")
