@@ -4,12 +4,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 
 public class Robot {
     long start = System.nanoTime();
@@ -19,7 +15,7 @@ public class Robot {
 //    public AutoBase autoBase;
 //    public BadFishLaunch badFishLaunch;
 //    public BallDetect ballDetect;
-    public BallRelease ballRelease;
+    public BallDetect.BallRelease ballRelease;
 //    public DriveTrain driveTrain;
 //    public LEDLight displayLED;
     public ObeliskOrder obeliskOrder;
@@ -31,7 +27,7 @@ public class Robot {
 //        autoBase = new AutoBase();
 //        badFishLaunch = new BadFishLaunch(hwMap);
 //        ballDetect = new BallDetect(hwMap);
-        ballRelease = new BallRelease(hwMap, telemetry);
+        ballRelease = new BallDetect.BallRelease(hwMap, telemetry);
 //        driveTrain = new DriveTrain(hwMap, telemetry);
 //        displayLED = new LEDLight();
         obeliskOrder = new ObeliskOrder(hwMap);
