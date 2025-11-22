@@ -20,7 +20,7 @@ public class WestCoastTeleOp extends LinearOpMode {
 
         // create an object of each assembly
         ArtifactPaddles paddles = new ArtifactPaddles(hardwareMap, telemetry);
-        ballRelease release = new ballRelease(telemetry, hardwareMap);
+        BallRelease release = new BallRelease(hardwareMap, telemetry);
         RPMlaunchWheels wheels = new RPMlaunchWheels(telemetry, hardwareMap);
         DriveTrain tank = new DriveTrain(hardwareMap, telemetry);
 

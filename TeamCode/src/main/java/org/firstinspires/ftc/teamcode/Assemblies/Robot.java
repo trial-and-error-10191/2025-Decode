@@ -14,8 +14,8 @@ public class Robot {
     public ArtifactPaddles artifactPaddles;
 //    public AutoBase autoBase;
 //    public BadFishLaunch badFishLaunch;
-//    public BallDetect ballDetect;
-    public BallDetect.BallRelease ballRelease;
+    public BallDetect ballDetect;
+    public BallRelease ballRelease;
 //    public DriveTrain driveTrain;
 //    public LEDLight displayLED;
     public ObeliskOrder obeliskOrder;
@@ -26,8 +26,8 @@ public class Robot {
         artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
 //        autoBase = new AutoBase();
 //        badFishLaunch = new BadFishLaunch(hwMap);
-//        ballDetect = new BallDetect(hwMap);
-        ballRelease = new BallDetect.BallRelease(hwMap, telemetry);
+        ballDetect = new BallDetect(hwMap);
+        ballRelease = new BallRelease(hwMap, telemetry);
 //        driveTrain = new DriveTrain(hwMap, telemetry);
 //        displayLED = new LEDLight();
         obeliskOrder = new ObeliskOrder(hwMap);
