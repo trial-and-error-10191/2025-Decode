@@ -30,8 +30,7 @@ public class WestCoastTeleOp extends LinearOpMode {
 
 //             wheels.wheelsTick();
 
-//            tank.wheel1d1.a);
-            tank.drive(gamepad1.left_stick_y, gamepad1.right_stick_x);
+            tank.allMotorsDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
 
             // logic for opening thingymabober
 //             if (gamepad1.right_bumper && !isPressed) {
