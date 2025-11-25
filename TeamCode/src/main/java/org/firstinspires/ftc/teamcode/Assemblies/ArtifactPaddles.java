@@ -25,6 +25,7 @@ public class ArtifactPaddles {
     boolean moveCooldown = false;
     boolean forward = false;
     double lastMS = 0;
+    double paddlePower = 0.8;
 
     /* time for iteration limitation */
     ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -40,7 +41,7 @@ public class ArtifactPaddles {
             moveCooldown = false;
             paddles.setPower(0);
         } else {
-            paddles.setPower(forward  ? 0.6 : -0.6);
+            paddles.setPower(forward  ? paddlePower : -paddlePower);
         }
         if (sensor.isPressed()) {
             if (runTime.milliseconds() > lastMS + 500) {

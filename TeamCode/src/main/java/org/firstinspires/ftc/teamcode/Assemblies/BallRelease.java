@@ -20,13 +20,13 @@ public class BallRelease {
 
     // function to drop the ball
     public void Open() {
-        servo.setPosition(0);
+        servo.setPosition(0.5);
         open = true;
     }
 
     // function to close the hole for next ball
     public void Close() {
-        servo.setPosition(0.5);
+        servo.setPosition(0);
         open = false;
     }
 
