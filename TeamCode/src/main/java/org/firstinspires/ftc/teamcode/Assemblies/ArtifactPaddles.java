@@ -26,6 +26,7 @@ public class ArtifactPaddles {
     boolean forward = false;
     double lastMS = 0;
     double paddlePower = 0.8;
+    Telemetry telemetry;
 
     /* time for iteration limitation */
     ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -33,6 +34,7 @@ public class ArtifactPaddles {
     public ArtifactPaddles(HardwareMap hwMap, Telemetry telemetry) {
         paddles = hwMap.get(CRServo.class, "paddles");
         sensor = hwMap.get(TouchSensor.class, "MagneticSwitch");
+        this.telemetry = telemetry;
     }
 
     // function to rotate by unit amount
@@ -69,7 +71,10 @@ public class ArtifactPaddles {
     }
     // autonomous function -_-
     public void AutoRot(int state, boolean forward, ArrayList<Robot.Color> order) {
+        telemetry.addData("Cooldown count pre-call", queuedMovements);
         QueueCooldowns(state, forward);
+        telemetry.addData("Cooldown count post-call", queuedMovements);
+        telemetry.update();
 
         while (queuedMovements > 0) {
             IteratePaddles();
@@ -79,5 +84,6 @@ public class ArtifactPaddles {
             order.set(1, order.get(2));
             order.set(2, valueHold);
         }
+        paddles.setPower(0);
     }
 }

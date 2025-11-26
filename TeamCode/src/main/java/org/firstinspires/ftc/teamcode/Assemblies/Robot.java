@@ -21,6 +21,7 @@ public class Robot {
     public ObeliskOrder obeliskOrder;
     public TelemetryUI UI;
 //    public RPMlaunchWheels wheels;
+    Telemetry telemetry;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
         artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
@@ -36,6 +37,7 @@ public class Robot {
         order.add(Color.Green);
         order.add(Color.Purple);
         order.add(Color.Purple);
+        this.telemetry = telemetry;
     }
 
 //    public void intakeArtifact() {
@@ -96,6 +98,8 @@ public class Robot {
 //    }
     public void ShootAll(boolean sendAll) {
         if (sendAll) {
+            telemetry.addData("All Artifacts Launching" , "");
+            telemetry.update();
             float wait = 0.5f;
             ElapsedTime timer = new ElapsedTime();
             ballRelease.Open();
@@ -106,6 +110,8 @@ public class Robot {
                 while (timer.seconds() <= wait) {}
                 artifactPaddles.AutoRot(1, true, order);
                 timer.reset();
+                telemetry.addData("Iteration Number", "%d", i);
+                telemetry.update();
             }
             // Want to ensure the ball fully falls through before closing the release paddle
             while (timer.seconds() <= wait) {}
@@ -123,6 +129,8 @@ public class Robot {
 //                    finish = System.nanoTime();
 //                }
 //            }
+            telemetry.addData("All Shot", "");
+            telemetry.update();
         }
     }
     public void patternMatchAuto() {
