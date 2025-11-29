@@ -145,6 +145,8 @@ public class Robot {
         // Makes the robot's ball order in the ball holder move over by one in case we need it.
         if (patternCorrection) {
             artifactPaddles.AutoRot(1, true, order);
+            telemetry.addData("Order set", order);
+            telemetry.update();
         }
     }
 }

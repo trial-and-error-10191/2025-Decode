@@ -38,7 +38,7 @@ public class ArtifactPaddles {
     }
 
     // function to rotate by unit amount
-    public void IteratePaddles() {
+    public void IteratePaddles(ArrayList<Robot.Color> order) {
         if (queuedMovements == 0) {
             moveCooldown = false;
             paddles.setPower(0);
@@ -49,6 +49,11 @@ public class ArtifactPaddles {
             if (runTime.milliseconds() > lastMS + 500) {
                 queuedMovements--;
                 queuedMovements = Math.max(0, queuedMovements);
+                Robot.Color valueHold = order.get(0);
+                order.set(0, order.get(1));
+                order.set(1, order.get(2));
+                order.set(2, valueHold);
+                lastMS = runTime.milliseconds();
             }
         }
     }
@@ -71,18 +76,11 @@ public class ArtifactPaddles {
     }
     // autonomous function -_-
     public void AutoRot(int state, boolean forward, ArrayList<Robot.Color> order) {
-        telemetry.addData("Cooldown count pre-call", queuedMovements);
+        moveCooldown = false;
         QueueCooldowns(state, forward);
-        telemetry.addData("Cooldown count post-call", queuedMovements);
-        telemetry.update();
-
+//        telemetry.update();
         while (queuedMovements > 0) {
-            IteratePaddles();
-            // Changes the order of the balls in the code for telemetry purposes
-            Robot.Color valueHold = order.get(0);
-            order.set(0, order.get(1));
-            order.set(1, order.get(2));
-            order.set(2, valueHold);
+            IteratePaddles(order);
         }
         paddles.setPower(0);
     }

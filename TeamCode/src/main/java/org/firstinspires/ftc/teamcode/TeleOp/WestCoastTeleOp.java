@@ -32,9 +32,9 @@ public class WestCoastTeleOp extends LinearOpMode {
 //                release.Close();
 //            }
 
-             paddles.IteratePaddles();
+//            paddles.IteratePaddles();
 
-             wheels.wheelsTick();
+            wheels.wheelsTick();
 
             tank.allMotorsDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
 
