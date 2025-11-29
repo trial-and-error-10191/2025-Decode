@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class BallRelease {
 
     // define the servo
-    Servo servo;
+    public Servo servo;
 
     // define supportive vars
     boolean previousInput = false;
@@ -20,13 +20,13 @@ public class BallRelease {
 
     // function to drop the ball
     public void Open() {
-        servo.setPosition(0.5);
+        servo.setPosition(0.47);
         open = true;
     }
 
     // function to close the hole for next ball
     public void Close() {
-        servo.setPosition(0);
+        servo.setPosition(0.3);
         open = false;
     }
 

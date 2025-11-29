@@ -78,7 +78,6 @@ public class ArtifactPaddles {
     public void AutoRot(int state, boolean forward, ArrayList<Robot.Color> order) {
         moveCooldown = false;
         QueueCooldowns(state, forward);
-//        telemetry.update();
         while (queuedMovements > 0) {
             IteratePaddles(order);
         }

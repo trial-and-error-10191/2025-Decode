@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.util.ArrayList;
 
 public class Robot {
+    ElapsedTime ShootWaitTimer = new ElapsedTime();
     long start = System.nanoTime();
     long finish = System.nanoTime();
     long timeElapsed = finish - start;
@@ -100,35 +101,21 @@ public class Robot {
         if (sendAll) {
             telemetry.addData("All Artifacts Launching" , "");
             telemetry.update();
-            float wait = 0.5f;
-            ElapsedTime timer = new ElapsedTime();
-            ballRelease.Open();
-            timer.reset();
+            float wait = 1f;
+//            ballRelease.Open();
+            ShootWaitTimer.reset();
             // Need to move the paddle twice
             for (int i = 0; i < 2; i++) {
                 // Just casually waiting for time to pass
-                while (timer.seconds() <= wait) {}
+                while (ShootWaitTimer.seconds() <= wait) {ballRelease.Open();}
                 artifactPaddles.AutoRot(1, true, order);
-                timer.reset();
+                ShootWaitTimer.reset();
                 telemetry.addData("Iteration Number", "%d", i);
                 telemetry.update();
             }
             // Want to ensure the ball fully falls through before closing the release paddle
-            while (timer.seconds() <= wait) {}
+            while (ShootWaitTimer.seconds() <= wait) {}
             ballRelease.Close();
-//            timeElapsed = System.nanoTime() - start;
-//            ballRelease.Open();
-//            start = System.nanoTime();
-//            while (timeElapsed == 3E8) {
-//                artifactPaddles.AutoRot(1, true, order);
-//                timeElapsed = System.nanoTime() - start;
-//                start = System.nanoTime();
-//                while (timeElapsed == 6E8) {
-//                    artifactPaddles.AutoRot(1, true, order);
-//                    ballRelease.Close();
-//                    finish = System.nanoTime();
-//                }
-//            }
             telemetry.addData("All Shot", "");
             telemetry.update();
         }
