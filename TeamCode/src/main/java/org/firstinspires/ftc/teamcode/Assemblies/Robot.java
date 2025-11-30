@@ -17,11 +17,12 @@ public class Robot {
 //    public BadFishLaunch badFishLaunch;
     public BallDetect ballDetect;
     public BallRelease ballRelease;
-//    public DriveTrain driveTrain;
-//    public LEDLight displayLED;
+    public DriveTrain driveTrain;
+    public IntakeThatDoesNotExist intake;
+//    public LEDLight ledLight;
     public ObeliskOrder obeliskOrder;
     public TelemetryUI UI;
-//    public RPMlaunchWheels wheels;
+    public RPMlaunchWheels wheels;
     Telemetry telemetry;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
@@ -30,11 +31,12 @@ public class Robot {
 //        badFishLaunch = new BadFishLaunch(hwMap);
         ballDetect = new BallDetect(hwMap);
         ballRelease = new BallRelease(hwMap, telemetry);
-//        driveTrain = new DriveTrain(hwMap, telemetry);
-//        displayLED = new LEDLight();
+        driveTrain = new DriveTrain(hwMap, telemetry);
+        intake = new IntakeThatDoesNotExist(hwMap);
+//        ledLight = new LEDLight();
         obeliskOrder = new ObeliskOrder(hwMap);
         UI = new TelemetryUI(telemetry, this);
-//        wheels = new RPMlaunchWheels(hwMap, telemetry);
+        wheels = new RPMlaunchWheels(hwMap, telemetry);
         order.add(Color.Green);
         order.add(Color.Purple);
         order.add(Color.Purple);
