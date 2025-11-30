@@ -34,7 +34,7 @@ public class Robot {
 //        displayLED = new LEDLight();
         obeliskOrder = new ObeliskOrder(hwMap);
         UI = new TelemetryUI(telemetry, this);
-//        wheels = new RPMlaunchWheels(telemetry, hwMap);
+//        wheels = new RPMlaunchWheels(hwMap, telemetry);
         order.add(Color.Green);
         order.add(Color.Purple);
         order.add(Color.Purple);

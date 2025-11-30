@@ -33,7 +33,7 @@ public class RPMlaunchWheels {
     // define the Elapsed time for checking RPM
     public ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-    public RPMlaunchWheels(Telemetry telemetry, HardwareMap hwMap) {
+    public RPMlaunchWheels(HardwareMap hwMap, Telemetry telemetry) {
         // valuate telemetry and wheels
         this.telemetry = telemetry;
         MainMotor = hwMap.get(DcMotor.class, "LaunchWheel");
