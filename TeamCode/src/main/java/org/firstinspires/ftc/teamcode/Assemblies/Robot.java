@@ -125,7 +125,7 @@ public class Robot {
     public void ShootOnce(float shoot) {
         if (shoot > 0) {
             ballRelease.Open();
-            artifactPaddles.AutoRot(1, true, order);
+            ballRelease.Close();
         }
     }
     public void patternMatchAuto() {
