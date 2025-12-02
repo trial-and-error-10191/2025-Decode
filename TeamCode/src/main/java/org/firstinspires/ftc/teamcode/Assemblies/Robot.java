@@ -122,6 +122,12 @@ public class Robot {
             telemetry.update();
         }
     }
+    public void ShootOnce(float shoot) {
+        if (shoot > 0) {
+            ballRelease.Open();
+            artifactPaddles.AutoRot(1, true, order);
+        }
+    }
     public void patternMatchAuto() {
         // Makes the robot's ball holder set up to shoot the balls it contains in the order told by the obelisk.
         if (obeliskOrder.desiredTag == 22) {
