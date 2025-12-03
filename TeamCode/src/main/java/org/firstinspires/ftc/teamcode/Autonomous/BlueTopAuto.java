@@ -13,27 +13,26 @@ public class BlueTopAuto extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
+//            robot.wheels.wheelsTick();
             robot.driveTrain.driveStraight(TURN_SPEED, 20, 0);
+            robot.autoBase.Wait(1);
             robot.driveTrain.turnToHeading(TURN_SPEED, -100);
-            robot.obeliskOrder.patternOrder();
-            robot.patternMatchAuto();
-            robot.wheels.wheelsTick();
+//            robot.obeliskOrder.patternOrder();
+//            robot.patternMatchAuto();
             robot.driveTrain.turnToHeading(TURN_SPEED, -130);
             robot.ShootAll(true);
-            robot.wheels.MainMotor.setPower(0);
             // Next 2 lines moves bot out of the way since we can't get anymore points
             robot.driveTrain.turnToHeading(TURN_SPEED, -100);
+            robot.autoBase.Wait(1);
             robot.driveTrain.driveStraight(TURN_SPEED, 15, -100);
             // This part of the path will be used when we hopefully get an intake system
-            robot.driveTrain.turnToHeading(TURN_SPEED, 10);
-            robot.intake.IntakeSpin(true);
-            robot.driveTrain.driveStraight(TURN_SPEED, 35, -10);
-            robot.intake.IntakeSpin(false);
-            robot.driveTrain.driveStraight(TURN_SPEED, -35, -10);
-            robot.wheels.wheelsTick();
-            robot.driveTrain.turnToHeading(TURN_SPEED, -130);
-            robot.ShootAll(true);
-            robot.wheels.MainMotor.setPower(0);
+//            robot.driveTrain.turnToHeading(TURN_SPEED, 10);
+//            robot.intake.IntakeSpin(true);
+//            robot.driveTrain.driveStraight(TURN_SPEED, 35, -10);
+//            robot.intake.IntakeSpin(false);
+//            robot.driveTrain.driveStraight(TURN_SPEED, -35, -10);
+//            robot.driveTrain.turnToHeading(TURN_SPEED, -130);
+//            robot.ShootAll(true);
         }
     }
 }

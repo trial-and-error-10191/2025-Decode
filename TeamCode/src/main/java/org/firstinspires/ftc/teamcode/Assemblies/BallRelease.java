@@ -13,9 +13,23 @@ public class BallRelease {
     // define supportive vars
     boolean previousInput = false;
     boolean open = false;
+    boolean lastInput = false;
+    boolean PaddleMove = false;
 
     public BallRelease(HardwareMap hwMap, Telemetry telemetry) {
         servo = hwMap.get(Servo.class, "dropServo");
+    }
+
+    public void DropBall(float drop) {
+        if (!lastInput && drop > 0) {
+            PaddleMove = !PaddleMove;
+            if (PaddleMove) {
+                Open();
+            } else {
+                Close();
+            }
+        }
+        lastInput = drop > 0;
     }
 
     // function to drop the ball

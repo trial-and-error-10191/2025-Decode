@@ -9,14 +9,15 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class RPMlaunchWheels {
 
     // define wheels
-    public DcMotor MainMotor;
+    public DcMotor MainMotor1;
+    public DcMotor MainMotor2;
 
     // define telemetry
     Telemetry telemetry;
 
     // define restrictive variables
     float changeBy = 0.0001f;
-    public int rpmTarget = 4000;
+    public int rpmTarget = 1000;
     int rpmLeniency = 60;
     public double RPM = 0;
     public double lastKnownMS = 0;
@@ -36,16 +37,19 @@ public class RPMlaunchWheels {
     public RPMlaunchWheels(HardwareMap hwMap, Telemetry telemetry) {
         // valuate telemetry and wheels
         this.telemetry = telemetry;
-        MainMotor = hwMap.get(DcMotor.class, "LaunchWheel");
+        MainMotor1 = hwMap.get(DcMotor.class, "LaunchWheel1");
+        MainMotor2 = hwMap.get(DcMotor.class, "LaunchWheel2");
+
 
         // reverse the MainMotor wheel to obtain the desired direction
-        MainMotor.setDirection(DcMotor.Direction.REVERSE);
+        MainMotor1.setDirection(DcMotor.Direction.REVERSE);
+        MainMotor2.setDirection(DcMotor.Direction.REVERSE);
 
+        runTime.reset();
     }
 
     // tick the wheels forward
     public void wheelsTick() {
-
                 // wait to get accurate RPM
                 if (runTime.milliseconds() > lastKnownMS + 80) {
 
@@ -56,12 +60,14 @@ public class RPMlaunchWheels {
                         Power = Math.max(-1, Math.min(1, Power));
                     }
 
-                    MainMotor.setPower(Power);
+                    MainMotor1.setPower(Power);
+//                    MainMotor2.setPower(Power);
 
-                    RPM = (((MainMotor.getCurrentPosition() - lastKnownEncC) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
+                    RPM = (((MainMotor1.getCurrentPosition() - lastKnownEncC) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
 
                     lastKnownMS = runTime.milliseconds();
-                    lastKnownEncC = MainMotor.getCurrentPosition();
+                    lastKnownEncC = MainMotor1.getCurrentPosition();
+//                    lastKnownEncC = MainMotor2.getCurrentPosition();
 
                 }
 

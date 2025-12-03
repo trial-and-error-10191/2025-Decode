@@ -8,16 +8,7 @@ import org.firstinspires.ftc.teamcode.Assemblies.RPMlaunchWheels;
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 public class AutoBase {
-    HardwareMap hardwareMap;
-    Telemetry telemetry;
-    Robot robot = new Robot(hardwareMap, telemetry);
-
     private final ElapsedTime Time = new ElapsedTime();
-
-    public void ShootStart() {
-        robot.wheels.wheelsTick();
-        robot.ShootAll(true);
-    }
 
     public void Wait(double seconds) {
         Time.reset();

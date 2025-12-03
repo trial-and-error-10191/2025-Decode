@@ -5,15 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
-@TeleOp (name = "ShootTest", group = "LinearOpMode")
-public class ShootTest extends LinearOpMode {
-    @Override
+@TeleOp (name = "Wheels", group = "LinearOpMode")
+public class LaunchTest extends LinearOpMode {
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
-        robot.ballRelease.Close();
+
         waitForStart();
         while (opModeIsActive()) {
-            robot.ballRelease.DropBall(gamepad2.right_trigger);
+            robot.wheels.wheelsTick();
         }
     }
 }
