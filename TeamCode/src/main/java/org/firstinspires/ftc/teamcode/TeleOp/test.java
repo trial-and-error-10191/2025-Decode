@@ -12,6 +12,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @TeleOp(name = "test", group = "LinearOpMode")
+@Disabled
 public class test extends LinearOpMode {
 
     @Override

@@ -62,6 +62,22 @@ public class Robot {
         }
     }
 
+    public enum FireAmount {
+        One(),
+        Two(),
+        Three();
+    }
+
+    public void FireVariable(FireAmount fireAmount) {
+        if (fireAmount == FireAmount.One) {
+
+        } else if (fireAmount == FireAmount.Two) {
+
+        } else if (fireAmount == FireAmount.Three) {
+
+        }
+    }
+
     // Array to store artifact color and spot
     ArrayList<Color> order = new ArrayList<>();
 
