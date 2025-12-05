@@ -12,7 +12,14 @@ public class LaunchTest extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            robot.wheels.MainMotor2.setPower(0.2);
+            if (gamepad2.a) {
+                robot.wheels.MainMotor1.setPower(0);
+                robot.wheels.MainMotor2.setPower(0.2);
+            } else if (gamepad2.b) {
+                robot.wheels.MainMotor2.setPower(0);
+                robot.wheels.MainMotor1.setPower(0.2);
+            }
+
 //            robot.wheels.wheelsTick();
         }
     }
