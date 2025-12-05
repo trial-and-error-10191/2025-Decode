@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+@Disabled
 public class DriveTrain {
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
     private IMU imu = null;
@@ -35,6 +37,8 @@ public class DriveTrain {
     private int leftTarget = 0;
     private int rightTarget = 0;
     private double headingError = 0;
+    private boolean lastInput = false;
+    private boolean wheelSwitch = false;
     // All subsystems should have a hardware function that labels all of the hardware required of it.
     public DriveTrain(HardwareMap hwMap, Telemetry telemetry) {
         // Initializes motor names:
@@ -44,23 +48,29 @@ public class DriveTrain {
         rightBackDrive = hwMap.get(DcMotor.class, "rightBack");
 
         // Initializes motor directions:
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+
+//        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
@@ -73,6 +83,122 @@ public class DriveTrain {
 
     public void drive(double axial, double yaw) {
 
+        // initializes deadzone
+        double deadzone = 0.05;
+        // initializes sensitivity
+        double sensitivity = 0.75;
+
+        double leftFrontPower = 0;
+        double rightFrontPower = 0;
+        double leftBackPower = 0;
+        double rightBackPower = 0;
+
+        if (Math.abs(axial) > deadzone || Math.abs(yaw) > deadzone) {
+            leftFrontPower = axial + yaw;
+            rightFrontPower = axial - yaw;
+            leftBackPower = axial - yaw;
+            rightBackPower = axial + yaw;
+
+        }
+        double max;
+
+        // All code below this comment normalizes the values so no wheel power exceeds 100%.
+        max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+
+
+        if (max > 1.0) {
+            leftFrontPower /= max; // leftFrontPower = leftFrontPower / max;
+            rightFrontPower /= max;
+            leftBackPower /= max;
+            rightBackPower /= max;
+        }
+
+        // Calculates power using sensitivity variable.
+        leftFrontPower *= sensitivity;
+        rightFrontPower *= sensitivity;
+        leftBackPower *= sensitivity;
+        rightBackPower *= sensitivity;
+
+        //leftPower *= 0.7; // this motor is 312 rpm, others are 223. 223/312 ~ 0.7
+
+        // The next four lines gives the calculated power to each motor.
+        leftFrontDrive.setPower(leftFrontPower);
+        rightFrontDrive.setPower(rightFrontPower);
+        leftBackDrive.setPower(leftBackPower);
+        rightBackDrive.setPower(rightBackPower);
+    }
+
+    public void frontMotorsDrive(double axial, double yaw) {
+        // initializes deadzone
+        double deadzone = 0.05;
+        // initializes sensitivity
+        double sensitivity = 0.75;
+
+        double leftFrontPower = 0;
+        double rightFrontPower = 0;
+
+        if (Math.abs(axial) > deadzone || Math.abs(yaw) > deadzone) {
+            leftFrontPower = axial + yaw;
+            rightFrontPower = axial - yaw;
+        }
+        double max;
+
+        // All code below this comment normalizes the values so no wheel power exceeds 100%.
+        max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+
+
+        if (max > 1.0) {
+            leftFrontPower /= max; // leftFrontPower = leftFrontPower / max;
+            rightFrontPower /= max;
+        }
+
+        // Calculates power using sensitivity variable.
+        leftFrontPower *= sensitivity;
+        rightFrontPower *= sensitivity;
+
+        // The next four lines gives the calculated power to each motor.
+        leftFrontDrive.setPower(leftFrontPower);
+        rightFrontDrive.setPower(rightFrontPower);
+        leftBackDrive.setPower(0.0);
+        rightBackDrive.setPower(0.0);
+    }
+
+    public void backMotorsDrive(double axial, double yaw) {
+        // initializes deadzone
+        double deadzone = 0.05;
+        // initializes sensitivity
+        double sensitivity = 0.75;
+
+        double leftBackPower = 0;
+        double rightBackPower = 0;
+
+        if (Math.abs(axial) > deadzone || Math.abs(yaw) > deadzone) {
+            leftBackPower = axial + yaw;
+            rightBackPower = axial - yaw;
+        }
+        double max;
+
+        // All code below this comment normalizes the values so no wheel power exceeds 100%.
+        max = Math.max(Math.abs(leftBackPower), Math.abs(rightBackPower));
+
+
+        if (max > 1.0) {
+            leftBackPower /= max; // leftBackPower = leftBackPower / max;
+            rightBackPower /= max;
+        }
+
+        // Calculates power using sensitivity variable.
+        leftBackPower *= sensitivity;
+        rightBackPower *= sensitivity;
+
+        // The next four lines gives the calculated power to each motor.
+        leftFrontDrive.setPower(0.0);
+        rightFrontDrive.setPower(0.0);
+        leftBackDrive.setPower(leftBackPower);
+        rightBackDrive.setPower(rightBackPower);
+    }
+
+    public void allMotorsDrive(double axial, double yaw) {
         // initializes deadzone
         double deadzone = 0.05;
         // initializes sensitivity
@@ -92,7 +218,7 @@ public class DriveTrain {
 
 
         if (max > 1.0) {
-            leftPower /= max; // leftFrontPower = leftFrontPower / max;
+            leftPower /= max;
             rightPower /= max;
         }
 
@@ -100,13 +226,29 @@ public class DriveTrain {
         leftPower *= sensitivity;
         rightPower *= sensitivity;
 
-        //leftFrontPower *= 0.7; // this motor is 312 rpm, others are 223. 223/312 ~ 0.7
-
         // The next four lines gives the calculated power to each motor.
         leftFrontDrive.setPower(leftPower);
         rightFrontDrive.setPower(rightPower);
         leftBackDrive.setPower(leftPower);
         rightBackDrive.setPower(rightPower);
+    }
+
+    public void wheelTest(boolean wheelSwap) {
+        if (wheelSwap && !lastInput) {
+            wheelSwitch = !wheelSwitch;
+            if (wheelSwitch) {
+                leftFrontDrive.setPower(1);
+                rightFrontDrive.setPower(-1);
+                leftBackDrive.setPower(0);
+                rightBackDrive.setPower(0);
+            } else {
+                leftFrontDrive.setPower(0);
+                rightFrontDrive.setPower(0);
+                leftBackDrive.setPower(-1);
+                rightBackDrive.setPower(1);
+            }
+        }
+        lastInput = wheelSwap;
     }
 
     public void driveStraight(double maxDriveSpeed,
