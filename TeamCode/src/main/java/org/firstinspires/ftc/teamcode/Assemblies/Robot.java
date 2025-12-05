@@ -69,13 +69,31 @@ public class Robot {
     }
 
     public void FireVariable(FireAmount fireAmount) {
-        if (fireAmount == FireAmount.One) {
-         ShootOnce(1);
-        } else if (fireAmount == FireAmount.Two) {
 
-        } else if (fireAmount == FireAmount.Three) {
+        // spin up wheels
+        for (int i = 0; wheels.dualRPM >= wheels.rpmTarget; i++) {
+         wheels.wheelsTick();
 
+         if(i > 10000) {
+           break;
+          }
         }
+
+        if (fireAmount == FireAmount.One) {
+         ShootOnce(3.14159f);
+        } else if (fireAmount == FireAmount.Two) {
+         ShootOnce(3.14159f);
+         ShootWaitTimer.reset();
+         while (ShootWaitTimer.seconds() <= 1) {
+             // do nuthin
+         }
+         ShootOnce(3.14159f);
+        } else if (fireAmount == FireAmount.Three) {
+         ShootAll(true);
+        }
+
+        // unspin wheels
+        wheels.setMotorPowers(0,0);
     }
 
     // Array to store artifact color and spot
@@ -142,6 +160,7 @@ public class Robot {
         if (shoot > 0) {
             ballRelease.Open();
             ballRelease.Close();
+            artifactPaddles.AutoRot(1, true, order);
         }
     }
     public void patternMatchAuto() {
