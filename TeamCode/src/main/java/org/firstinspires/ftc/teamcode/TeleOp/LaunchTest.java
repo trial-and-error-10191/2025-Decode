@@ -12,7 +12,8 @@ public class LaunchTest extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            robot.wheels.wheelsTick();
+            robot.wheels.MainMotor2.setPower(0.2);
+//            robot.wheels.wheelsTick();
         }
     }
 }

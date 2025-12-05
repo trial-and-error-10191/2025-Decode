@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -17,7 +20,7 @@ public class RPMlaunchWheels {
 
     // define restrictive variables
     float changeBy = 0.0001f;
-    public int rpmTarget = 1000;
+    public int rpmTarget = 1000; // Change back to 4,000 when done testing
     int rpmLeniency = 60;
     public double RPM = 0;
     public double lastKnownMS = 0;
@@ -45,6 +48,9 @@ public class RPMlaunchWheels {
         MainMotor1.setDirection(DcMotor.Direction.REVERSE);
         MainMotor2.setDirection(DcMotor.Direction.REVERSE);
 
+        MainMotor1.setZeroPowerBehavior(FLOAT);
+        MainMotor2.setZeroPowerBehavior(FLOAT);
+
         runTime.reset();
     }
 
@@ -67,11 +73,7 @@ public class RPMlaunchWheels {
 
                     lastKnownMS = runTime.milliseconds();
                     lastKnownEncC = MainMotor1.getCurrentPosition();
-//                    lastKnownEncC = MainMotor2.getCurrentPosition();
-
                 }
-
-
     }
 
     // alter target RPM
