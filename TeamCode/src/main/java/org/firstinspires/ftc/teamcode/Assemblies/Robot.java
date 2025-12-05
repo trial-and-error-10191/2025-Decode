@@ -70,7 +70,7 @@ public class Robot {
 
     public void FireVariable(FireAmount fireAmount) {
         if (fireAmount == FireAmount.One) {
-
+         ShootOnce(1);
         } else if (fireAmount == FireAmount.Two) {
 
         } else if (fireAmount == FireAmount.Three) {
