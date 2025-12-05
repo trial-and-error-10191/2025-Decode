@@ -6,11 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
-public class testFiring {
-
     @TeleOp(name = "thisbranchstuffisSotiring", group = "LinearOpMode")
     @Disabled
-    public class ShootTest extends LinearOpMode {
+    public class testFiring extends LinearOpMode {
         @Override
         public void runOpMode() {
             Robot robot = new Robot(hardwareMap, telemetry);
@@ -23,4 +21,3 @@ public class testFiring {
             }
         }
     }
-}
