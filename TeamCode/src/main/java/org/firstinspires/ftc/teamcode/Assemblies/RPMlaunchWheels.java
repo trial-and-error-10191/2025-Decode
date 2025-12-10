@@ -109,5 +109,8 @@ public class RPMlaunchWheels {
     public void setMotorPowers(double leftP, double rightP) {
         left.setPower(leftP);
         right.setPower(rightP);
+        leftPower = leftP;
+        rightPower = rightP;
+        dualPower = (leftP + rightP) / 2;
     }
 }

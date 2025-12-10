@@ -176,13 +176,26 @@ public class Robot {
         if (shoot > 0) {
             ballRelease.Open();
             ShootWaitTimer.reset();
-            while (ShootWaitTimer.seconds() <= 1.5) {
-                // do nuthin
-            }
+            blockedWait(ShootWaitTimer, 1.5);
             ballRelease.Close();
             artifactPaddles.AutoRot(1, true, order);
+            blockedWait(ShootWaitTimer, 0.5);
         }
     }
+
+    public void blockedWait(ElapsedTime timer, double secondsTime) {
+
+        if (timer == null) {
+            timer = new ElapsedTime();
+            telemetry.addData("Elapsed time object ", timer.hashCode() + " is null");
+        }
+
+        timer.reset();
+        while (timer.seconds() <= secondsTime) {
+            // do nuthin
+        }
+    }
+
     public void patternMatchAuto() {
         // Makes the robot's ball holder set up to shoot the balls it contains in the order told by the obelisk.
         if (obeliskOrder.desiredTag == 22) {
