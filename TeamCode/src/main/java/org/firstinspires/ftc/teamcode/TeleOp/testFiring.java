@@ -18,6 +18,13 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
                 if (gamepad1.right_bumper) {
                     robot.FireVariable(Robot.FireAmount.One);
                 }
+                if (gamepad1.left_bumper) {
+                    robot.FireVariable(Robot.FireAmount.Two);
+                }
+                if (gamepad1.left_stick_button) {
+                    robot.FireVariable(Robot.FireAmount.Three);
+                }
+
             }
         }
     }
