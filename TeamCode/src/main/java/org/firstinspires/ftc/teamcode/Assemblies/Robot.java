@@ -71,26 +71,42 @@ public class Robot {
     public void FireVariable(FireAmount fireAmount) {
 
         // spin up wheels
-        for (int i = 0; wheels.dualRPM >= wheels.rpmTarget; i++) {
-         wheels.wheelsTick();
-
-         if(i > 10000) {
-           break;
-          }
+        ShootWaitTimer.reset();
+        while (wheels.dualRPM < wheels.rpmTarget) {
+            wheels.wheelsTick();
+            telemetry.addData("wheelsrpm", wheels.dualRPM);
+            telemetry.addData("targetRPM", wheels.rpmTarget);
+            if ( ShootWaitTimer.seconds() > 1.5) {
+                telemetry.addData("broken", "");
+                telemetry.update();
+                break;
+            }
         }
 
-        if (fireAmount == FireAmount.One) {
-         ShootOnce(3.14159f);
-        } else if (fireAmount == FireAmount.Two) {
-         ShootOnce(3.14159f);
-         ShootWaitTimer.reset();
-         while (ShootWaitTimer.seconds() <= 1) {
-             // do nuthin
-         }
-         ShootOnce(3.14159f);
-        } else if (fireAmount == FireAmount.Three) {
-         ShootAll(true);
-        }
+//        if (fireAmount == FireAmount.One) {
+//         ShootOnce(3.14159f);
+//            ShootWaitTimer.reset();
+//            while (ShootWaitTimer.seconds() <= 1.5) {
+//                // do nuthin
+//            }
+//        } else if (fireAmount == FireAmount.Two) {
+//         ShootOnce(3.14159f);
+//         ShootWaitTimer.reset();
+//         while (ShootWaitTimer.seconds() <= 1.5) {
+//             // do nuthin
+//         }
+//         ShootOnce(3.14159f);
+//            ShootWaitTimer.reset();
+//            while (ShootWaitTimer.seconds() <= 1.5) {
+//                // do nuthin
+//            }
+//        } else if (fireAmount == FireAmount.Three) {
+//         ShootAll(true);
+//            ShootWaitTimer.reset();
+//            while (ShootWaitTimer.seconds() <= 1.5) {
+//                // do nuthin
+//            }
+//        }
 
         // unspin wheels
         wheels.setMotorPowers(0,0);
@@ -159,6 +175,10 @@ public class Robot {
     public void ShootOnce(float shoot) {
         if (shoot > 0) {
             ballRelease.Open();
+            ShootWaitTimer.reset();
+            while (ShootWaitTimer.seconds() <= 1.5) {
+                // do nuthin
+            }
             ballRelease.Close();
             artifactPaddles.AutoRot(1, true, order);
         }

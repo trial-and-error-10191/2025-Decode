@@ -17,7 +17,7 @@ public class RPMlaunchWheels {
 
     // define restrictive variables
     float changeBy = 0.0001f;
-    public int rpmTarget = 4000;
+    public int rpmTarget = 2000;
     int rpmLeniency = 60;
     double leftRpm = 0;
     public double rightRpm = 0;
@@ -47,6 +47,7 @@ public class RPMlaunchWheels {
 
         // reverse the right wheel to obtain the desired direction
         right.setDirection(DcMotor.Direction.REVERSE);
+        left.setDirection(DcMotor.Direction.REVERSE);
 
     }
 
@@ -67,6 +68,7 @@ public class RPMlaunchWheels {
                 rightPower += rightRpm < rpmTarget ? changeBy * ((Math.abs(rightRpm - rpmTarget)) / 10) : 0;
                 rightPower = Math.max(-1, Math.min(1, rightPower));
             }
+
             // set dual power equalization
             if (!(dualRPM > rpmTarget - rpmLeniency && dualRPM < rpmTarget + rpmLeniency)) {
                 dualPower += dualRPM > rpmTarget ? -changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10): 0;

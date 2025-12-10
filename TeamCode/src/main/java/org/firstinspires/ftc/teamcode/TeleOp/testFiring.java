@@ -6,8 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
-    @TeleOp(name = "thisbranchstuffisSotiring", group = "LinearOpMode")
-    @Disabled
+    @TeleOp(name = "test23", group = "LinearOpMode")
     public class testFiring extends LinearOpMode {
         @Override
         public void runOpMode() {
