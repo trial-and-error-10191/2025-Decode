@@ -67,7 +67,7 @@ public class RPMlaunchWheels {
                     }
 
                     MainMotor1.setPower(Power);
-//                    MainMotor2.setPower(Power);
+                    MainMotor2.setPower(Power);
 
                     RPM = (((MainMotor1.getCurrentPosition() - lastKnownEncC) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
 

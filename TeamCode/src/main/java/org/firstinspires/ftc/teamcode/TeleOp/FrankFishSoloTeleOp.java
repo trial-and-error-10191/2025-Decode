@@ -10,8 +10,10 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
+        robot.ballRelease.Close();
         waitForStart();
         while (opModeIsActive()) {
+            robot.wheels.wheelsTick();
             robot.driveTrain.allMotorsDrive(gamepad1.left_stick_y, gamepad1.right_stick_x);
             robot.ShootOnce(gamepad1.right_trigger);
             robot.ShootAll(gamepad1.right_bumper);
