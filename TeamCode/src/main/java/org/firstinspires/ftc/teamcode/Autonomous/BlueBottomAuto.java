@@ -13,7 +13,7 @@ public class BlueBottomAuto extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-//            robot.wheels.wheelsTick();
+            robot.wheels.wheelsTick();
 //            robot.obeliskOrder.patternOrder();
 //            robot.patternMatchAuto();
             robot.driveTrain.driveStraight(TURN_SPEED, 20, 0);

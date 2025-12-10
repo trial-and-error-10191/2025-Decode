@@ -13,7 +13,7 @@ public class BlueTopAuto extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-//            robot.wheels.wheelsTick();
+            robot.wheels.wheelsTick();
             robot.driveTrain.driveStraight(TURN_SPEED, 20, 0);
             robot.autoBase.Wait(1);
             robot.driveTrain.turnToHeading(TURN_SPEED, -100);

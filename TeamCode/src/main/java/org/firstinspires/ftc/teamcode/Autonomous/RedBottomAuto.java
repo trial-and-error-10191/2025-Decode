@@ -13,14 +13,14 @@ public class RedBottomAuto extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-//            robot.wheels.wheelsTick();
+            robot.wheels.wheelsTick();
 //            robot.obeliskOrder.patternOrder();
 //            robot.patternMatchAuto();
             robot.driveTrain.driveStraight(TURN_SPEED, 20, 0);
             robot.autoBase.Wait(1);
             robot.driveTrain.turnToHeading(TURN_SPEED, 50);
             robot.ShootAll(true);
-            // Next 2 lines moves bot out of the way since we can't get anymore points
+            // Next 3 lines moves bot out of the way since we can't get anymore points
             robot.driveTrain.turnToHeading(TURN_SPEED, 130);
             robot.autoBase.Wait(1);
             robot.driveTrain.driveStraight(TURN_SPEED, 25, 130);
