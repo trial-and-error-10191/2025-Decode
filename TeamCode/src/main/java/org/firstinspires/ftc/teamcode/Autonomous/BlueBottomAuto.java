@@ -7,7 +7,6 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Autonomous (name = "BlueBottom", group = "Robot")
 public class BlueBottomAuto extends LinearOpMode {
-    static final double TURN_SPEED = 0.4;
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
 

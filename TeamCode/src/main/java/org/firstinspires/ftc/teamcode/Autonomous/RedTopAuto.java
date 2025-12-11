@@ -7,7 +7,6 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Autonomous(name = "RedTop", group = "Robot")
 public class RedTopAuto extends LinearOpMode {
-    static final double TURN_SPEED = 0.7;
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
 
