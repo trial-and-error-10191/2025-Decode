@@ -20,7 +20,7 @@ public class RPMlaunchWheels {
 
     // define restrictive variables
     float changeBy = 0.0001f;
-    public int rpmTarget = 1000; // Change back to 4,000 when done testing
+    public int rpmTarget = 60; // Change back to 4,000 when done testing
     int rpmLeniency = 60;
     public double RPM = 0;
     public double lastKnownMS = 0;
@@ -69,10 +69,10 @@ public class RPMlaunchWheels {
                     MainMotor1.setPower(Power);
                     MainMotor2.setPower(Power);
 
-                    RPM = (((MainMotor1.getCurrentPosition() - lastKnownEncC) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
+                    RPM = (((MainMotor2.getCurrentPosition() - lastKnownEncC) / encodersPerRevolution) * (60000 / (runTime.milliseconds() - lastKnownMS)));
 
                     lastKnownMS = runTime.milliseconds();
-                    lastKnownEncC = MainMotor1.getCurrentPosition();
+                    lastKnownEncC = MainMotor2.getCurrentPosition();
                 }
     }
 
