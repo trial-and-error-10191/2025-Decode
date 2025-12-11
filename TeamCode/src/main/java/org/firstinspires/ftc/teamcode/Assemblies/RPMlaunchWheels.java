@@ -20,7 +20,7 @@ public class RPMlaunchWheels {
 
     // define restrictive variables
     float changeBy = 0.0001f;
-    public int rpmTarget = 60; // Change back to 4,000 when done testing
+    public int rpmTarget = 3300; // Change to 3,000 when shooting from the top, 3300 when shooting from the bottom
     int rpmLeniency = 60;
     public double RPM = 0;
     public double lastKnownMS = 0;

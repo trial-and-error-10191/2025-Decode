@@ -126,7 +126,7 @@ public class Robot {
         if (shoot > 0) {
             ballRelease.Open();
             start = System.nanoTime();
-            if (System.nanoTime() - start <= 1E9) {
+            if (System.nanoTime() - start <= 3E9) {
                 // Wait
             }
             ballRelease.Close();

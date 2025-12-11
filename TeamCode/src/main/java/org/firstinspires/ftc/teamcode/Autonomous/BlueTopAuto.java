@@ -13,18 +13,17 @@ public class BlueTopAuto extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-//            robot.wheels.wheelsTick();
-            robot.driveTrain.driveStraight(TURN_SPEED, 20, 0);
-            robot.autoBase.Wait(1);
-            robot.driveTrain.turnToHeading(TURN_SPEED, -100);
+            robot.wheels.rpmTarget = 3000;
+            robot.wheels.wheelsTick();
+            robot.driveTrain.autoDriveStraight(-0.5, 2);
+//            robot.driveTrain.autoTurn(-0.5, 0.3);
 //            robot.obeliskOrder.patternOrder();
 //            robot.patternMatchAuto();
-            robot.driveTrain.turnToHeading(TURN_SPEED, -130);
-//            robot.ShootAll(true);
+//            robot.driveTrain.autoTurn(0.5, 0.3);
+            robot.ShootAll(true);
             // Next 2 lines moves bot out of the way since we can't get anymore points
-            robot.driveTrain.turnToHeading(TURN_SPEED, -100);
-            robot.autoBase.Wait(1);
-            robot.driveTrain.driveStraight(TURN_SPEED, 15, -100);
+            robot.driveTrain.autoTurn(-0.5, 2);
+            robot.driveTrain.autoDriveStraight(0.5, 2);
             // This part of the path will be used when we hopefully get an intake system
 //            robot.driveTrain.turnToHeading(TURN_SPEED, 10);
 //            robot.intake.IntakeSpin(true);
