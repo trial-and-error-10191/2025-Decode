@@ -19,6 +19,7 @@ public class RedBottomAuto extends LinearOpMode {
         robot.driveTrain.autoDriveStraight(0.5, 0.15);
         robot.driveTrain.autoTurn(0.5, 0.01);
         robot.ShootAll(true);
+        robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
         robot.driveTrain.autoTurn(-0.5, 0.01);
         robot.driveTrain.autoDriveStraight(0.5, 0.2);

@@ -126,10 +126,11 @@ public class Robot {
         if (shoot > 0) {
             ballRelease.Open();
             start = System.nanoTime();
-            if (System.nanoTime() - start <= 3E9) {
+            while (System.nanoTime() - start <= 2E9) {
                 // Wait
             }
             ballRelease.Close();
+            artifactPaddles.AutoRot(1, true, order);
         }
     }
     public void patternMatchAuto() {
