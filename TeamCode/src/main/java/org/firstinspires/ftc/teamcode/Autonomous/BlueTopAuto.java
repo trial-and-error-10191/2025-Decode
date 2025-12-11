@@ -13,23 +13,28 @@ public class BlueTopAuto extends LinearOpMode {
         waitForStart();
         robot.wheels.rpmTarget = 3000;
         robot.wheels.wheelsTick();
-        robot.driveTrain.autoDriveStraight(-0.5, 2);
-//        robot.driveTrain.autoTurn(0.5, 0.3);
+        robot.driveTrain.autoDriveStraight(-robot.autoBase.power, 2);
+//        robot.driveTrain.autoTurn(robot.autoBase.power, 0.3);
 //        robot.obeliskOrder.patternOrder();
 //        robot.patternMatchAuto();
-//        robot.driveTrain.autoTurn(-0.5, 0.3);
+//        robot.driveTrain.autoTurn(-robot.autoBase.power, 0.3);
         robot.ShootAll(true);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
-        robot.driveTrain.autoTurn(0.5, 0.2);
-        robot.driveTrain.autoDriveStraight(0.5, 1);
+        robot.driveTrain.autoTurn(robot.autoBase.power, 0.2);
+        robot.driveTrain.autoDriveStraight(robot.autoBase.power, 1);
             // This part of the path will be used when we hopefully get an intake system
-//        robot.driveTrain.turnToHeading(TURN_SPEED, 10);
+//        robot.driveTrain.autoTurn(robot.autoBase.power, 0.1);
+//        robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.2
+//        robot.driveTrain.autoTurn(robot.autoBase.power, 0.1);
 //        robot.intake.IntakeSpin(true);
-//        robot.driveTrain.driveStraight(TURN_SPEED, 35, -10);
+//        robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.1);
+//        robot.wheels.rpmTarget = 3000;
 //        robot.intake.IntakeSpin(false);
-//        robot.driveTrain.driveStraight(TURN_SPEED, -35, -10);
-//        robot.driveTrain.turnToHeading(TURN_SPEED, -130);
+//        robot.driveTrain.autoDriveStraight(-robot.autoBase.power, 0.1);
+//        robot.driveTrain.autoTurn(-robot.autoBase.power, 0.1);
+//        robot.driveTrain.autoDriveStraight(-robot.autoBase.power, 0.2);
+//        robot.driveTrain.autoTurn(-robot.autoBase.power, 0.1);
 //        robot.ShootAll(true);
     }
 }
