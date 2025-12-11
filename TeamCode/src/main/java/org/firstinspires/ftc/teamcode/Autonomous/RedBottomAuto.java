@@ -12,7 +12,7 @@ public class RedBottomAuto extends LinearOpMode {
         Robot robot = new Robot(hardwareMap, telemetry);
 
         waitForStart();
-        robot.wheels.rpmTarget = 3300;
+        robot.wheels.rpmTarget = 3320;
         robot.wheels.wheelsTick();
 //        robot.obeliskOrder.patternOrder();
 //        robot.patternMatchAuto();
