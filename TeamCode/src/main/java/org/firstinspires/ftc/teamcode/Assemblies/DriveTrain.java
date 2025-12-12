@@ -12,6 +12,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+import java.util.ArrayList;
+
 @Disabled
 public class DriveTrain {
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
@@ -39,6 +41,9 @@ public class DriveTrain {
     private double headingError = 0;
     private boolean lastInput = false;
     private boolean wheelSwitch = false;
+    private double spinDownReduction = 0.999;
+    private ArrayList<Double> powerTemp = new ArrayList<Double>();
+
     // All subsystems should have a hardware function that labels all of the hardware required of it.
     public DriveTrain(HardwareMap hwMap, Telemetry telemetry) {
         // Initializes motor names:
@@ -99,7 +104,24 @@ public class DriveTrain {
             leftBackPower = axial - yaw;
             rightBackPower = axial + yaw;
 
+        } else {
+           powerTemp.clear();
+           powerTemp.add(leftFrontDrive.getPower());
+           powerTemp.add(leftBackDrive.getPower());
+           powerTemp.add(rightFrontDrive.getPower());
+           powerTemp.add(rightBackDrive.getPower());
+
+           for (Double d : powerTemp) {
+             d = d * Math.max(Math.min(spinDownReduction, 1), 0);
+           }
+
+           leftFrontDrive.setPower(powerTemp.get(0));
+           leftBackDrive.setPower(powerTemp.get(1));
+           rightFrontDrive.setPower(powerTemp.get(2));
+           leftBackDrive.setPower(powerTemp.get(3));
+
         }
+
         double max;
 
         // All code below this comment normalizes the values so no wheel power exceeds 100%.
