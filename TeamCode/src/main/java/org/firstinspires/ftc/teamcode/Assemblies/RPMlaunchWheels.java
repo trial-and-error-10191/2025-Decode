@@ -16,21 +16,21 @@ public class RPMlaunchWheels {
     Telemetry telemetry;
 
     // define restrictive variables
-    float changeBy = 0.0001f;
-    public int rpmTarget = 2000;
+    float changeBy = 0.0003f;
+    public double rpmTarget = 4000;
     int rpmLeniency = 60;
     double leftRpm = 0;
     public double rightRpm = 0;
-    public double dualRPM = 0;
+    public double dualRPM = 1.0;
     public double lastKnownMS = 0;
     public double lastKnownEncL = 0;
     public double lastKnownEncR = 0;
     boolean cataclysmicError = false;
 
-    // start motors with minimum movement power
-    public double rightPower = 0;
-    public double leftPower = 0.13;
-    public double dualPower = 0.13;
+    // start motors with minimum movement power (0.13 minimum required power)
+    public double rightPower = 0.3;
+    public double leftPower = 0.3;
+    public double dualPower = 0.3;
 
 
     // define fixed values
@@ -112,5 +112,10 @@ public class RPMlaunchWheels {
         leftPower = leftP;
         rightPower = rightP;
         dualPower = (leftP + rightP) / 2;
+    }
+
+    public void setPowerByRpm(double RPM) {
+        double judgedPower = (double) rpmTarget / 6000;
+        setMotorPowers(judgedPower, judgedPower);
     }
 }

@@ -20,7 +20,7 @@ public class BlueTopAuto extends LinearOpMode {
             robot.wheels.wheelsTick();
             robot.driveTrain.turnToHeading(TURN_SPEED, -130);
             robot.ShootAll(true);
-            robot.wheels.MainMotor.setPower(0);
+//            robot.wheels.MainMotor.setPower(0);
             // Next 2 lines moves bot out of the way since we can't get anymore points
             robot.driveTrain.turnToHeading(TURN_SPEED, -100);
             robot.driveTrain.driveStraight(TURN_SPEED, 15, -100);
@@ -33,7 +33,7 @@ public class BlueTopAuto extends LinearOpMode {
             robot.wheels.wheelsTick();
             robot.driveTrain.turnToHeading(TURN_SPEED, -130);
             robot.ShootAll(true);
-            robot.wheels.MainMotor.setPower(0);
+//            robot.wheels.MainMotor.setPower(0);
         }
     }
 }
