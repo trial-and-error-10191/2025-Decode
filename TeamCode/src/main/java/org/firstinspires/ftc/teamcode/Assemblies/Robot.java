@@ -63,7 +63,7 @@ public class Robot {
     }
 
     // Array to store artifact color and spot
-    ArrayList<Color> order = new ArrayList<>();
+    public ArrayList<Color> order = new ArrayList<>();
 
     public ArrayList<Color> Cycle(ArrayList<Color> cycleTarget, boolean forward) {
         ArrayList<Color> cycleTemp = new ArrayList<>(); // store temporary new values

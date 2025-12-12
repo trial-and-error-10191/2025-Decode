@@ -7,17 +7,18 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Autonomous (name = "BlueBottom", group = "Robot")
 public class BlueBottomAuto extends LinearOpMode {
+    long start = System.nanoTime();
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
 
         waitForStart();
-        robot.wheels.rpmTarget = 3320;
-        robot.wheels.wheelsTick();
+        robot.artifactPaddles.AutoRot(1, true, robot.order);
+        robot.wheels.rpmTarget = 3350;
 //        robot.obeliskOrder.patternOrder();
 //        robot.patternMatchAuto();
-        robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.15);
-        robot.driveTrain.autoTurn(-robot.autoBase.power, 0.01);
-        robot.ShootAll(true);
+        robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.33);
+        robot.driveTrain.autoTurn(-robot.autoBase.power, 0.04);
+        robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
         robot.driveTrain.autoTurn(robot.autoBase.power, 0.01);
