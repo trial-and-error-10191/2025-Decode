@@ -15,7 +15,7 @@ public class RedTopAuto extends LinearOpMode {
         robot.artifactPaddles.AutoRot(1, true, robot.order);
         robot.wheels.rpmTarget = 3200;
         robot.wheels.wheelsTick();
-        robot.driveTrain.autoDriveStraight(-robot.autoBase.power, 1.8);
+        robot.driveTrain.autoDriveStraight(-robot.autoBase.power, 1.6);
 //        robot.driveTrain.autoTurn(-robot.autoBase.power, 0.3);
 //        robot.obeliskOrder.patternOrder();
 //        robot.patternMatchAuto();
