@@ -16,7 +16,7 @@ public class BlueBottomAuto extends LinearOpMode {
         robot.wheels.rpmTarget = 3350;
 //        robot.obeliskOrder.patternOrder();
 //        robot.patternMatchAuto();
-        robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.33);
+        robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.2);
         robot.driveTrain.autoTurn(-robot.autoBase.power, 0.04);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
