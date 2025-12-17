@@ -41,8 +41,7 @@ public class DriveTrain {
     private double headingError = 0;
     private boolean lastInput = false;
     private boolean wheelSwitch = false;
-    private double spinDownReduction = 0.999;
-    private ArrayList<Double> powerTemp = new ArrayList<Double>();
+    private final double spinDownReduction = 0.998;
 
     // All subsystems should have a hardware function that labels all of the hardware required of it.
     public DriveTrain(HardwareMap hwMap, Telemetry telemetry) {
@@ -105,21 +104,10 @@ public class DriveTrain {
             rightBackPower = axial + yaw;
 
         } else {
-           powerTemp.clear();
-           powerTemp.add(leftFrontDrive.getPower());
-           powerTemp.add(leftBackDrive.getPower());
-           powerTemp.add(rightFrontDrive.getPower());
-           powerTemp.add(rightBackDrive.getPower());
-
-           for (Double d : powerTemp) {
-             d = d * Math.max(Math.min(spinDownReduction, 1), 0);
-           }
-
-           leftFrontDrive.setPower(powerTemp.get(0));
-           leftBackDrive.setPower(powerTemp.get(1));
-           rightFrontDrive.setPower(powerTemp.get(2));
-           leftBackDrive.setPower(powerTemp.get(3));
-
+           leftFrontDrive.setPower(leftFrontDrive.getPower() * spinDownReduction);
+           leftBackDrive.setPower(leftBackDrive.getPower() * spinDownReduction);
+           rightFrontDrive.setPower(rightFrontDrive.getPower() * spinDownReduction);
+           rightBackDrive.setPower(rightBackDrive.getPower() * spinDownReduction);
         }
 
         double max;
