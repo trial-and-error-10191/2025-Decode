@@ -12,11 +12,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+import java.util.ArrayList;
+
 @Disabled
 public class DriveTrain {
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
     private IMU imu = null;
-    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime;
 
     Telemetry telemetry;
 
@@ -39,6 +41,13 @@ public class DriveTrain {
     private double headingError = 0;
     private boolean lastInput = false;
     private boolean wheelSwitch = false;
+
+    public double reductionSmoothing = 38.72; // driver tested ✅
+    public double MSthreshold = 20;
+
+    private double lastMS = 0.0;
+    ArrayList<Double> leftPowerValues = new ArrayList<Double>(4000);
+    ArrayList<Double> rightPowerValues = new ArrayList<Double>(4000);
 
     // All subsystems should have a hardware function that labels all of the hardware required of it.
     public DriveTrain(HardwareMap hwMap, Telemetry telemetry) {
@@ -80,6 +89,9 @@ public class DriveTrain {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         this.telemetry = telemetry;
         imu.resetYaw();
+
+        runtime = new ElapsedTime();
+        runtime.reset();
     }
 
     public void drive(double axial, double yaw) {
@@ -232,6 +244,55 @@ public class DriveTrain {
         rightFrontDrive.setPower(rightPower);
         leftBackDrive.setPower(leftPower);
         rightBackDrive.setPower(rightPower);
+    }
+
+    public void easingDrive(double axial, double yaw) {
+        // initializes deadzone
+        double deadzone = 0.05;
+
+        double leftPower = 0;
+        double rightPower = 0;
+
+        if (Math.abs(axial) > deadzone || Math.abs(yaw) > deadzone) {
+            leftPower = axial + yaw;
+            rightPower = axial - yaw;
+        }
+        double max;
+
+        // All code below this comment normalizes the values so no wheel power exceeds 100%.
+        max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
+
+
+        if (max > 1.0) {
+            leftPower /= max;
+            rightPower /= max;
+        }
+
+        if ((runtime.milliseconds() - lastMS) <= MSthreshold) {
+            leftPowerValues.add(leftPower);
+            rightPowerValues.add(rightPower);
+            return;
+        }
+        lastMS = runtime.milliseconds();
+
+
+        for (double LP : leftPowerValues) {
+            leftPower += LP;
+        }
+        leftPower /= leftPowerValues.size() + 1;
+        leftPowerValues.clear();
+
+        for (double LP : rightPowerValues) {
+            rightPower += LP;
+        }
+        rightPower /= rightPowerValues.size() + 1;
+        rightPowerValues.clear();
+
+        // The next four lines gives the calculated power to each motor
+        powerChange(leftFrontDrive, leftPower);
+        powerChange(leftBackDrive, leftPower);
+        powerChange(rightFrontDrive, rightPower);
+        powerChange(rightBackDrive, rightPower);
     }
 
     public void wheelTest(boolean wheelSwap) {
@@ -429,6 +490,17 @@ public class DriveTrain {
     public double getHeading() {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         return orientation.getYaw(AngleUnit.DEGREES);
+    }
+
+    public void powerChange(DcMotor motor, double change) {
+        double motorPower = motor.getPower();
+        double motorChange = ((change - motorPower) / 20);
+
+        if (Math.abs(change - motorPower) < 0.02) {
+            motor.setPower(change);
+        } else {
+            motor.setPower(motorPower + motorChange);
+        }
     }
 }
 
