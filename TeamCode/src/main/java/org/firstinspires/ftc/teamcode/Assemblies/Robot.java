@@ -4,14 +4,15 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Robot {
     ElapsedTime ShootWaitTimer = new ElapsedTime();
     long start = System.nanoTime();
-    long finish = System.nanoTime();
-    long timeElapsed = finish - start;
     public ArtifactPaddles artifactPaddles;
     public AutoBase autoBase;
 //    public BadFishLaunch badFishLaunch;
@@ -21,6 +22,7 @@ public class Robot {
     public IntakeThatDoesNotExist intake;
 //    public LEDLight ledLight;
     public ObeliskOrder obeliskOrder;
+    public TagOrientation tagOrientation;
     public TelemetryUI UI;
     public RPMlaunchWheels wheels;
     Telemetry telemetry;
@@ -35,6 +37,7 @@ public class Robot {
         intake = new IntakeThatDoesNotExist(hwMap);
 //        ledLight = new LEDLight();
         obeliskOrder = new ObeliskOrder(hwMap);
+        tagOrientation = new TagOrientation(hwMap);
         UI = new TelemetryUI(telemetry, this);
         wheels = new RPMlaunchWheels(hwMap, telemetry);
         order.add(Color.Green);
@@ -147,6 +150,15 @@ public class Robot {
             artifactPaddles.AutoRot(1, true, order);
             telemetry.addData("Order set", order);
             telemetry.update();
+        }
+    }
+    public void GoalMove(boolean blue, AprilTagProcessor tagProcessor) {
+        tagOrientation.findGoalTag(blue);
+        List<AprilTagDetection> currentDetections = tagProcessor.getDetections();
+        for (AprilTagDetection detection : currentDetections) {
+            if (tagOrientation.desiredTagOrient == detection.id && detection.id == 20) {
+            } if (tagOrientation.desiredTagOrient == detection.id && detection.id == 24) {
+            }
         }
     }
 }
