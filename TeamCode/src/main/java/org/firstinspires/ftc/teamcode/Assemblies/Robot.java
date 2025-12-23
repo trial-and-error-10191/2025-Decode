@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
 
 import java.util.ArrayList;
 
@@ -28,7 +27,7 @@ public class Robot {
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
         artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
-        autoBase = new AutoBase();
+        autoBase = new AutoBase(hwMap, telemetry);
 //        badFishLaunch = new BadFishLaunch(hwMap);
         ballDetect = new BallDetect(hwMap);
         ballRelease = new BallRelease(hwMap, telemetry);
@@ -126,7 +125,12 @@ public class Robot {
     public void ShootOnce(float shoot) {
         if (shoot > 0) {
             ballRelease.Open();
+            start = System.nanoTime();
+            while (System.nanoTime() - start <= 2E9) {
+                // Wait
+            }
             ballRelease.Close();
+            artifactPaddles.AutoRot(1, true, order);
         }
     }
     public void patternMatchAuto() {

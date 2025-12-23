@@ -12,11 +12,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+import java.util.ArrayList;
+
 @Disabled
 public class DriveTrain {
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
     private IMU imu = null;
-    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime;
 
     Telemetry telemetry;
 
@@ -39,6 +41,14 @@ public class DriveTrain {
     private double headingError = 0;
     private boolean lastInput = false;
     private boolean wheelSwitch = false;
+
+    public double reductionSmoothing = 38.72; // driver tested ✅
+    public double MSthreshold = 20;
+
+    private double lastMS = 0.0;
+    ArrayList<Double> leftPowerValues = new ArrayList<Double>(4000);
+    ArrayList<Double> rightPowerValues = new ArrayList<Double>(4000);
+
     // All subsystems should have a hardware function that labels all of the hardware required of it.
     public DriveTrain(HardwareMap hwMap, Telemetry telemetry) {
         // Initializes motor names:
@@ -79,6 +89,9 @@ public class DriveTrain {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         this.telemetry = telemetry;
         imu.resetYaw();
+
+        runtime = new ElapsedTime();
+        runtime.reset();
     }
 
     public void drive(double axial, double yaw) {
@@ -233,6 +246,55 @@ public class DriveTrain {
         rightBackDrive.setPower(rightPower);
     }
 
+    public void easingDrive(double axial, double yaw) {
+        // initializes deadzone
+        double deadzone = 0.05;
+
+        double leftPower = 0;
+        double rightPower = 0;
+
+        if (Math.abs(axial) > deadzone || Math.abs(yaw) > deadzone) {
+            leftPower = axial + yaw;
+            rightPower = axial - yaw;
+        }
+        double max;
+
+        // All code below this comment normalizes the values so no wheel power exceeds 100%.
+        max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
+
+
+        if (max > 1.0) {
+            leftPower /= max;
+            rightPower /= max;
+        }
+
+        if ((runtime.milliseconds() - lastMS) <= MSthreshold) {
+            leftPowerValues.add(leftPower);
+            rightPowerValues.add(rightPower);
+            return;
+        }
+        lastMS = runtime.milliseconds();
+
+
+        for (double LP : leftPowerValues) {
+            leftPower += LP;
+        }
+        leftPower /= leftPowerValues.size() + 1;
+        leftPowerValues.clear();
+
+        for (double LP : rightPowerValues) {
+            rightPower += LP;
+        }
+        rightPower /= rightPowerValues.size() + 1;
+        rightPowerValues.clear();
+
+        // The next four lines gives the calculated power to each motor
+        powerChange(leftFrontDrive, leftPower);
+        powerChange(leftBackDrive, leftPower);
+        powerChange(rightFrontDrive, rightPower);
+        powerChange(rightBackDrive, rightPower);
+    }
+
     public void wheelTest(boolean wheelSwap) {
         if (wheelSwap && !lastInput) {
             wheelSwitch = !wheelSwitch;
@@ -251,10 +313,7 @@ public class DriveTrain {
         lastInput = wheelSwap;
     }
 
-    public void driveStraight(double maxDriveSpeed,
-                              double distance,
-                              double heading) {
-
+    public void driveStraight(double maxDriveSpeed, double distance, double heading) {
         // Determine new target position, and pass to motor controller
         int moveCounts = (int) (distance * COUNTS_PER_INCH);
         leftTarget = leftFrontDrive.getCurrentPosition() + moveCounts;
@@ -281,29 +340,30 @@ public class DriveTrain {
         // Start driving straight, and then enter the control loop
         maxDriveSpeed = Math.abs(maxDriveSpeed);
         moveRobot(maxDriveSpeed, 0);
-
+// ;-; P A I N   I S   E V E R Y W H E R E ! ! ! !
         // keep looping while we are still active, and BOTH motors are running.
         while ((leftFrontDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy() && leftBackDrive.isBusy())) {
-
             // Determine required steering to keep on heading
             turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
+            telemetry.addData("Steering Correction", turnSpeed);
+            telemetry.update();
 
             // if driving in reverse, the motor correction also needs to be reversed
-            if (distance < 0)
-                turnSpeed *= -1.0;
+//            if (distance < 0) {
+//                turnSpeed *= -1.0;
+//            }
 
             // Apply the turning correction to the current driving speed.
-            moveRobot(driveSpeed, turnSpeed);
+            moveRobot(driveSpeed, -turnSpeed);
         }
-
     }
 
     public void moveRobot(double drive, double turn) {
         driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
         turnSpeed = turn;      // save this value as a class member so it can be used by telemetry.
 
-        leftSpeed = drive - turn;
-        rightSpeed = drive + turn;
+        leftSpeed = drive + turn;
+        rightSpeed = drive - turn;
 
         // Scale speeds down if either one exceeds +/- 1.0;
         double max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
@@ -312,7 +372,7 @@ public class DriveTrain {
             rightSpeed /= max;
         }
         telemetry.addData("LeftSpeed",leftSpeed); telemetry.addData("RightSpeed",rightSpeed);
-        leftFrontDrive.setPower(leftSpeed * 0.85);
+        leftFrontDrive.setPower(leftSpeed);
         rightFrontDrive.setPower(rightSpeed);
         leftBackDrive.setPower(leftSpeed);
         rightBackDrive.setPower(rightSpeed);
@@ -365,7 +425,7 @@ public class DriveTrain {
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
 
             // Pivot in place by applying the turning correction
-            moveRobot(0, turnSpeed);
+            moveRobot(0, -turnSpeed);
 
             // Display drive status for the driver.
             telemetry.addData("HeadingErr", headingError);
@@ -401,10 +461,46 @@ public class DriveTrain {
         // Stop all motion;
         moveRobot(0, 0);
     }
-
+    public void autoDriveStraight (double power, double Time) {
+        runtime.reset();
+        while (runtime.milliseconds() <= Time * 1000) {
+            leftFrontDrive.setPower(power);
+            leftBackDrive.setPower(power);
+            rightFrontDrive.setPower(power);
+            rightBackDrive.setPower(power);
+        }
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+    }
+    public void autoTurn (double power, double Time) {
+        runtime.reset();
+        while (runtime.milliseconds() <= Time * 1000) {
+            leftFrontDrive.setPower(power);
+            leftBackDrive.setPower(power);
+            rightFrontDrive.setPower(-power);
+            rightBackDrive.setPower(-power);
+        }
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+    }
     public double getHeading() {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         return orientation.getYaw(AngleUnit.DEGREES);
+    }
+
+    public void powerChange(DcMotor motor, double change) {
+        double motorPower = motor.getPower();
+        double motorChange = ((change - motorPower) / 20);
+
+        if (Math.abs(change - motorPower) < 0.02) {
+            motor.setPower(change);
+        } else {
+            motor.setPower(motorPower + motorChange);
+        }
     }
 }
 
