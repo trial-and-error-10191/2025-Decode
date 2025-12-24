@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class OrderTest extends LinearOpMode {
     @Override
     public void runOpMode() {
-        ObeliskOrder obeliskOrder = new ObeliskOrder(hardwareMap);
+        ObeliskOrder obeliskOrder = new ObeliskOrder();
 
         waitForStart();
         while (opModeIsActive()) {

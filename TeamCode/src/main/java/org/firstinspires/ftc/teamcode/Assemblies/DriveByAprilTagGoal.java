@@ -13,7 +13,6 @@ import java.util.List;
 
 public class DriveByAprilTagGoal {
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 30.0; //  this is how close the camera should get to the target (inches)
 
     public boolean placeHold;
 
@@ -37,43 +36,11 @@ public class DriveByAprilTagGoal {
     double  drive           = 0;        // Desired forward power/speed (-1 to +1) +ve is forward
     double  turn            = 0;        // Desired turning power/speed (-1 to +1) +ve is CounterClockwise
 
-    public DriveByAprilTagGoal(HardwareMap hwMap, Telemetry telemetry) {
-        DriveTrain driveTrain = new DriveTrain(hwMap, telemetry);
+    public DriveByAprilTagGoal(Telemetry telemetry) {
         this.telemetry = telemetry;
-        /// This first part sets up the camera so it can scan AprilTags
-        // Create the AprilTag processor.
-        aprilTag = new AprilTagProcessor.Builder()
-
-                // == CAMERA CALIBRATION ==
-                // If you do not manually specify calibration parameters, the SDK will attempt
-                // to load a predefined calibration for your camera.
-                //.setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
-                // ... these parameters are fx, fy, cx, cy.
-
-                .build();
-
-        // Lets the camera see the obelisk April Tag from far away, as we only need to see that one once.
-        aprilTag.setDecimation(1);
-
-        // Create the vision portal by using a builder.
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
-
-//        // Set and enable the processor.
-        builder.addProcessor(aprilTag);
-//
-//        // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
-        if (USE_WEBCAM) {
-            setManualExposure(6, 250);  // Use low exposure time to reduce motion blur}
-        }
-        // Wait for the driver to press Start
-        telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
-        telemetry.addData(">", "Touch START to start OpMode");
-        telemetry.update();
     }
 
-    public void DriveByAprilTag() {
+    public void DriveByAprilTag(double DESIRED_DISTANCE) {
         targetFound = false;
         desiredTag = null;
 
@@ -115,6 +82,11 @@ public class DriveByAprilTagGoal {
 
             // Use the speed and turn "gains" to calculate how we want the robot to move.  Clip it to the maximum
             drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            if (DESIRED_DISTANCE < 0) {
+                drive *= -1;
+            } if (DESIRED_DISTANCE > 0) {
+                drive = Math.abs(drive);
+            }
             turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
 
             telemetry.addData("Auto", "Drive %5.2f, Turn %5.2f", drive, turn);

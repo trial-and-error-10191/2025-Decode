@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -130,10 +131,10 @@ public class RobotAutoDriveToAprilTagTank extends LinearOpMode {
         // To drive forward, most robots need the motor on one side to be reversed because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Single Gear Reduction or 90 Deg drives may require direction flips
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         if (USE_WEBCAM)
             setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
@@ -189,6 +190,9 @@ public class RobotAutoDriveToAprilTagTank extends LinearOpMode {
 
                 // Use the speed and turn "gains" to calculate how we want the robot to move.  Clip it to the maximum
                 drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+                if (DESIRED_DISTANCE < 0) {
+                    drive *= -1;
+                }
                 turn  = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
 
                 telemetry.addData("Auto","Drive %5.2f, Turn %5.2f", drive, turn);
@@ -196,7 +200,7 @@ public class RobotAutoDriveToAprilTagTank extends LinearOpMode {
 
                 // drive using manual POV Joystick mode.
                 drive = -gamepad1.left_stick_y  / 2.0;  // Reduce drive rate to 50%.
-                turn  = -gamepad1.right_stick_x / 4.0;  // Reduce turn rate to 25%.
+                turn  = -gamepad1.right_stick_x / 2.0;  // Reduce turn rate to 50%.
                 telemetry.addData("Manual","Drive %5.2f, Turn %5.2f", drive, turn);
             }
             telemetry.update();
@@ -228,9 +232,9 @@ public class RobotAutoDriveToAprilTagTank extends LinearOpMode {
 
         // Send powers to the wheels.
         leftFrontDrive.setPower(leftPower);
-//        leftBackDrive.setPower(leftPower);
+        leftBackDrive.setPower(leftPower);
         rightFrontDrive.setPower(rightPower);
-//        rightBackDrive.setPower(rightPower);
+        rightBackDrive.setPower(rightPower);
     }
 
     /**

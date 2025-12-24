@@ -12,7 +12,9 @@ public class PatternShift extends LinearOpMode {
         Robot robot = new Robot(hardwareMap, telemetry);
         waitForStart();
         while (opModeIsActive()) {
-            robot.patternCorrectionTeleOp(gamepad2.a);
+            robot.patternMatchAuto();
+            telemetry.addData("Holder Order", robot.order);
+            telemetry.update();
         }
     }
 }

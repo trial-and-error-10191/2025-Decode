@@ -11,12 +11,9 @@ import java.util.List;
 
 public class TagOrientation {
     private final AprilTagProcessor aprilTag;
-    private final VisionPortal visionPortal;
 
     int desiredTagOrient;
     public TagOrientation(HardwareMap hwMap) {
-        /// This first part sets up the camera so it can scan AprilTags
-        // Create the AprilTag processor.
         aprilTag = new AprilTagProcessor.Builder()
 
                 // == CAMERA CALIBRATION ==
@@ -29,16 +26,6 @@ public class TagOrientation {
 
         // Lets the camera see the obelisk April Tag from far away, as we only need to see that one once.
         aprilTag.setDecimation(1);
-
-        // Create the vision portal by using a builder.
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
-
-//        // Set and enable the processor.
-        builder.addProcessor(aprilTag);
-//
-//        // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
     }
     public int findGoalTag(boolean blue) {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
