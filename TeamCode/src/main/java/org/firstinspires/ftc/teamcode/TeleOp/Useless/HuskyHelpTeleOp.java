@@ -1,24 +1,25 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.TeleOp.Useless;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Assemblies.BallDetect;
-import org.firstinspires.ftc.teamcode.Assemblies.Robot;
+import org.firstinspires.ftc.teamcode.Assemblies.HuskyLensSense;
 
-@TeleOp (name = "ColorCheckTest", group = "LinearOpMode")
-public class ColorCheckTest extends LinearOpMode {
+@Disabled
+@TeleOp (name = "HuskyTeleOp", group = "LinearOpMode")
+public class HuskyHelpTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Initiates the robots system and subsystems!
-        BallDetect ballDetect = new BallDetect(hardwareMap);
+        HuskyLensSense huskyLensSense = new HuskyLensSense(hardwareMap, telemetry);
 
         telemetry.addData("Status", "Waiting for Start");
         telemetry.update();
 
         waitForStart();
         while(opModeIsActive()) {
-            int color = ballDetect.colorFind(true);
+            int color = huskyLensSense.SendHelp(true);
             if (color == 1) {
                 telemetry.addData("Color Found Green", "");
             } else if (color == 2) {

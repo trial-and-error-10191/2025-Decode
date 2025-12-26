@@ -15,7 +15,8 @@ import java.util.List;
 public class Robot {
     ElapsedTime ShootWaitTimer = new ElapsedTime();
     long start = System.nanoTime();
-    public AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
+    public AprilTagFindCait aprilTagFind;
+    public AprilTagProcessor aprilTag;
     public ArtifactPaddles artifactPaddles;
     public AutoBase autoBase;
     public BallDetect ballDetect;
@@ -23,15 +24,15 @@ public class Robot {
     public DriveTrain driveTrain;
     public DriveByAprilTagGoal driveByAprilTagGoal;
     public IntakeThatDoesNotExist intake;
-    //    public LEDLight ledLight;
     public ObeliskOrder obeliskOrder;
     public RPMlaunchWheels wheels;
     public TagOrientation tagOrientation;
     public TelemetryUI UI;
-    public VisionPortal visionPortal;               // Used to manage the video source.
+    public VisionPortal visionPortal;
     Telemetry telemetry;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
+        aprilTagFind = new AprilTagFindCait(aprilTag, telemetry);
         artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
         autoBase = new AutoBase(hwMap, telemetry);
         ballDetect = new BallDetect(hwMap);
@@ -39,8 +40,7 @@ public class Robot {
         driveTrain = new DriveTrain(hwMap, telemetry);
         driveByAprilTagGoal = new DriveByAprilTagGoal(telemetry);
         intake = new IntakeThatDoesNotExist(hwMap);
-//        ledLight = new LEDLight();
-        obeliskOrder = new ObeliskOrder();
+        obeliskOrder = new ObeliskOrder(aprilTag, telemetry);
         tagOrientation = new TagOrientation(hwMap);
         UI = new TelemetryUI(telemetry, this);
         wheels = new RPMlaunchWheels(hwMap, telemetry);
@@ -148,12 +148,19 @@ public class Robot {
         }
     }
     public void patternMatchAuto() {
-        obeliskOrder.findTag();
+        obeliskOrder.findTag(aprilTag);
+        telemetry.addData("Obelisk Tag", obeliskOrder.desiredTagObelisk);
         // Makes the robot's ball holder set up to shoot the balls it contains in the order told by the obelisk.
-        if (obeliskOrder.desiredTag == 22) {
-            artifactPaddles.AutoRot(1, true, order);
-        } if (obeliskOrder.desiredTag == 23) {
-            artifactPaddles.AutoRot(2, true, order);
+        if (obeliskOrder.desiredTagObelisk == 22) {
+            for (int i = 0; i < 1; i++) {
+                artifactPaddles.AutoRot(1, true, order);
+            }
+            obeliskOrder.desiredTagObelisk = 50;
+        } if (obeliskOrder.desiredTagObelisk == 23) {
+            for (int i = 0; i < 2; i++) {
+                artifactPaddles.AutoRot(2, true, order);
+            }
+            obeliskOrder.desiredTagObelisk = 50;
         }
     }
     public void patternCorrectionTeleOp (boolean patternCorrection) {

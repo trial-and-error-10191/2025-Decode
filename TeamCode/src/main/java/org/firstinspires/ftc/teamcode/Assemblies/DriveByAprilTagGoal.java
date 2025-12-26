@@ -14,8 +14,6 @@ import java.util.List;
 public class DriveByAprilTagGoal {
     // Adjust these numbers to suit your robot.
 
-    public boolean placeHold;
-
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
     //  Drive = Error * Gain    Make these values smaller for smoother control, or larger for a more aggressive response.
@@ -25,10 +23,7 @@ public class DriveByAprilTagGoal {
     final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_TURN  = 0.25;  //  Clip the turn speed to this max value (adjust for your robot)
 
-    private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
     private static final int DESIRED_TAG_ID = 24;    // Choose the tag you want to approach or set to -1 for ANY tag.
-    private VisionPortal visionPortal;               // Used to manage the video source.
-    private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
     private Telemetry telemetry;
 
@@ -40,7 +35,7 @@ public class DriveByAprilTagGoal {
         this.telemetry = telemetry;
     }
 
-    public void DriveByAprilTag(double DESIRED_DISTANCE) {
+    public void DriveByAprilTag(double DESIRED_DISTANCE, AprilTagProcessor aprilTag) {
         targetFound = false;
         desiredTag = null;
 
@@ -92,22 +87,5 @@ public class DriveByAprilTagGoal {
             telemetry.addData("Auto", "Drive %5.2f, Turn %5.2f", drive, turn);
         }
         telemetry.update();
-    }
-    /*
-     Manually set the camera gain and exposure.
-     This can only be called AFTER calling initAprilTag(), and only works for Webcams;
-    */
-    private void setManualExposure (int exposureMS, int gain){
-        // Wait for the camera to be open, then use the controls
-        if (visionPortal == null) {
-            return;
-        }
-        // Make sure camera is streaming before we try to set the exposure controls
-        if (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
-            telemetry.addData("Camera", "Waiting");
-            telemetry.update();
-            telemetry.addData("Camera", "Ready");
-            telemetry.update();
-        }
     }
 }

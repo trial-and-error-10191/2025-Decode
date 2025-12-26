@@ -4,19 +4,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-@TeleOp (name = "PatternShift", group = "LinearOpMode")
-public class PatternShift extends LinearOpMode {
+@TeleOp (name = "AprilTagFind", group = "LinearOpMode")
+public class AprilTagFindTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
         waitForStart();
         while (opModeIsActive()) {
-            robot.obeliskOrder.findTag(robot.aprilTag);
-            robot.patternMatchAuto();
-            telemetry.addData("Tag ID: ", robot.obeliskOrder.desiredTagObelisk);
-            telemetry.addData("Holder Order: ", robot.order);
-            telemetry.update();
+            robot.aprilTagFind.aprilTagTelemetry(robot.aprilTag);
         }
     }
 }
