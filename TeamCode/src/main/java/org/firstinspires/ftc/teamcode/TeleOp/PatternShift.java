@@ -12,7 +12,6 @@ public class PatternShift extends LinearOpMode {
         Robot robot = new Robot(hardwareMap, telemetry);
         waitForStart();
         while (opModeIsActive()) {
-            robot.obeliskOrder.findTag(robot.aprilTag);
             robot.patternMatchAuto();
             telemetry.addData("Tag ID: ", robot.obeliskOrder.desiredTagObelisk);
             telemetry.addData("Holder Order: ", robot.order);

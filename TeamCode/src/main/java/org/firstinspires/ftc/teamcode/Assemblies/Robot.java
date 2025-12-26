@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Robot {
+    boolean rotateDone = false;
     ElapsedTime ShootWaitTimer = new ElapsedTime();
     long start = System.nanoTime();
     public AprilTagFindCait aprilTagFind;
@@ -151,16 +152,20 @@ public class Robot {
         obeliskOrder.findTag(aprilTag);
         telemetry.addData("Obelisk Tag", obeliskOrder.desiredTagObelisk);
         // Makes the robot's ball holder set up to shoot the balls it contains in the order told by the obelisk.
-        if (obeliskOrder.desiredTagObelisk == 22) {
-            for (int i = 0; i < 1; i++) {
+        if (obeliskOrder.desiredTagObelisk == 22 && !rotateDone) {
+            telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
+            long start = System.nanoTime();
+            while (System.nanoTime() - start <= 1.2E9) {
+                artifactPaddles.AutoRot(1, false, order);
+            }
+            rotateDone = true;
+        } if (obeliskOrder.desiredTagObelisk == 23 && !rotateDone) {
+            telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
+            long start = System.nanoTime();
+            while (System.nanoTime() - start <= 1.2E9) {
                 artifactPaddles.AutoRot(1, true, order);
             }
-            obeliskOrder.desiredTagObelisk = 50;
-        } if (obeliskOrder.desiredTagObelisk == 23) {
-            for (int i = 0; i < 2; i++) {
-                artifactPaddles.AutoRot(2, true, order);
-            }
-            obeliskOrder.desiredTagObelisk = 50;
+            rotateDone = true;
         }
     }
     public void patternCorrectionTeleOp (boolean patternCorrection) {
