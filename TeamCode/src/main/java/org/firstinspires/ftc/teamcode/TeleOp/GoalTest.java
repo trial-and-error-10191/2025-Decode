@@ -15,12 +15,17 @@ public class GoalTest extends LinearOpMode {
         robot.ballRelease.Close();
         waitForStart();
         while (opModeIsActive()) {
-            robot.wheels.wheelsTick();
-            telemetry.addData("WheelPower1", robot.wheels.MainMotor1.getPower());
-            telemetry.addData("WheelPower2", robot.wheels.MainMotor2.getPower());
-            telemetry.update();
-            robot.ballRelease.Open();
-            robot.driveTrain.allMotorsDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
+            if (gamepad2.a) {
+                robot.driveTrain.DriveByAprilTag(40, robot.aprilTag);
+            } else if (gamepad2.y) {
+                robot.driveTrain.DriveByAprilTag(60, robot.aprilTag);
+            } else if (gamepad2.b) {
+                robot.driveTrain.TurnToAprilTag(-15, robot.aprilTag);
+            } else if (gamepad2.x) {
+                robot.driveTrain.TurnToAprilTag(15, robot.aprilTag);
+            } else {
+                robot.driveTrain.moveRobot(0, 0);
+            }
         }
     }
 }
