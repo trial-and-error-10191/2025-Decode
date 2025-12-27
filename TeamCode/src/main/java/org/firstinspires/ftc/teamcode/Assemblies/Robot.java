@@ -155,14 +155,14 @@ public class Robot {
         if (obeliskOrder.desiredTagObelisk == 22 && !rotateDone) {
             telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
             long start = System.nanoTime();
-            while (System.nanoTime() - start <= 1.2E9) {
+            while (System.nanoTime() - start <= 1.16E9) {
                 artifactPaddles.AutoRot(1, false, order);
             }
             rotateDone = true;
         } if (obeliskOrder.desiredTagObelisk == 23 && !rotateDone) {
             telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
             long start = System.nanoTime();
-            while (System.nanoTime() - start <= 1.2E9) {
+            while (System.nanoTime() - start <= 1.16E9) {
                 artifactPaddles.AutoRot(1, true, order);
             }
             rotateDone = true;
