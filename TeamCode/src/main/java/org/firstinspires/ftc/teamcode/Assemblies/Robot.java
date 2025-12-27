@@ -4,44 +4,74 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.AutoBase;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Robot {
+    boolean rotateDone = false;
     ElapsedTime ShootWaitTimer = new ElapsedTime();
     long start = System.nanoTime();
-    long finish = System.nanoTime();
-    long timeElapsed = finish - start;
+    public AprilTagFindCait aprilTagFind;
+    public AprilTagProcessor aprilTag;
     public ArtifactPaddles artifactPaddles;
     public AutoBase autoBase;
-//    public BadFishLaunch badFishLaunch;
     public BallDetect ballDetect;
     public BallRelease ballRelease;
     public DriveTrain driveTrain;
+    public DriveByAprilTagGoal driveByAprilTagGoal;
     public IntakeThatDoesNotExist intake;
-//    public LEDLight ledLight;
     public ObeliskOrder obeliskOrder;
-    public TelemetryUI UI;
     public RPMlaunchWheels wheels;
+    public TagOrientation tagOrientation;
+    public TelemetryUI UI;
+    public VisionPortal visionPortal;
     Telemetry telemetry;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
+        aprilTagFind = new AprilTagFindCait(aprilTag, telemetry);
         artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
-        autoBase = new AutoBase();
-//        badFishLaunch = new BadFishLaunch(hwMap);
+        autoBase = new AutoBase(hwMap, telemetry);
         ballDetect = new BallDetect(hwMap);
         ballRelease = new BallRelease(hwMap, telemetry);
         driveTrain = new DriveTrain(hwMap, telemetry);
+        driveByAprilTagGoal = new DriveByAprilTagGoal(telemetry);
         intake = new IntakeThatDoesNotExist(hwMap);
-//        ledLight = new LEDLight();
-        obeliskOrder = new ObeliskOrder(hwMap);
+        obeliskOrder = new ObeliskOrder(aprilTag, telemetry);
+        tagOrientation = new TagOrientation(hwMap);
         UI = new TelemetryUI(telemetry, this);
         wheels = new RPMlaunchWheels(hwMap, telemetry);
         order.add(Color.Green);
         order.add(Color.Purple);
         order.add(Color.Purple);
         this.telemetry = telemetry;
+
+        /// This first part sets up the camera so it can scan AprilTags
+        // Create the AprilTag processor.
+        aprilTag = new AprilTagProcessor.Builder()
+
+                .build();
+
+        // Lets the camera see the obelisk April Tag from far away, as we only need to see that one once.
+        aprilTag.setDecimation(1);
+
+        // Create the vision portal by using a builder.
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+        builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
+
+//        // Set and enable the processor.
+        builder.addProcessor(aprilTag);
+//
+//        // Build the Vision Portal, using the above settings.
+        visionPortal = builder.build();
+        // Wait for the driver to press Start
+        telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
+        telemetry.addData(">", "Touch START to start OpMode");
+        telemetry.update();
     }
 
 //    public void intakeArtifact() {
@@ -64,7 +94,7 @@ public class Robot {
     }
 
     // Array to store artifact color and spot
-    ArrayList<Color> order = new ArrayList<>();
+    public ArrayList<Color> order = new ArrayList<>();
 
     public ArrayList<Color> Cycle(ArrayList<Color> cycleTarget, boolean forward) {
         ArrayList<Color> cycleTemp = new ArrayList<>(); // store temporary new values
@@ -84,22 +114,6 @@ public class Robot {
         cycleTarget = cycleTemp;
         return cycleTarget;
     }
-
-//    public void colorCheck(int desireBall) {
-//        int color = ballDetect.colorFind(true);
-//        if (color == desireBall) { // Lets intake suck in balls of the correct color
-//            badFishLaunch.bandIntake.setPower(1);
-//        } else { // Prevents accidental intake of incorrect balls
-//            badFishLaunch.bandIntake.setPower(-0.1);
-//        }
-//        if (color == 1) {
-//            displayLED.LEDLight.setPosition(0.5); // turns the light green
-//        } if (color == 2) {
-//            displayLED.LEDLight.setPosition(0.722); // turns the light purple
-//        } else {
-//            displayLED.LEDLight.setPosition(0); // turns the light off
-//        }
-//    }
     public void ShootAll(boolean sendAll) {
         if (sendAll) {
             telemetry.addData("All Artifacts Launching" , "");
@@ -126,15 +140,35 @@ public class Robot {
     public void ShootOnce(float shoot) {
         if (shoot > 0) {
             ballRelease.Open();
+            start = System.nanoTime();
+            while (System.nanoTime() - start <= 2E9) {
+                // Wait
+            }
             ballRelease.Close();
+            artifactPaddles.AutoRot(1, true, order);
         }
     }
     public void patternMatchAuto() {
+        artifactPaddles.AutoRot(0, true, order);
+        obeliskOrder.findTag(aprilTag);
+        telemetry.addData("Obelisk Tag", obeliskOrder.desiredTagObelisk);
         // Makes the robot's ball holder set up to shoot the balls it contains in the order told by the obelisk.
-        if (obeliskOrder.desiredTag == 22) {
-            artifactPaddles.AutoRot(1, true, order);
-        } if (obeliskOrder.desiredTag == 23) {
+        if (obeliskOrder.desiredTagObelisk == 22 && !rotateDone) {
+            telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
+            long start = System.nanoTime();
             artifactPaddles.AutoRot(2, true, order);
+            while (System.nanoTime() - start <= 1.16E9) { // used to be 1.16 secs
+                // Waiting
+            }
+            rotateDone = true;
+        } if (obeliskOrder.desiredTagObelisk == 23 && !rotateDone) {
+            telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
+            long start = System.nanoTime();
+            artifactPaddles.AutoRot(1, true, order);
+            while (System.nanoTime() - start <= 1.16E9) {
+                // Waiting
+            }
+            rotateDone = true;
         }
     }
     public void patternCorrectionTeleOp (boolean patternCorrection) {
@@ -143,6 +177,17 @@ public class Robot {
             artifactPaddles.AutoRot(1, true, order);
             telemetry.addData("Order set", order);
             telemetry.update();
+        }
+    }
+    public void GoalMove(boolean blue, AprilTagProcessor tagProcessor) {
+        tagOrientation.findGoalTag(blue);
+        List<AprilTagDetection> currentDetections = tagProcessor.getDetections();
+        for (AprilTagDetection detection : currentDetections) {
+            if (tagOrientation.desiredTagOrient == detection.id && detection.id == 20) {
+                driveTrain.moveRobot(driveByAprilTagGoal.drive, driveByAprilTagGoal.turn);
+            } if (tagOrientation.desiredTagOrient == detection.id && detection.id == 24) {
+                driveTrain.moveRobot(driveByAprilTagGoal.drive, driveByAprilTagGoal.turn);
+            }
         }
     }
 }

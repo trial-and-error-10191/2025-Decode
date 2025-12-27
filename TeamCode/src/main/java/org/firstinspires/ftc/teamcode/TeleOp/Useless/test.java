@@ -1,16 +1,13 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.TeleOp.Useless;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
-import org.firstinspires.ftc.teamcode.Assemblies.TelemetryUI;
-import org.firstinspires.ftc.teamcode.R;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+@Disabled
 @TeleOp(name = "test", group = "LinearOpMode")
 public class test extends LinearOpMode {
 
