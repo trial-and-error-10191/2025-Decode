@@ -149,21 +149,24 @@ public class Robot {
         }
     }
     public void patternMatchAuto() {
+        artifactPaddles.AutoRot(0, true, order);
         obeliskOrder.findTag(aprilTag);
         telemetry.addData("Obelisk Tag", obeliskOrder.desiredTagObelisk);
         // Makes the robot's ball holder set up to shoot the balls it contains in the order told by the obelisk.
         if (obeliskOrder.desiredTagObelisk == 22 && !rotateDone) {
             telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
             long start = System.nanoTime();
-            while (System.nanoTime() - start <= 1.16E9) {
-                artifactPaddles.AutoRot(1, false, order);
+            artifactPaddles.AutoRot(2, true, order);
+            while (System.nanoTime() - start <= 1.16E9) { // used to be 1.16 secs
+                // Waiting
             }
             rotateDone = true;
         } if (obeliskOrder.desiredTagObelisk == 23 && !rotateDone) {
             telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
             long start = System.nanoTime();
+            artifactPaddles.AutoRot(1, true, order);
             while (System.nanoTime() - start <= 1.16E9) {
-                artifactPaddles.AutoRot(1, true, order);
+                // Waiting
             }
             rotateDone = true;
         }

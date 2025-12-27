@@ -12,14 +12,12 @@ public class RedTopAuto extends LinearOpMode {
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
         waitForStart();
-        robot.artifactPaddles.AutoRot(1, true, robot.order);
         robot.wheels.rpmTarget = 3200;
         robot.wheels.wheelsTick();
         robot.driveTrain.autoDriveStraight(-robot.autoBase.power, 1.6);
-//        robot.driveTrain.autoTurn(-robot.autoBase.power, 0.3);
-//        robot.obeliskOrder.patternOrder();
-//        robot.patternMatchAuto();
-//        robot.driveTrain.autoTurn(robot.autoBase.power, 0.3);
+        robot.driveTrain.autoTurn(-robot.autoBase.power, 0.3);
+        robot.patternMatchAuto();
+        robot.driveTrain.autoTurn(robot.autoBase.power, 0.3);
         robot.driveTrain.autoTurn(-robot.autoBase.power * 0.5, 0.01);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;

@@ -12,10 +12,8 @@ public class RedBottomAuto extends LinearOpMode {
         Robot robot = new Robot(hardwareMap, telemetry);
 
         waitForStart();
-        robot.artifactPaddles.AutoRot(1, true, robot.order);
         robot.wheels.rpmTarget = 3320;
-//        robot.obeliskOrder.patternOrder();
-//        robot.patternMatchAuto();
+        robot.patternMatchAuto();
         robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.2);
         robot.driveTrain.autoTurn(robot.autoBase.power, 0.03);
         start = System.nanoTime();

@@ -46,7 +46,7 @@ public class ArtifactPaddles {
             paddles.setPower(forward  ? paddlePower : -paddlePower);
         }
         if (sensor.isPressed()) {
-            if (runTime.milliseconds() > lastMS + 500) {
+            if (runTime.milliseconds() > (lastMS + 500)) {
                 queuedMovements--;
                 queuedMovements = Math.max(0, queuedMovements);
                 Robot.Color valueHold = order.get(0);

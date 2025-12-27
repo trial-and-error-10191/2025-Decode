@@ -24,6 +24,12 @@ public class AutoBase {
             }
         }
     }
+    public void PatternMatch(Robot robot) {
+        start = System.nanoTime();
+        while (System.nanoTime() - start <= 5E9) {
+            robot.patternMatchAuto();
+        }
+    }
     public void Wait(double seconds) {
         Time.reset();
         while (Time.milliseconds()  < seconds * 1000) {

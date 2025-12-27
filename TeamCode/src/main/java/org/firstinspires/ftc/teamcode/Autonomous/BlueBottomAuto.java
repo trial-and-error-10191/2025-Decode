@@ -7,15 +7,12 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Autonomous (name = "BlueBottom", group = "Robot")
 public class BlueBottomAuto extends LinearOpMode {
-    long start = System.nanoTime();
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
 
         waitForStart();
-        robot.artifactPaddles.AutoRot(1, true, robot.order);
         robot.wheels.rpmTarget = 3350;
-//        robot.obeliskOrder.patternOrder();
-//        robot.patternMatchAuto();
+        robot.patternMatchAuto();
         robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.2);
         robot.driveTrain.autoTurn(-robot.autoBase.power, 0.04);
         robot.autoBase.Shoot(robot);
