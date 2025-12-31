@@ -26,6 +26,7 @@ public class Robot {
     public AutoBase autoBase;
     public BallDetect ballDetect;
     public BallRelease ballRelease;
+    public CameraDefinition cameraDefinition;
     public DriveTrain driveTrain;
     public DriveByAprilTagGoal driveByAprilTagGoal;
     public IntakeThatDoesNotExist intake;
@@ -33,7 +34,6 @@ public class Robot {
     public RPMlaunchWheels wheels;
     public TagOrientation tagOrientation;
     public TelemetryUI UI;
-    public VisionPortal visionPortal;
     Telemetry telemetry;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
@@ -42,6 +42,7 @@ public class Robot {
         autoBase = new AutoBase(hwMap, telemetry);
         ballDetect = new BallDetect(hwMap);
         ballRelease = new BallRelease(hwMap, telemetry);
+        cameraDefinition = new CameraDefinition(hwMap, telemetry);
         driveTrain = new DriveTrain(hwMap, telemetry);
         driveByAprilTagGoal = new DriveByAprilTagGoal(telemetry);
         intake = new IntakeThatDoesNotExist(hwMap);
@@ -52,37 +53,8 @@ public class Robot {
         order.add(Color.Green);
         order.add(Color.Purple);
         order.add(Color.Purple);
+
         this.telemetry = telemetry;
-
-        Position cameraPosition = new Position(DistanceUnit.INCH,
-                0, 0, 0, 0);
-        YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,
-                0, -90, 90, 0);
-
-        /// This first part sets up the camera so it can scan AprilTags
-        // Create the AprilTag processor.
-        aprilTag = new AprilTagProcessor.Builder()
-                .setCameraPose(cameraPosition, cameraOrientation)
-                .build();
-
-        // Lets the camera see the obelisk April Tag from far away, as we only need to see that one once.
-        aprilTag.setDecimation(1);
-
-        // Create the vision portal by using a builder.
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
-
-//        // Set and enable the processor.
-        builder.addProcessor(aprilTag);
-
-
-//
-//        // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
-        // Wait for the driver to press Start
-        telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
-        telemetry.addData(">", "Touch START to start OpMode");
-        telemetry.update();
     }
 
 //    public void intakeArtifact() {
