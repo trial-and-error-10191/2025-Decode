@@ -4,12 +4,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
@@ -20,6 +14,7 @@ public class Robot {
     boolean rotateDone = false;
     ElapsedTime ShootWaitTimer = new ElapsedTime();
     long start = System.nanoTime();
+    public AprilTagDetection aprilTagDetection;
     public AprilTagFindCait aprilTagFind;
     public AprilTagProcessor aprilTag;
     public ArtifactPaddles artifactPaddles;
@@ -46,7 +41,7 @@ public class Robot {
         driveTrain = new DriveTrain(hwMap, telemetry);
         driveByAprilTagGoal = new DriveByAprilTagGoal(telemetry);
         intake = new IntakeThatDoesNotExist(hwMap);
-        obeliskOrder = new ObeliskOrder(aprilTag, telemetry);
+        obeliskOrder = new ObeliskOrder(hwMap, aprilTag, telemetry);
         tagOrientation = new TagOrientation(hwMap);
         UI = new TelemetryUI(telemetry, this);
         wheels = new RPMlaunchWheels(hwMap, telemetry);

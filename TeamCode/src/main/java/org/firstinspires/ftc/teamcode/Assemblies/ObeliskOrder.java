@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class ObeliskOrder {
     //  applied to the drive motors to correct the error.
     private Telemetry telemetry;
 
-    public ObeliskOrder(AprilTagProcessor aprilTag, Telemetry telemetry) {
+    public ObeliskOrder(HardwareMap hardwareMap, AprilTagProcessor aprilTag, Telemetry telemetry) {
         aprilTag = new AprilTagProcessor.Builder()
 
                 .build();

@@ -57,7 +57,7 @@ public class DriveTrain {
     final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_TURN  = 0.25;  //  Clip the turn speed to this max value (adjust for your robot)
 
-    private static final int DESIRED_TAG_ID = 24;    // Choose the tag you want to approach or set to -1 for ANY tag.
+    public int DESIRED_TAG_ID = 24;    // Choose the tag you want to approach or set to -1 for ANY tag.
 
     boolean targetFound     = false;    // Set to true when an AprilTag target is detected
     double  drive           = 0;        // Desired forward power/speed (-1 to +1) +ve is forward
@@ -554,7 +554,7 @@ public class DriveTrain {
             telemetry.addData("\n>", "Drive using joysticks to find valid target\n");
         }
 
-        // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
+        // If we have found the desired target, Drive to target Automatically .
         if (targetFound) {
             // Determine heading and range error so we can use them to control the robot automatically.
             double rangeError = (desiredTagGoal.ftcPose.range - DESIRED_DISTANCE);
@@ -562,6 +562,8 @@ public class DriveTrain {
             // Use the speed to calculate how we want the robot to move.  Clip it to the maximum
             drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             telemetry.addData("Auto", "Drive %5.2f", drive);
+        } else {
+            drive = 0;
         }
         telemetry.update();
         moveRobot(drive, 0);
@@ -607,6 +609,8 @@ public class DriveTrain {
             // Use the turn "gains" to calculate how we want the robot to move.  Clip it to the maximum
             turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
             telemetry.addData("Auto", "Turn %5.2f", turn);
+        } else {
+            turn = 0;
         }
         telemetry.update();
         moveRobot(0, turn);
