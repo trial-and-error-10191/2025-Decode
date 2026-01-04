@@ -50,10 +50,13 @@ public class Robot {
     public void OperateRobot(Gamepad gp1, Gamepad gp2) {
         switch(state) {
             case DRIVING:
-                driveTrain.DriveByPower(gp1, gp2);
+                if (gp1.a) {
+                    driveTrain.ResetImu();
+                }
+                driveTrain.DriveFieldOriented(gp1, gp2);
                 break;
             case PARKING:
-                driveTrain.DriveByPower(gp1, gp2);
+                driveTrain.DriveFieldOriented(gp1, gp2);
                 break;
             case SHOOTING:
                 break;

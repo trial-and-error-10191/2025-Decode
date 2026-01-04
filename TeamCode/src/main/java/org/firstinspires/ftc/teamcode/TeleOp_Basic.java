@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="Drive By Power")
-public class TeleOp_DriveByPower extends LinearOpMode {
+@TeleOp(name="Basic TeleOp")
+public class TeleOp_Basic extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot sparky = new Robot(telemetry, hardwareMap);

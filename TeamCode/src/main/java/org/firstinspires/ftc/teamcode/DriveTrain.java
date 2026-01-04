@@ -3,6 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public interface DriveTrain {
+    enum Orientation {
+        LOCAL,
+        FIELD_ORIENTED
+    }
+
+    enum DriveUnit {
+        POWER,
+        ENCODER
+    }
     void DriveByPower(Gamepad gp1, Gamepad gp2);
 
     void DriveByEncoder(Gamepad gp1, Gamepad gp2);
