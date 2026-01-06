@@ -13,6 +13,6 @@ public class AutoDriveByAprilTag extends LinearOpMode {
         robot.autoBase.GoalSet(robot.driveTrain, false);
         waitForStart();
 //        robot.driveTrain.TurnToAprilTag(0, robot.cameraDefinition.aprilTag);
-        robot.autoBase.DrivePrecision(robot, 80, robot.aprilTagDetection);
+        robot.autoBase.DrivePrecision(robot, 80);
     }
 }

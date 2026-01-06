@@ -41,7 +41,8 @@ public class AutoBase {
             driveTrain.DESIRED_TAG_ID = 24;
         }
     }
-    public void DrivePrecision(Robot robot, double desireSpot, AprilTagDetection tagDetection) {
+    public void DrivePrecision(Robot robot, double desireSpot) {
+        desiredTagGoal = null;
         List<AprilTagDetection> currentDetections = robot.cameraDefinition.aprilTag.getDetections();
         for (AprilTagDetection detection : currentDetections) {
             desiredTagGoal = detection;
@@ -49,8 +50,11 @@ public class AutoBase {
         }
         while (true) {
             robot.driveTrain.DriveByAprilTag(desireSpot, robot.cameraDefinition.aprilTag);
-            if (desireSpot == tagDetection.ftcPose.range) {
-                break;
+            try {
+                if (desireSpot == desiredTagGoal.ftcPose.range) {
+                    break;
+                }
+            } catch (NullPointerException e) {
             }
         }
     }
