@@ -14,6 +14,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 public class CameraDefinition {
     public AprilTagProcessor aprilTag;
     VisionPortal visionPortal;
+    Telemetry telemetry;
     public CameraDefinition (HardwareMap hwMap, Telemetry telemetry) {
 
         Position cameraPosition = new Position(DistanceUnit.INCH,
@@ -39,9 +40,5 @@ public class CameraDefinition {
 
 //        // Build the Vision Portal, using the above settings.
         visionPortal = builder.build();
-        // Wait for the driver to press Start
-        telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
-        telemetry.addData(">", "Touch START to start OpMode");
-        telemetry.update();
     }
 }

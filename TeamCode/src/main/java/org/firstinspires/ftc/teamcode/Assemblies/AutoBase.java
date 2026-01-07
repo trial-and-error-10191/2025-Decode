@@ -10,10 +10,14 @@ import java.util.List;
 
 public class AutoBase {
     AprilTagDetection desiredTagGoal = null;
+    Telemetry telemetry;
+    Robot currentRobot;
     private final ElapsedTime Time = new ElapsedTime();
     public double power = 0.5;
     long start = System.nanoTime();
-    public AutoBase(HardwareMap hwMap, Telemetry telemetry) {
+    public AutoBase(HardwareMap hwMap, Telemetry telemetry, Robot robot) {
+        this.telemetry = telemetry;
+        currentRobot = robot;
     }
     public void Shoot(Robot robot) {
         start = System.nanoTime();
@@ -41,20 +45,22 @@ public class AutoBase {
             driveTrain.DESIRED_TAG_ID = 24;
         }
     }
-    public void DrivePrecision(Robot robot, double desireSpot) {
+    public void DrivePrecision(double desireSpot) {
         desiredTagGoal = null;
-        List<AprilTagDetection> currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+        List<AprilTagDetection> currentDetections = currentRobot.cameraDefinition.aprilTag.getDetections();
         for (AprilTagDetection detection : currentDetections) {
             desiredTagGoal = detection;
             break;
         }
         while (true) {
-            robot.driveTrain.DriveByAprilTag(desireSpot, robot.cameraDefinition.aprilTag);
+            currentRobot.driveTrain.DriveByAprilTag(desireSpot, currentRobot.cameraDefinition.aprilTag);
             try {
                 if (desireSpot == desiredTagGoal.ftcPose.range) {
                     break;
                 }
             } catch (NullPointerException e) {
+                telemetry.addData("ftcPose.range is null", "");
+                break;
             }
         }
     }

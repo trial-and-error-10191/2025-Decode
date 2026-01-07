@@ -37,15 +37,15 @@ public class TelemetryUI {
 
     public TelemetryUI(Telemetry telemetry, Robot robot) {
         this.telemetry = telemetry;
-        telemetry.setCaptionValueSeparator("");
-        telemetry.setItemSeparator("");
+//        this.telemetry.setCaptionValueSeparator("");
+//        this.telemetry.setItemSeparator("");
 
         spacelinks.put("Green", greenArtifact);
         spacelinks.put("Purple", purpleArtifact);
         spacelinks.put("Empty", emptySlot);
 
         for (int i = 0; i < 20; i++) {
-            lines.add(telemetry.addLine());
+//            lines.add(telemetry.addLine());
         }
 
 //        initVel = (float) ((robot.wheels.dualRPM / 60) * wheelRadius);
@@ -62,9 +62,9 @@ public class TelemetryUI {
         lines.get(0).addData("", String.format("%27s", "⌦")).addData(" ", heightCheck).addData(" ", "⌫");
 
         for (int i = 1; i < 4; i++) {
-            lines.get((i * 3) - 2).addData(String.format("%27s", ""), "┌─────┐");
-            lines.get((i * 3) - 1).addData(String.format("%27s", ""), "│" + order.get(i - 1).stringOf + spacelinks.get(order.get(i - 1).stringOf));
-            lines.get((i * 3) - 0).addData(String.format("%27s", ""), "└─────┘");
+//            lines.get((i * 3) - 2).addData(String.format("%27s", ""), "┌─────┐");
+//            lines.get((i * 3) - 1).addData(String.format("%27s", ""), "│" + order.get(i - 1).stringOf + spacelinks.get(order.get(i - 1).stringOf));
+//            lines.get((i * 3) - 0).addData(String.format("%27s", ""), "└─────┘");
         }
 
 
