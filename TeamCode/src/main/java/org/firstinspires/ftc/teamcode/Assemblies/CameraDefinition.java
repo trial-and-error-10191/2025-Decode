@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 public class CameraDefinition {
@@ -43,5 +44,15 @@ public class CameraDefinition {
         telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch START to start OpMode");
         telemetry.update();
+    }
+
+    // get the distance from the given apriltag id. if a tag with that id cannot be found then return -1
+    public double distanceFromTag(int id) {
+        for (AprilTagDetection detections : aprilTag.getDetections()) {
+            if (detections.id == id) {
+                return detections.ftcPose.range;
+            }
+        }
+       return -1;
     }
 }

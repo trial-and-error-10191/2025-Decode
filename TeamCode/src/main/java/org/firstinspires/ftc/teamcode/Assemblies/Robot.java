@@ -71,6 +71,19 @@ public class Robot {
         }
     }
 
+    public enum Distance {
+        Short(3300),
+        Long(3000);
+
+        final int RPM;
+
+        Distance(int RPM) {
+            this.RPM = RPM;
+        }
+    }
+
+    private Distance howFar;
+
     // Array to store artifact color and spot
     public ArrayList<Color> order = new ArrayList<>();
 
@@ -167,5 +180,10 @@ public class Robot {
                 driveTrain.moveRobot(driveByAprilTagGoal.drive, driveByAprilTagGoal.turn);
             }
         }
+    }
+
+    public void swapMode(Distance newFar) {
+        howFar = newFar;
+        wheels.rpmReset(newFar.RPM);
     }
 }
