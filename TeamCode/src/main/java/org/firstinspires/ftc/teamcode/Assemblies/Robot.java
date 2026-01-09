@@ -73,7 +73,8 @@ public class Robot {
 
     public enum Distance {
         Short(3300),
-        Long(3000);
+        Long(3000),
+        None(0);
 
         final int RPM;
 
@@ -196,11 +197,13 @@ public class Robot {
     public void autoTagSwap(tags... checkForTags) {
 
        double dist = 0;
+       boolean validTagDetected = false;
 
        for (tags tag : checkForTags) {
            for (AprilTagDetection detections : cameraDefinition.aprilTag.getDetections()) {
              if (detections.id == tag.id) {
                  dist = detections.ftcPose.range;
+                 validTagDetected = true;
              }
            }
        }
@@ -209,6 +212,10 @@ public class Robot {
             swapMode(Distance.Short);
         } else {
             swapMode(Distance.Long);
+        }
+
+        if (!validTagDetected) {
+            swapMode(Distance.None);
         }
     }
 
