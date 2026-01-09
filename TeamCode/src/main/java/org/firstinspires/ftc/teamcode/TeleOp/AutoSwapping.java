@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 @TeleOp(name = "AutoSwapping", group = "LinearOpMode")
 public class AutoSwapping extends LinearOpMode {
@@ -16,15 +17,24 @@ public class AutoSwapping extends LinearOpMode {
             robot.wheels.wheelsTick();
             robot.driveTrain.easingDrive(gamepad1.left_stick_y, gamepad1.right_stick_x);
 
-            if (robot.cameraDefinition.distanceFromTag(20) > 0 || robot.cameraDefinition.distanceFromTag(24) > 0) {
-               double dist = robot.cameraDefinition.aprilTag.getDetections().get(0).ftcPose.range;
+//            if (robot.cameraDefinition.distanceFromTag(20) > 0 || robot.cameraDefinition.distanceFromTag(24) > 0) {
+//               double dist = 0;
+//
+//               for (AprilTagDetection detections : robot.cameraDefinition.aprilTag.getDetections()) {
+//                   if (detections.id == 24 || detections.id == 20) {
+//                       dist = detections.ftcPose.range;
+//                   }
+//               }
+//
+//               if ( dist < 80) {
+//                 robot.swapMode(Robot.Distance.Long);
+//               } else {
+//                 robot.swapMode(Robot.Distance.Short);
+//               }
+//            }
 
-               if ( dist < 80) {
-                 robot.swapMode(Robot.Distance.Long);
-               } else {
-                 robot.swapMode(Robot.Distance.Short);
-               }
-            }
+            telemetry.addData("Mode", robot.wheels.rpmTarget);
+            telemetry.update();
         }
     }
 }
