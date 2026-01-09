@@ -54,12 +54,18 @@ public class AutoBase {
         }
         while (true) {
             currentRobot.driveTrain.DriveByAprilTag(desireSpot, currentRobot.cameraDefinition.aprilTag);
+            for (AprilTagDetection detection : currentDetections) {
+                desiredTagGoal = detection;
+                break;
+            }
             try {
-                if (desireSpot == desiredTagGoal.ftcPose.range) {
+                // Math.abs(desiredTagGoal.ftcPose.range - desireSpot) <= 5
+                if (desiredTagGoal.ftcPose.range - desireSpot <= 5 && desiredTagGoal.ftcPose.range - desireSpot >= -5) {
                     break;
                 }
             } catch (NullPointerException e) {
                 telemetry.addData("ftcPose.range is null", "");
+                telemetry.update();
                 break;
             }
         }
