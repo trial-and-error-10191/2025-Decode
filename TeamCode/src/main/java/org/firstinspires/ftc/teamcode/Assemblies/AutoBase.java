@@ -5,19 +5,19 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
 public class AutoBase {
     AprilTagDetection desiredTagGoal = null;
     Telemetry telemetry;
-    Robot currentRobot;
+    List<AprilTagDetection> currentDetections = null;
     private final ElapsedTime Time = new ElapsedTime();
     public double power = 0.5;
     long start = System.nanoTime();
-    public AutoBase(HardwareMap hwMap, Telemetry telemetry, Robot robot) {
+    public AutoBase(Telemetry telemetry) {
         this.telemetry = telemetry;
-        currentRobot = robot;
     }
     public void Shoot(Robot robot) {
         start = System.nanoTime();
@@ -45,32 +45,62 @@ public class AutoBase {
             driveTrain.DESIRED_TAG_ID = 24;
         }
     }
-    public void DrivePrecision(double desireSpot) {
-        desiredTagGoal = null;
-        List<AprilTagDetection> currentDetections = currentRobot.cameraDefinition.aprilTag.getDetections();
-        for (AprilTagDetection detection : currentDetections) {
-            desiredTagGoal = detection;
-            break;
+    public void AprilTagAmount(Robot robot) {
+        start = System.nanoTime();
+        while (System.nanoTime() - start <= 3E9) {
+            currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+            telemetry.addData("AprilTag Seen", currentDetections.size());
+            telemetry.update();
         }
-        while (true) {
-            currentRobot.driveTrain.DriveByAprilTag(desireSpot, currentRobot.cameraDefinition.aprilTag);
-            for (AprilTagDetection detection : currentDetections) {
+    }
+    public void DrivePrecision(Robot robot, double desireSpot) {
+        desiredTagGoal = null;
+        currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.metadata != null) {
                 desiredTagGoal = detection;
                 break;
             }
-            try {
-                // Math.abs(desiredTagGoal.ftcPose.range - desireSpot) <= 5
-                if (desiredTagGoal.ftcPose.range - desireSpot <= 5 && desiredTagGoal.ftcPose.range - desireSpot >= -5) {
+        }
+        while (true) {
+            robot.driveTrain.DriveByAprilTag(desireSpot, robot.cameraDefinition.aprilTag);
+            currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+            for (AprilTagDetection detection : currentDetections) {
+                if (detection.metadata != null) {
+                    desiredTagGoal = detection;
                     break;
                 }
-            } catch (NullPointerException e) {
-                telemetry.addData("ftcPose.range is null", "");
-                telemetry.update();
+            }
+            if (Math.abs(desiredTagGoal.ftcPose.range - desireSpot) <= 5) {
+                telemetry.addData(".range not null!", "");
                 break;
             }
         }
     }
-    public void TurnPrecision() {
+    public void TurnPrecision(Robot robot, double desireTurn) {
+        desiredTagGoal = null;
+        currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.metadata != null) {
+                desiredTagGoal = detection;
+                break;
+            }
+        }
+        while (true) {
+            robot.driveTrain.TurnToAprilTag(desireTurn, robot.cameraDefinition.aprilTag);
+            currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+            for (AprilTagDetection detection : currentDetections) {
+                if (detection.metadata != null) {
+                    desiredTagGoal = detection;
+                    break;
+                }
+            }
+            if (Math.abs(desiredTagGoal.ftcPose.bearing - desireTurn) <= 5) {
+                break;
+            }
+            telemetry.addData("Bearing", desiredTagGoal.ftcPose.bearing);
+            telemetry.update();
+        }
     }
     public void Wait(double seconds) {
         Time.reset();

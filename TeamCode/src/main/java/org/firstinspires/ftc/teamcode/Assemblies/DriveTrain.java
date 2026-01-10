@@ -605,7 +605,7 @@ public class DriveTrain {
         // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
         if (targetFound) {
             // Determine heading and range error so we can use them to control the robot automatically.
-            double headingError = desiredTagGoal.ftcPose.bearing - DESIRED_TURN;
+            double headingError = DESIRED_TURN - desiredTagGoal.ftcPose.bearing;
             // Use the turn "gains" to calculate how we want the robot to move.  Clip it to the maximum
             turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
             telemetry.addData("Auto", "Turn %5.2f", turn);
