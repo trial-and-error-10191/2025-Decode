@@ -29,6 +29,7 @@ public class Robot {
     public RPMlaunchWheels wheels;
     public TagOrientation tagOrientation;
     public TelemetryUI UI;
+    public LEDLight led;
     Telemetry telemetry;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
@@ -44,6 +45,8 @@ public class Robot {
         obeliskOrder = new ObeliskOrder(hwMap, aprilTag, telemetry);
         tagOrientation = new TagOrientation(hwMap);
         UI = new TelemetryUI(telemetry, this);
+        led = new LEDLight(hwMap, telemetry);
+
         wheels = new RPMlaunchWheels(hwMap, telemetry);
         order.add(Color.Green);
         order.add(Color.Purple);
