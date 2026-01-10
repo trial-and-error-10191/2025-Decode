@@ -71,6 +71,31 @@ public class Robot {
         }
     }
 
+    public enum Distance {
+        Short(3300),
+        Long(3000);
+
+        final int RPM;
+
+        Distance(int RPM) {
+            this.RPM = RPM;
+        }
+    }
+
+    public enum tags {
+        redTeamGoal(24),
+        blueTeamGoal(20);
+
+        final int id;
+
+        tags(int id) {
+           this.id = id;
+        }
+
+    }
+
+    private Distance mapPosistion;
+
     // Array to store artifact color and spot
     public ArrayList<Color> order = new ArrayList<>();
 
@@ -167,5 +192,28 @@ public class Robot {
                 driveTrain.moveRobot(driveByAprilTagGoal.drive, driveByAprilTagGoal.turn);
             }
         }
+    }
+    public void autoTagSwap(tags... checkForTags) {
+
+       double dist = 0;
+
+       for (tags tag : checkForTags) {
+           for (AprilTagDetection detections : cameraDefinition.aprilTag.getDetections()) {
+             if (detections.id == tag.id) {
+                 dist = detections.ftcPose.range;
+             }
+           }
+       }
+
+        if ( dist < 80) {
+            swapMode(Distance.Short);
+        } else {
+            swapMode(Distance.Long);
+        }
+    }
+
+    private void swapMode(Distance newFar) {
+        mapPosistion = newFar;
+        wheels.rpmReset(newFar.RPM);
     }
 }
