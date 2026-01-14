@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Assemblies.LEDLight;
-import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @TeleOp(name = "LEDTEST", group = "LinearOpMode")
 public class LEDmodeExamples extends LinearOpMode {
@@ -16,8 +15,11 @@ public class LEDmodeExamples extends LinearOpMode {
 
         LEDLight led = new LEDLight(hardwareMap, telemetry);
 
-        led.setEasingMode(LEDLight.LightMode.Rainbow);
-        led.setEasingValues(LEDLight.ColorValues.Sage.color, LEDLight.ColorValues.Violet.color);
+        led.setEasingMode(LEDLight.LightMode.Flashing);
+        led.setFlatColor(LEDLight.ColorValues.Red.color);
+        led.setEasingDuration(0.2);
+
+        led.setEasingColors(LEDLight.ColorValues.Sage.color, LEDLight.ColorValues.Violet.color);
 
         while (opModeIsActive()) {
             led.easingTick();
