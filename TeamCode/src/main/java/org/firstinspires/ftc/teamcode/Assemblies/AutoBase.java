@@ -34,7 +34,7 @@ public class AutoBase {
     }
     public void PatternMatch(Robot robot) {
         start = System.nanoTime();
-        while (System.nanoTime() - start <= 5E9) {
+        while (System.nanoTime() - start <= 1E9) {
             robot.patternMatchAuto();
         }
     }

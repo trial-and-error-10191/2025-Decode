@@ -14,7 +14,6 @@ public class Robot {
     boolean rotateDone = false;
     ElapsedTime ShootWaitTimer = new ElapsedTime();
     long start = System.nanoTime();
-    public AprilTagDetection aprilTagDetection;
     public AprilTagFindCait aprilTagFind;
     public AprilTagProcessor aprilTag;
     public ArtifactPaddles artifactPaddles;
@@ -128,23 +127,29 @@ public class Robot {
     }
     public void patternMatchAuto() {
         artifactPaddles.AutoRot(0, true, order);
-        obeliskOrder.findTag(aprilTag);
+        obeliskOrder.findTag(cameraDefinition.aprilTag);
         telemetry.addData("Obelisk Tag", obeliskOrder.desiredTagObelisk);
+        telemetry.update();
         // Makes the robot's ball holder set up to shoot the balls it contains in the order told by the obelisk.
         if (obeliskOrder.desiredTagObelisk == 22 && !rotateDone) {
-            telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
-            long start = System.nanoTime();
-            artifactPaddles.AutoRot(2, true, order);
-            while (System.nanoTime() - start <= 1.16E9) { // used to be 1.16 secs
-                // Waiting
+            for (int i = 0; i < 2; i++) {
+                telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
+                start = System.nanoTime();
+                artifactPaddles.AutoRot(2, true, order);
+                while (System.nanoTime() - start <= 1.16E9) {
+                    // Waiting
+                }
             }
             rotateDone = true;
         } if (obeliskOrder.desiredTagObelisk == 23 && !rotateDone) {
-            telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
-            long start = System.nanoTime();
-            artifactPaddles.AutoRot(1, true, order);
-            while (System.nanoTime() - start <= 1.16E9) {
-                // Waiting
+            for (int i = 0; i < 2; i++) {
+                telemetry.addData("Running rotation for: ", obeliskOrder.desiredTagObelisk);
+                start = System.nanoTime();
+                artifactPaddles.AutoRot(1, true, order);
+                telemetry.update();
+                while (System.nanoTime() - start <= 1.16E9) {
+                    // Waiting
+                }
             }
             rotateDone = true;
         }
