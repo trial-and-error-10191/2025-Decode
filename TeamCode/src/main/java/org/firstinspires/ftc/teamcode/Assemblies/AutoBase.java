@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -53,6 +54,16 @@ public class AutoBase {
             telemetry.update();
         }
     }
+    public void SetToEncoders(DriveTrain driveTrain) {
+        driveTrain.leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        driveTrain.rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        driveTrain.leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        driveTrain.rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public void SetToPower(DriveTrain driveTrain) {
+        driveTrain.leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        driveTrain.rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
     public void DrivePrecision(Robot robot, double desireSpot) {
         desiredTagGoal = null;
         currentDetections = robot.cameraDefinition.aprilTag.getDetections();
@@ -95,7 +106,7 @@ public class AutoBase {
                     break;
                 }
             }
-            if (Math.abs(desiredTagGoal.ftcPose.bearing - desireTurn) <= 5) {
+            if (Math.abs(desiredTagGoal.ftcPose.bearing - desireTurn) <= 3) {
                 break;
             }
             telemetry.addData("Bearing", desiredTagGoal.ftcPose.bearing);

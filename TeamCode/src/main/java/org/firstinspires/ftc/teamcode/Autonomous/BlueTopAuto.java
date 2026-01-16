@@ -10,6 +10,7 @@ public class BlueTopAuto extends LinearOpMode {
     long start = System.nanoTime();
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
+        robot.autoBase.SetToEncoders(robot.driveTrain);
         robot.autoBase.GoalSet(robot.driveTrain, true);
         robot.autoBase.AprilTagAmount(robot);
         waitForStart();

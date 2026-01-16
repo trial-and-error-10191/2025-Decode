@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class BlueBottomAuto extends LinearOpMode {
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
+        robot.autoBase.SetToEncoders(robot.driveTrain);
 //        robot.autoBase.GoalSet(robot.driveTrain, true);
 //        robot.autoBase.AprilTagAmount(robot);
         waitForStart();
