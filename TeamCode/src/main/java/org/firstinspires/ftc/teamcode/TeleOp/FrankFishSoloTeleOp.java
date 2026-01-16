@@ -15,7 +15,9 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             robot.wheels.wheelsTick();
             robot.driveTrain.easingDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
+
             robot.autoTagSwap(Robot.tags.blueTeamGoal, Robot.tags.redTeamGoal);
+            robot.checkEndGame();
 
             telemetry.addData("Rpm", robot.wheels.rpmTarget);
 

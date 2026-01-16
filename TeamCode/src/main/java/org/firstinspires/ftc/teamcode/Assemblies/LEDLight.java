@@ -15,7 +15,7 @@ public class LEDLight {
     private Telemetry telemetry;
     private ElapsedTime timer;
 
-    private LightMode currentEasingMode = LightMode.Flat; // start with default flat easing mode
+    public LightMode currentEasingMode = LightMode.Flat; // start with default flat easing mode
     private boolean forwardDirection = true; // store direction for rainbow back and forth easing
 
     public double flatColor = ColorValues.Black.color; // store flat mode color
@@ -54,7 +54,11 @@ public class LEDLight {
         Flat();
     }
 
-    // mix two Values from color (exp) Violet + Indigo averages to 0.69
+    /**
+     * method for mixing two colors together on the colorBar
+     * @param colors all colors to average together
+     * @return the final color in terms of double from 0-1
+     */
     public double ColorMix(ColorValues... colors) {
         double mixedColor = 0;
 
@@ -67,18 +71,20 @@ public class LEDLight {
         return mixedColor;
     }
 
-    public LEDLight(HardwareMap hwMap, Telemetry telemetry) {
+    public LEDLight(HardwareMap hwMap, Telemetry telemetry, String internalName) {
         this.telemetry = telemetry;
 
         easingColor = new ArrayList<>(2);
 
-        LEDLight = hwMap.get(Servo.class, "LED_Light");
+        LEDLight = hwMap.get(Servo.class, internalName);
 
         this.timer = new ElapsedTime();
         this.timer.reset();
     }
 
-    // tick forward all easing modes
+    /**
+     *  required for all easing modes including flat. runs logic for each easing mode depending on the mode set
+     */
     public void easingTick() {
 
         // deltaTime for accurate timing
@@ -103,8 +109,6 @@ public class LEDLight {
                }
            }
 
-           telemetry.addData("stupid", currentColor);
-
       } else if (currentEasingMode.equals(LightMode.Easing)) { // change values for A (.get0)  -> B (.get1) over @changeDuration Seconds
 
               currentColor += ((easingColor.get(1) - easingColor.get(0)) / changeDuration) * deltaTime; // adds a one-hundredth every second
@@ -114,8 +118,6 @@ public class LEDLight {
               if (TerminationClause) {
                   currentColor = easingColor.get(1);
               }
-
-          telemetry.addData("stupid2", currentColor);
       } else if (currentEasingMode.equals(LightMode.Flashing)) {
 
              if (timer.seconds() > changeDuration) {
@@ -128,9 +130,6 @@ public class LEDLight {
                  }
              }
 
-
-             telemetry.addData("time", timer.seconds());
-
       } else if (currentEasingMode.equals(LightMode.Flat)) {
 
           currentColor = flatColor;
@@ -140,7 +139,10 @@ public class LEDLight {
      setColor(currentColor);
     }
 
-    // set the easing mode to a valid mode from @LightMode
+    /**
+     *  method that takes in a mode from the LightMode enumerator sets the object variable currentEasingMode to that LightMode type for use in EasingTick
+     * @param mode the LightMode to swap too
+     */
     public void setEasingMode(LightMode mode) {
         currentEasingMode = mode;
 
@@ -154,23 +156,37 @@ public class LEDLight {
         }
     }
 
-    // easing values for A -> B over @changeDuration Seconds
+    /**
+     * method that takes in two colors for using in the Easing LightMode. both params expected to be between 0-1
+     * @param initColor the initial expected color
+     * @param endColor the color to change to over the specified duration with setEasingDuration
+     */
     public void setEasingColors(double initColor, double endColor) {
             easingColor.clear();
             easingColor.add(initColor);
             easingColor.add(endColor);
     }
 
-    // set the LED color
+    /**
+     * method that sets the flatColor variable to a specific double value between 0-1 for the Flat LightMode
+     * @param color the specific color as a double between 0-1
+     */
     public void setFlatColor(double color) {
         flatColor = color;
     }
 
-    // set the duration of color easing
+    /**
+     * The total duration used by EasingTick for all LightModes. for example if changeDuration == 5 then LightMode.Flashing will spend 5 seconds on and 5 seconds off
+     * @param seconds the amount of seconds to change EasingDuration too
+     */
     public void setEasingDuration(double seconds) {
         this.changeDuration = seconds;
     }
 
+    /**
+     * A private function for setting the color of the LED object directly.
+     * @param color a double value representing a color. expected between 0-1
+     */
     private void setColor(double color) {
         LEDLight.setPosition(color);
     }

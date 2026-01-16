@@ -12,7 +12,10 @@ import java.util.List;
 
 public class Robot {
     boolean rotateDone = false;
+
     ElapsedTime ShootWaitTimer = new ElapsedTime();
+    ElapsedTime runTime = new ElapsedTime();
+
     long start = System.nanoTime();
     public AprilTagDetection aprilTagDetection;
     public AprilTagFindCait aprilTagFind;
@@ -29,7 +32,10 @@ public class Robot {
     public RPMlaunchWheels wheels;
     public TagOrientation tagOrientation;
     public TelemetryUI UI;
-    public LEDLight led;
+
+    public LEDLight modeLed;
+    public LEDLight endgameLed;
+
     Telemetry telemetry;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
@@ -45,12 +51,17 @@ public class Robot {
         obeliskOrder = new ObeliskOrder(hwMap, aprilTag, telemetry);
         tagOrientation = new TagOrientation(hwMap);
         UI = new TelemetryUI(telemetry, this);
-        led = new LEDLight(hwMap, telemetry);
+
+        modeLed = new LEDLight(hwMap, telemetry, "modeLed");
+        endgameLed = new LEDLight(hwMap, telemetry, "endGameLed");
 
         wheels = new RPMlaunchWheels(hwMap, telemetry);
         order.add(Color.Green);
         order.add(Color.Purple);
         order.add(Color.Purple);
+
+        ShootWaitTimer.reset();
+        runTime.reset();
 
         this.telemetry = telemetry;
     }
@@ -213,13 +224,48 @@ public class Robot {
 
         if ( dist < 80) {
             swapMode(Distance.Short);
+
+            modeLed.setFlatColor(LEDLight.ColorValues.Green.color);
+            modeLed.setEasingMode(LEDLight.LightMode.Flat);
+
         } else {
             swapMode(Distance.Long);
+
+            modeLed.setFlatColor(LEDLight.ColorValues.Red.color);
+            modeLed.setEasingMode(LEDLight.LightMode.Flat);
         }
 
         if (!validTagDetected) {
             swapMode(Distance.None);
+
+            modeLed.setFlatColor(LEDLight.ColorValues.Black.color);
+            modeLed.setEasingMode(LEDLight.LightMode.Flat);
         }
+
+        modeLed.easingTick();
+    }
+
+    public void checkEndGame() {
+
+        double ActivationTime = 20;
+
+        if ( runTime.seconds() > ActivationTime - 1 && runTime.seconds() < ActivationTime ) {
+            endgameLed.setEasingDuration(0.5);
+            endgameLed.setFlatColor(LEDLight.ColorValues.Blue.color);
+            endgameLed.setEasingMode(LEDLight.LightMode.Flashing);
+
+            telemetry.addData("mode", endgameLed.currentEasingMode);
+            telemetry.addData("color", endgameLed.flatColor);
+        }
+        if (runTime.seconds() < ActivationTime - 1) {
+            endgameLed.setFlatColor(LEDLight.ColorValues.Black.color);
+            endgameLed.setEasingMode(LEDLight.LightMode.Flat);
+
+        }
+
+        telemetry.addData("Time", runTime.seconds());
+
+        endgameLed.easingTick();
     }
 
     private void swapMode(Distance newFar) {
