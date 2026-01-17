@@ -86,11 +86,11 @@ public class Robot {
     }
 
     public enum Distance {
-        Short(3300),
-        Long(3000),
+        Short(3000),
+        Long(3300),
         None(0);
 
-        final int RPM;
+        public final int RPM;
 
         Distance(int RPM) {
             this.RPM = RPM;
@@ -247,7 +247,7 @@ public class Robot {
 
     public void checkEndGame() {
 
-        double ActivationTime = 20;
+        double ActivationTime = 90;
 
         if ( runTime.seconds() > ActivationTime - 1 && runTime.seconds() < ActivationTime ) {
             endgameLed.setEasingDuration(0.5);
