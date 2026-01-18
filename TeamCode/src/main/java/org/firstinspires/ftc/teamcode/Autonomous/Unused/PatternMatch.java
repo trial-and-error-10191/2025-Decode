@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.Unused;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
-//@Disabled
+@Disabled
 @Autonomous (name = "PatternMatch", group = "Robot")
 public class PatternMatch extends LinearOpMode {
     long start = System.nanoTime();
