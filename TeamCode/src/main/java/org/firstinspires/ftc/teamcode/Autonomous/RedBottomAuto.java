@@ -19,7 +19,7 @@ public class RedBottomAuto extends LinearOpMode {
         robot.autoBase.SetToPower(robot.driveTrain);
         robot.autoBase.AprilTagAmount(robot);
         robot.autoBase.TurnPrecision(robot, 7, 24);
-        robot.autoBase.DrivePrecision(robot, 120);
+        robot.autoBase.DrivePrecision(robot, 120, 24);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points

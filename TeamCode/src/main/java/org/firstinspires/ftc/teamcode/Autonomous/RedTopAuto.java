@@ -21,7 +21,7 @@ public class RedTopAuto extends LinearOpMode {
         robot.autoBase.SetToPower(robot.driveTrain);
         robot.autoBase.AprilTagAmount(robot);
         robot.autoBase.TurnPrecision(robot, 3, 24);
-        robot.autoBase.DrivePrecision(robot, 60);
+        robot.autoBase.DrivePrecision(robot, 60, 24);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points

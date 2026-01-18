@@ -15,6 +15,7 @@ public class AutoBase {
     Telemetry telemetry;
     List<AprilTagDetection> currentDetections = null;
     private final ElapsedTime Time = new ElapsedTime();
+    int killSwitch = 0;
     public double power = 0.5;
     long start = System.nanoTime();
     public AutoBase(Telemetry telemetry) {
@@ -72,23 +73,24 @@ public class AutoBase {
         driveTrain.leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         driveTrain.rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-    public void DrivePrecision(Robot robot, double desireSpot) {
+    public void DrivePrecision(Robot robot, double desireSpot, int id) {
         desiredTagGoal = null;
         currentDetections = robot.cameraDefinition.aprilTag.getDetections();
-        for (AprilTagDetection detection : currentDetections) {
-            if (detection.metadata != null) {
-                desiredTagGoal = detection;
-                break;
-            }
-        }
         while (true) {
             robot.driveTrain.DriveByAprilTag(desireSpot, robot.cameraDefinition.aprilTag);
             currentDetections = robot.cameraDefinition.aprilTag.getDetections();
             for (AprilTagDetection detection : currentDetections) {
-                if (detection.metadata != null) {
+                if (detection.id == id) {
                     desiredTagGoal = detection;
+                    killSwitch = 0;
                     break;
+                } else {
+                    killSwitch = 1;
                 }
+            }
+            if (killSwitch == 1) {
+                robot.driveTrain.stopMotors();
+                break;
             }
             if (Math.abs(desiredTagGoal.ftcPose.range - desireSpot) <= 5) {
                 telemetry.addData(".range not null!", "");
@@ -99,7 +101,6 @@ public class AutoBase {
     }
     public void TurnPrecision(Robot robot, double desireTurn, int id) {
         desiredTagGoal = null;
-        int killSwitch = 0;
         currentDetections = robot.cameraDefinition.aprilTag.getDetections();
         while (true) {
             for (AprilTagDetection detection : currentDetections) {
