@@ -1,14 +1,12 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.Unused;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-import java.util.List;
-
+@Disabled
 @Autonomous (name = "DriveByAprilTagAuto", group = "Robot")
 public class AutoDriveByAprilTag extends LinearOpMode {
     @Override
@@ -17,7 +15,7 @@ public class AutoDriveByAprilTag extends LinearOpMode {
         robot.autoBase.GoalSet(robot.driveTrain, false);
         robot.autoBase.AprilTagAmount(robot);
         waitForStart();
-        robot.autoBase.TurnPrecision(robot, 0);
+        robot.autoBase.TurnPrecision(robot, 0, 24);
 //        robot.autoBase.DrivePrecision(robot, 80);
     }
 }

@@ -5,21 +5,21 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
-@Autonomous (name = "BlueBottom", group = "Robot")
+@Autonomous(name = "BlueBottom", group = "Robot")
 public class BlueBottomAuto extends LinearOpMode {
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
+        robot.wheels.rpmTarget = 3800;
         robot.autoBase.SetToEncoders(robot.driveTrain);
-//        robot.autoBase.GoalSet(robot.driveTrain, true);
-//        robot.autoBase.AprilTagAmount(robot);
         waitForStart();
-        robot.wheels.rpmTarget = 3350;
-//        robot.patternMatchAuto();
-        robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.2);
-        robot.driveTrain.autoTurn(-robot.autoBase.power, 0.04);
-        // Next two lines line up the bot to shoot
-//        robot.autoBase.TurnPrecision(robot, 10);
-//        robot.autoBase.DrivePrecision(robot, 200);
+        robot.autoBase.AprilTagAmount(robot);
+        robot.autoBase.PatternMatch(robot);
+        robot.driveTrain.driveWithEncoders(10, 30);
+        robot.driveTrain.turnWithEncoders(-20, 30);
+        robot.autoBase.SetToPower(robot.driveTrain);
+        robot.autoBase.AprilTagAmount(robot);
+        robot.autoBase.TurnPrecision(robot, -7, 20);
+        robot.autoBase.DrivePrecision(robot, 120);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points

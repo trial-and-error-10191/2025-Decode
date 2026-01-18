@@ -59,8 +59,16 @@ public class AutoBase {
         driveTrain.rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         driveTrain.leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         driveTrain.rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        driveTrain.targetPositionDrive = driveTrain.leftFrontDrive.getCurrentPosition();
+        driveTrain.leftFrontDrive.setTargetPosition(driveTrain.targetPositionDrive);
+        driveTrain.leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void SetToPower(DriveTrain driveTrain) {
+        driveTrain.leftFrontDrive.setPower(0);
+        driveTrain.rightFrontDrive.setPower(0);
+        driveTrain.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        driveTrain.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         driveTrain.leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         driveTrain.rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
@@ -84,29 +92,33 @@ public class AutoBase {
             }
             if (Math.abs(desiredTagGoal.ftcPose.range - desireSpot) <= 5) {
                 telemetry.addData(".range not null!", "");
+                robot.driveTrain.stopMotors();
                 break;
             }
         }
     }
-    public void TurnPrecision(Robot robot, double desireTurn) {
+    public void TurnPrecision(Robot robot, double desireTurn, int id) {
         desiredTagGoal = null;
+        int killSwitch = 0;
         currentDetections = robot.cameraDefinition.aprilTag.getDetections();
-        for (AprilTagDetection detection : currentDetections) {
-            if (detection.metadata != null) {
-                desiredTagGoal = detection;
-                break;
-            }
-        }
         while (true) {
-            robot.driveTrain.TurnToAprilTag(desireTurn, robot.cameraDefinition.aprilTag);
-            currentDetections = robot.cameraDefinition.aprilTag.getDetections();
             for (AprilTagDetection detection : currentDetections) {
-                if (detection.metadata != null) {
+                if (detection.id == id) {
                     desiredTagGoal = detection;
+                    killSwitch = 0;
                     break;
+                } else {
+                    killSwitch = 1;
                 }
             }
+            if (killSwitch == 1) {
+                robot.driveTrain.stopMotors();
+                break;
+            }
+            robot.driveTrain.TurnToAprilTag(desireTurn, robot.cameraDefinition.aprilTag);
+            currentDetections = robot.cameraDefinition.aprilTag.getDetections();
             if (Math.abs(desiredTagGoal.ftcPose.bearing - desireTurn) <= 3) {
+                robot.driveTrain.stopMotors();
                 break;
             }
             telemetry.addData("Bearing", desiredTagGoal.ftcPose.bearing);

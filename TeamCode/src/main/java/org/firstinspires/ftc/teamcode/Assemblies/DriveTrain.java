@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -20,6 +21,7 @@ import java.util.List;
 @Disabled
 public class DriveTrain {
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
+    long start = System.nanoTime();
     private IMU imu = null;
     private ElapsedTime runtime;
 
@@ -37,8 +39,9 @@ public class DriveTrain {
     private double turnSpeed = 0;
     private double leftSpeed = 0;
     private double rightSpeed = 0;
-    private int targetPositionDrive = 0;
-    private int targetPositionTurn = 0;
+    public int targetPositionDrive = 0;
+    public int targetPositionTurnLeft = 0;
+    public int targetPositionTurnRight = 0;
     private int leftTarget = 0;
     private int rightTarget = 0;
     private double headingError = 0;
@@ -199,7 +202,12 @@ public class DriveTrain {
         }
         lastInput = wheelSwap;
     }
-
+    public void stopMotors () {
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+    }
     public void driveStraight(double maxDriveSpeed, double distance, double heading) {
         // Determine new target position, and pass to motor controller
         int moveCounts = (int) (distance * COUNTS_PER_INCH);
@@ -233,30 +241,47 @@ public class DriveTrain {
             telemetry.addData("Steering Correction", turnSpeed);
             telemetry.update();
 
-            // if driving in reverse, the motor correction also needs to be reversed
-//            if (distance < 0) {
-//                turnSpeed *= -1.0;
-//            }
-
-            // Apply the turning correction to the current driving speed.
             moveRobot(driveSpeed, -turnSpeed);
         }
     }
 
-    public void driveWithEncoders(int drive) {
+    public void driveWithEncoders(int drive, double timeSecs) {
         if (drive != 0) {
             targetPositionDrive = leftFrontDrive.getCurrentPosition() + drive;
         }
         leftFrontDrive.setTargetPosition(targetPositionDrive);
-        rightFrontDrive.setTargetPosition(-targetPositionDrive);
+        rightFrontDrive.setTargetPosition(targetPositionDrive);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftFrontDrive.setPower(0.5);
+        rightFrontDrive.setPower(-0.5);
+        start = System.nanoTime();
+        while ((System.nanoTime() - start <= timeSecs * 1E9) && leftFrontDrive.isBusy() && rightFrontDrive.isBusy()) {
+            telemetry.addData("Where to Drive", targetPositionDrive);
+            telemetry.addData("Left Location", leftFrontDrive.getCurrentPosition());
+            telemetry.addData("Right Location", rightFrontDrive.getCurrentPosition());
+            telemetry.update();
+        }
     }
 
-    public void turnWithEncoders(int turn) {
+    public void turnWithEncoders(int turn, double timeSecs) { // Positive turn turns the robot left, negative turn turns the robot right
         if (turn != 0) {
-            targetPositionTurn = leftFrontDrive.getCurrentPosition() + turn;
+            targetPositionTurnLeft = leftFrontDrive.getCurrentPosition() + turn;
+            targetPositionTurnRight = rightFrontDrive.getCurrentPosition() - turn;
         }
-        leftFrontDrive.setTargetPosition(targetPositionTurn);
-        rightFrontDrive.setTargetPosition(targetPositionTurn);
+        leftFrontDrive.setTargetPosition(targetPositionTurnLeft);
+        rightFrontDrive.setTargetPosition(targetPositionTurnRight);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftFrontDrive.setPower(0.5);
+        rightFrontDrive.setPower(0.5);
+        start = System.nanoTime();
+        while ((System.nanoTime() - start <= timeSecs * 1E9) && leftFrontDrive.isBusy() && rightFrontDrive.isBusy()) {
+            telemetry.addData("Where to Drive", targetPositionDrive);
+            telemetry.addData("Left Location", leftFrontDrive.getCurrentPosition());
+            telemetry.addData("Right Location", rightFrontDrive.getCurrentPosition());
+            telemetry.update();
+        }
     }
 
     public void moveRobot(double drive, double turn) {

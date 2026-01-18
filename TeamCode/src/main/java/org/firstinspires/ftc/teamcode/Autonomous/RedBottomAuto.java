@@ -7,19 +7,19 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Autonomous(name = "RedBottom", group = "Robot")
 public class RedBottomAuto extends LinearOpMode {
-    long start = System.nanoTime();
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
+        robot.wheels.rpmTarget = 3800;
         robot.autoBase.SetToEncoders(robot.driveTrain);
-        robot.autoBase.GoalSet(robot.driveTrain, false);
-        robot.autoBase.AprilTagAmount(robot);
-        robot.wheels.rpmTarget = 3320;
         waitForStart();
+        robot.autoBase.AprilTagAmount(robot);
         robot.autoBase.PatternMatch(robot);
-        robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.2);
-        robot.driveTrain.autoTurn(robot.autoBase.power, 0.03);
-        robot.autoBase.TurnPrecision(robot, 10);
-        robot.autoBase.DrivePrecision(robot, 200);
+        robot.driveTrain.driveWithEncoders(10, 30);
+        robot.driveTrain.turnWithEncoders(20, 30);
+        robot.autoBase.SetToPower(robot.driveTrain);
+        robot.autoBase.AprilTagAmount(robot);
+        robot.autoBase.TurnPrecision(robot, 7, 24);
+        robot.autoBase.DrivePrecision(robot, 120);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
