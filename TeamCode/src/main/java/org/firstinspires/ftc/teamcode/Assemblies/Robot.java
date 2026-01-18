@@ -12,7 +12,10 @@ import java.util.List;
 
 public class Robot {
     boolean rotateDone = false;
+
     ElapsedTime ShootWaitTimer = new ElapsedTime();
+    ElapsedTime runTime = new ElapsedTime();
+
     long start = System.nanoTime();
     public AprilTagFindCait aprilTagFind;
     public AprilTagProcessor aprilTag;
@@ -28,6 +31,10 @@ public class Robot {
     public RPMlaunchWheels wheels;
     public TagOrientation tagOrientation;
     public TelemetryUI UI;
+
+    public LEDLight modeLed;
+    public LEDLight endgameLed;
+
     Telemetry telemetry;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
@@ -43,10 +50,17 @@ public class Robot {
         obeliskOrder = new ObeliskOrder(hwMap, aprilTag, telemetry);
         tagOrientation = new TagOrientation(hwMap);
         UI = new TelemetryUI(telemetry, this);
+
+        modeLed = new LEDLight(hwMap, telemetry, "modeLed");
+        endgameLed = new LEDLight(hwMap, telemetry, "endGameLed");
+
         wheels = new RPMlaunchWheels(hwMap, telemetry);
         order.add(Color.Green);
         order.add(Color.Purple);
         order.add(Color.Purple);
+
+        ShootWaitTimer.reset();
+        runTime.reset();
 
         this.telemetry = telemetry;
     }
@@ -71,10 +85,11 @@ public class Robot {
     }
 
     public enum Distance {
-        Short(3300),
-        Long(3000);
+        Short(3000),
+        Long(3300),
+        None(0);
 
-        final int RPM;
+        public final int RPM;
 
         Distance(int RPM) {
             this.RPM = RPM;
@@ -201,20 +216,61 @@ public class Robot {
     public void autoTagSwap(tags... checkForTags) {
 
        double dist = 0;
+       boolean validTagDetected = false;
 
        for (tags tag : checkForTags) {
            for (AprilTagDetection detections : cameraDefinition.aprilTag.getDetections()) {
              if (detections.id == tag.id) {
                  dist = detections.ftcPose.range;
+                 validTagDetected = true;
              }
            }
        }
 
         if ( dist < 80) {
             swapMode(Distance.Short);
+
+            modeLed.setFlatColor(LEDLight.ColorValues.Green.color);
+            modeLed.setEasingMode(LEDLight.LightMode.Flat);
+
         } else {
             swapMode(Distance.Long);
+
+            modeLed.setFlatColor(LEDLight.ColorValues.Red.color);
+            modeLed.setEasingMode(LEDLight.LightMode.Flat);
         }
+
+        if (!validTagDetected) {
+            swapMode(Distance.None);
+
+            modeLed.setFlatColor(LEDLight.ColorValues.Black.color);
+            modeLed.setEasingMode(LEDLight.LightMode.Flat);
+        }
+
+        modeLed.easingTick();
+    }
+
+    public void checkEndGame() {
+
+        double ActivationTime = 90;
+
+        if ( runTime.seconds() > ActivationTime - 1 && runTime.seconds() < ActivationTime ) {
+            endgameLed.setEasingDuration(0.5);
+            endgameLed.setFlatColor(LEDLight.ColorValues.Blue.color);
+            endgameLed.setEasingMode(LEDLight.LightMode.Flashing);
+
+            telemetry.addData("mode", endgameLed.currentEasingMode);
+            telemetry.addData("color", endgameLed.flatColor);
+        }
+        if (runTime.seconds() < ActivationTime - 1) {
+            endgameLed.setFlatColor(LEDLight.ColorValues.Black.color);
+            endgameLed.setEasingMode(LEDLight.LightMode.Flat);
+
+        }
+
+        telemetry.addData("Time", runTime.seconds());
+
+        endgameLed.easingTick();
     }
 
     private void swapMode(Distance newFar) {
