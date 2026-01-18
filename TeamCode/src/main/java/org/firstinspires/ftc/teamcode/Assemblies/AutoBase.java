@@ -74,6 +74,7 @@ public class AutoBase {
         driveTrain.rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void DrivePrecision(Robot robot, double desireSpot, int id) {
+        killSwitch = 0;
         desiredTagGoal = null;
         currentDetections = robot.cameraDefinition.aprilTag.getDetections();
         while (true) {
@@ -100,6 +101,7 @@ public class AutoBase {
         }
     }
     public void TurnPrecision(Robot robot, double desireTurn, int id) {
+        killSwitch = 0;
         desiredTagGoal = null;
         currentDetections = robot.cameraDefinition.aprilTag.getDetections();
         while (true) {
