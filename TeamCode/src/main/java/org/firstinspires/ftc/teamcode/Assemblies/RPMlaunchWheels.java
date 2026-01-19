@@ -42,8 +42,8 @@ public class RPMlaunchWheels {
     public RPMlaunchWheels(HardwareMap hwMap, Telemetry telemetry) {
         // valuate telemetry and wheels
         this.telemetry = telemetry;
-        left = hwMap.get(DcMotor.class, "Lwheel");
-        right = hwMap.get(DcMotor.class, "Rwheel");
+        left = hwMap.get(DcMotor.class, "LaunchWheel1");
+        right = hwMap.get(DcMotor.class, "LaunchWheel2");
 
         // reverse the right wheel to obtain the desired direction
         right.setDirection(DcMotor.Direction.REVERSE);
