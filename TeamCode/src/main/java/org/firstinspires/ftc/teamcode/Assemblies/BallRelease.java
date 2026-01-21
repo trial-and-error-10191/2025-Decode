@@ -34,7 +34,7 @@ public class BallRelease {
 
     // function to drop the ball
     public void Open() {
-        servo.setPosition(0.6);
+        servo.setPosition(0.52);
         open = true;
     }
 
