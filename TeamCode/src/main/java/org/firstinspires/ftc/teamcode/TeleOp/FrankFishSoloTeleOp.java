@@ -21,12 +21,12 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
             if (gamepad1.left_bumper) {
                 robot.wheels.rpmReset(Robot.Distance.Long.RPM);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
-                robot.modeLed.setFlatColor(LEDLight.ColorValues.Orange.color);
+                robot.modeLed.setFlatColor(LEDLight.ColorValues.Red.color + 0.03);
                 robot.modeLed.easingTick();
             } else if (gamepad1.left_trigger > 0.05) {
                 robot.wheels.rpmReset(Robot.Distance.Short.RPM);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
-                robot.modeLed.setFlatColor(LEDLight.ColorValues.Yellow.color);
+                robot.modeLed.setFlatColor(LEDLight.ColorValues.Green.color - 0.10);
                 robot.modeLed.easingTick();
             } else {
                 robot.autoTagSwap(Robot.tags.blueTeamGoal, Robot.tags.redTeamGoal);
@@ -34,7 +34,7 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
 
             robot.checkEndGame();
 
-            if (gamepad1.right_bumper || gamepad1.right_trigger > 0) {
+            if ((gamepad1.right_bumper || gamepad1.right_trigger > 0) && robot.wheels.calculateRpmAccuracy() > 90) {
                 // Stops movement of the robot so it doesn't keep driving when we're supposed to shoot,
                 // as there's still a bit of motor power even after the joysticks aren't pressed.
                 robot.driveTrain.moveRobot(0, 0);
@@ -42,6 +42,9 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
                 robot.ShootAll(gamepad1.right_bumper);
             }
             robot.patternCorrectionTeleOp(gamepad1.a);
+
+            telemetry.addData("test", robot.wheels.calculateRpmAccuracy());
+            telemetry.update();
         }
     }
 }

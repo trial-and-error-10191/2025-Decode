@@ -251,11 +251,7 @@ public class Robot {
 
         if ( runTime.seconds() > ActivationTime - 1 && runTime.seconds() < ActivationTime ) {
             endgameLed.setEasingDuration(0.5);
-            endgameLed.setFlatColor(LEDLight.ColorValues.Blue.color);
-            endgameLed.setEasingMode(LEDLight.LightMode.Flashing);
-
-            telemetry.addData("mode", endgameLed.currentEasingMode);
-            telemetry.addData("color", endgameLed.flatColor);
+            endgameLed.setEasingMode(LEDLight.LightMode.Rainbow);
         }
         if (runTime.seconds() < ActivationTime - 1) {
             endgameLed.setFlatColor(LEDLight.ColorValues.Black.color);
