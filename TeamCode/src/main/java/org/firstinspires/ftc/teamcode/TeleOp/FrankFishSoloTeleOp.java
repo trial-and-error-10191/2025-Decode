@@ -42,6 +42,7 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
                 robot.ShootAll(gamepad1.right_bumper);
             }
             robot.patternCorrectionTeleOp(gamepad1.a);
+            robot.artifactPaddles.PaddleFix(gamepad1.x);
         }
     }
 }

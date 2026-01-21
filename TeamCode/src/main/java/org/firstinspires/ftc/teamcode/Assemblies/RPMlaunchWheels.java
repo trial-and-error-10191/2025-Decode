@@ -46,8 +46,8 @@ public class RPMlaunchWheels {
         right = hwMap.get(DcMotor.class, "LaunchWheel2");
 
         // reverse the right wheel to obtain the desired direction
-        right.setDirection(DcMotor.Direction.REVERSE);
         left.setDirection(DcMotor.Direction.REVERSE);
+        right.setDirection(DcMotor.Direction.REVERSE);
 
     }
 

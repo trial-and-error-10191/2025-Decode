@@ -80,7 +80,17 @@ public class ArtifactPaddles {
         QueueCooldowns(state, forward);
         while (queuedMovements > 0) {
             IteratePaddles(order);
+
         }
         paddles.setPower(0);
+    }
+    public void PaddleFix(boolean fix) {
+        if (fix) {
+            double start = runTime.milliseconds();
+            while (sensor.isPressed() && runTime.milliseconds() - start < 200) {
+                paddles.setPower(-0.1);
+            }
+            paddles.setPower(0);
+        }
     }
 }
