@@ -85,8 +85,8 @@ public class Robot {
     }
 
     public enum Distance {
-        Short(3000),
-        Long(3300),
+        Short(3600),
+        Long(4300),
         None(0);
 
         public final int RPM;

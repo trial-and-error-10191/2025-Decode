@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp.Useless;
+package org.firstinspires.ftc.teamcode.TeleOp.Unused;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,7 +10,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import java.util.List;
 
 @Disabled
-@TeleOp (name = "TagTest", group = "LinearOpMode")
+@TeleOp (name = "TagTest", group = "Test")
 public class TagTest extends LinearOpMode {
     @Override
     public void runOpMode() {

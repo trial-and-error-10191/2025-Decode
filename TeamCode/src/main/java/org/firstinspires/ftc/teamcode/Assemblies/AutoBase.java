@@ -24,9 +24,9 @@ public class AutoBase {
     public void Shoot(Robot robot) {
         start = System.nanoTime();
         while (System.nanoTime() - start < 5E9) {
-            robot.wheels.wheelsTick();
+//            robot.wheels.wheelsTick();
             while (System.nanoTime() - start > 3E9) {
-                robot.wheels.wheelsTick();
+//                robot.wheels.wheelsTick();
                 if (System.nanoTime() - start >= 5E9) {
                     robot.ShootAll(true);
                     break;

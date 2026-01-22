@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class RedTopAuto extends LinearOpMode {
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
-        robot.wheels.rpmTarget = 3300;
+//        robot.wheels.rpmTarget = 3300;
         robot.autoBase.SetToEncoders(robot.driveTrain);
         waitForStart();
-        robot.wheels.wheelsTick();
+//        robot.wheels.wheelsTick();
         robot.driveTrain.driveWithEncoders(-1800, 30);
         robot.driveTrain.turnWithEncoders(-300, 30);
         robot.autoBase.AprilTagAmount(robot);
@@ -23,7 +23,7 @@ public class RedTopAuto extends LinearOpMode {
         robot.autoBase.TurnPrecision(robot, 3, 24);
         robot.autoBase.DrivePrecision(robot, 60, 24);
         robot.autoBase.Shoot(robot);
-        robot.wheels.rpmTarget = 0;
+//        robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
         robot.driveTrain.autoTurn(-robot.autoBase.power, 0.2);
         robot.driveTrain.autoDriveStraight(robot.autoBase.power, 1);

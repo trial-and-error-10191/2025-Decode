@@ -34,28 +34,13 @@ public class BallRelease {
 
     // function to drop the ball
     public void Open() {
-        servo.setPosition(0.52);
+        servo.setPosition(0.7);
         open = true;
     }
 
     // function to close the hole for next ball
     public void Close() {
-        servo.setPosition(0.3);
+        servo.setPosition(0.5);
         open = false;
-    }
-
-    public void releaseLogic(boolean release) {
-        if (!previousInput && release) {
-            if (open) {
-                Close();
-            } else {
-                Open();
-            }
-            previousInput = true;
-        }
-
-        if (!release) {
-            previousInput = false;
-        }
     }
 }
