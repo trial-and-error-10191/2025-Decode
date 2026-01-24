@@ -14,7 +14,7 @@ public class BearingFindTest extends LinearOpMode {
         Robot robot = new Robot(hardwareMap, telemetry);
         waitForStart();
         while (opModeIsActive()) {
-            robot.autoBase.TurnPrecision(robot, 15, 20);
+            robot.autoBase.TurnPrecision(robot, 0, 20);
 //            driveTrain.ReadBearing(definition.aprilTag);
         }
     }

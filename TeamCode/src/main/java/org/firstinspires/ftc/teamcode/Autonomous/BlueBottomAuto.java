@@ -9,21 +9,21 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class BlueBottomAuto extends LinearOpMode {
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
-//        robot.wheels.rpmTarget = 3800;
         robot.autoBase.GoalSet(robot.driveTrain, true);
         robot.autoBase.SetToEncoders(robot.driveTrain);
+        robot.wheels.wheelsTick();
         waitForStart();
         robot.autoBase.AprilTagAmount(robot);
         robot.autoBase.PatternMatch(robot);
-        robot.driveTrain.driveWithEncoders(50, 30);
-        robot.driveTrain.turnWithEncoders(-30, 30);
+        robot.driveTrain.driveWithEncoders(175, 30);
+        robot.driveTrain.turnWithEncoders(-100, 30);
         robot.autoBase.SetToPower(robot.driveTrain);
-        robot.driveTrain.autoTurn(-0.5, 0.1);
         robot.autoBase.AprilTagAmount(robot);
-        robot.autoBase.TurnPrecision(robot, 3, 20);
+        robot.autoBase.TurnPrecision(robot, 1, 20);
         robot.autoBase.DrivePrecision(robot, 120, 20);
+        robot.wheels.rpmReset(Robot.Distance.Long.RPM);
         robot.autoBase.Shoot(robot);
-//        robot.wheels.rpmTarget = 0;
+        robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
         robot.driveTrain.autoTurn(robot.autoBase.power, 0.01);
         robot.driveTrain.autoDriveStraight(robot.autoBase.power, 0.3);

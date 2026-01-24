@@ -85,8 +85,8 @@ public class Robot {
     }
 
     public enum Distance {
-        Short(3600),
-        Long(4300),
+        Short(2950),
+        Long(3300),
         None(0);
 
         public final int RPM;
@@ -142,6 +142,10 @@ public class Robot {
             for (int i = 0; i < 2; i++) {
                 // Just casually waiting for time to pass
                 while (ShootWaitTimer.seconds() <= wait) {ballRelease.Open();}
+                start = System.nanoTime();
+                while (System.nanoTime() - start <= 2E9) {
+                    // Waiting
+                }
                 artifactPaddles.AutoRot(1, true, order);
                 ShootWaitTimer.reset();
                 telemetry.addData("Iteration Number", "%d", i);
