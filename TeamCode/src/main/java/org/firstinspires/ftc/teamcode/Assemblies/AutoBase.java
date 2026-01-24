@@ -51,6 +51,9 @@ public class AutoBase {
         start = System.nanoTime();
         while (System.nanoTime() - start <= 3E9) {
             currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+            if (currentDetections.isEmpty()) {
+                break;
+            }
             telemetry.addData("AprilTag Seen", currentDetections.size());
             telemetry.update();
         }
