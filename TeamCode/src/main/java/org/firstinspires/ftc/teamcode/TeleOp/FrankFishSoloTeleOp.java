@@ -45,11 +45,6 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
             } else {
                 robot.artifactPaddles.PaddleStop();
             }
-            if (gamepad1.dpad_up) {
-                robot.wheels.rpmTarget += 50;
-            } if (gamepad1.dpad_down) {
-                robot.wheels.rpmTarget -= 50;
-            }
         }
     }
 }
