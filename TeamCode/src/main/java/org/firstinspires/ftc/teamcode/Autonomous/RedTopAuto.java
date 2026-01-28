@@ -15,11 +15,11 @@ public class RedTopAuto extends LinearOpMode {
         waitForStart();
         robot.driveTrain.driveWithEncoders(-1800, 30);
         robot.driveTrain.turnWithEncoders(-300, 30);
-        robot.autoBase.AprilTagAmount(robot);
+        robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
         robot.autoBase.PatternMatch(robot);
         robot.driveTrain.turnWithEncoders(160, 30);
         robot.autoBase.SetToPower(robot.driveTrain);
-        robot.autoBase.AprilTagAmount(robot);
+        robot.autoBase.AprilTagAmount(robot, 24);
         robot.autoBase.TurnPrecision(robot, 3, 24);
         robot.autoBase.DrivePrecision(robot, 60, 24);
         robot.wheels.rpmReset(Robot.Distance.Short.RPM);

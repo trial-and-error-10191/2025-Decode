@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @Autonomous(name = "BlueTop", group = "Robot")
 public class BlueTopAuto extends LinearOpMode {
@@ -16,11 +17,11 @@ public class BlueTopAuto extends LinearOpMode {
         waitForStart();
         robot.driveTrain.driveWithEncoders(-1800, 30);
         robot.driveTrain.turnWithEncoders(300, 30);
-        robot.autoBase.AprilTagAmount(robot);
+        robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
         robot.autoBase.PatternMatch(robot);
         robot.driveTrain.turnWithEncoders(-160, 30);
         robot.autoBase.SetToPower(robot.driveTrain);
-        robot.autoBase.AprilTagAmount(robot);
+        robot.autoBase.AprilTagAmount(robot, 20);
         robot.autoBase.TurnPrecision(robot, 3, 20);
         robot.autoBase.DrivePrecision(robot, 60, 20);
         robot.wheels.rpmReset(Robot.Distance.Short.RPM);

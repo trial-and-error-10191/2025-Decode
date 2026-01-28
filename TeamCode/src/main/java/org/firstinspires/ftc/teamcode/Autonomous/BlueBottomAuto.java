@@ -13,12 +13,12 @@ public class BlueBottomAuto extends LinearOpMode {
         robot.autoBase.SetToEncoders(robot.driveTrain);
         robot.wheels.wheelsTick();
         waitForStart();
-        robot.autoBase.AprilTagAmount(robot);
+        robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
         robot.autoBase.PatternMatch(robot);
         robot.driveTrain.driveWithEncoders(175, 30);
         robot.driveTrain.turnWithEncoders(-100, 30);
         robot.autoBase.SetToPower(robot.driveTrain);
-        robot.autoBase.AprilTagAmount(robot);
+        robot.autoBase.AprilTagAmount(robot, 20);
         robot.autoBase.TurnPrecision(robot, 1, 20);
         robot.autoBase.DrivePrecision(robot, 120, 20);
         robot.wheels.rpmReset(Robot.Distance.Long.RPM);
