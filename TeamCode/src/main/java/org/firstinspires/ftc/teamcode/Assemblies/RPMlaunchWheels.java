@@ -21,7 +21,7 @@ public class RPMlaunchWheels {
     private int rpmLeniency = 60;
     double leftRpm = 0;
     private double rightRpm = 0;
-    private double dualRPM = 1.0;
+    public double dualRPM = 1.0;
     private double lastKnownMS = 0;
     private double lastKnownEncL = 0;
     private double lastKnownEncR = 0;
