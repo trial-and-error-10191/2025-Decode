@@ -20,6 +20,9 @@ public class ArtifactPaddles {
     /* create the sensor */
     public TouchSensor sensor;
 
+    /* create the robot */
+    private Robot robot;
+
     /* variable for storing the queued pass amounts and pass lock */
     int queuedMovements = 0;
     boolean moveCooldown = false;
@@ -31,10 +34,11 @@ public class ArtifactPaddles {
     /* time for iteration limitation */
     ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-    public ArtifactPaddles(HardwareMap hwMap, Telemetry telemetry) {
+    public ArtifactPaddles(HardwareMap hwMap, Telemetry telemetry, Robot robot) {
         paddles = hwMap.get(CRServo.class, "paddles");
         sensor = hwMap.get(TouchSensor.class, "MagneticSwitch");
         this.telemetry = telemetry;
+        this.robot = robot;
     }
 
     // function to rotate by unit amount

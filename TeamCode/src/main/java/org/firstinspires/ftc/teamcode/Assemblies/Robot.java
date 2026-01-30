@@ -39,7 +39,7 @@ public class Robot {
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
         aprilTagFind = new AprilTagFindCait(aprilTag, telemetry);
-        artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
+        artifactPaddles = new ArtifactPaddles(hwMap, telemetry, this);
         autoBase = new AutoBase(telemetry);
         ballDetect = new BallDetect(hwMap);
         ballRelease = new BallRelease(hwMap, telemetry);
@@ -141,7 +141,10 @@ public class Robot {
             // Need to move the paddle twice
             for (int i = 0; i < 2; i++) {
                 // Just casually waiting for time to pass
-                while (ShootWaitTimer.seconds() <= wait) {ballRelease.Open();}
+                while (ShootWaitTimer.seconds() <= wait) {
+                    ballRelease.Open();
+                    wheels.wheelsTick();
+                }
                 artifactPaddles.AutoRot(1, true, order);
                 ShootWaitTimer.reset();
                 telemetry.addData("Iteration Number", "%d", i);
