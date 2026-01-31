@@ -21,7 +21,7 @@ public class RPMlaunchWheels {
     private int rpmLeniency = 60;
     double leftRpm = 0;
     private double rightRpm = 0;
-    private double dualRPM = 1.0;
+    public double dualRPM = 1.0;
     private double lastKnownMS = 0;
     private double lastKnownEncL = 0;
     private double lastKnownEncR = 0;
@@ -51,7 +51,9 @@ public class RPMlaunchWheels {
 
     }
 
-    // tick the wheels forward
+    /**
+     * performs the wheel logic every iteration
+     */
     public void wheelsTick() {
 
         // wait to get accurate RPM
@@ -92,20 +94,35 @@ public class RPMlaunchWheels {
         }
     }
 
-    // alter target RPM
+    /**
+     * set a new rpm goal
+     * @param newRPM the new rpm goal
+     */
     public void rpmReset(int newRPM) {
         rpmTarget = newRPM;
     }
 
-    // functions for retrieving left and right RPM
+    /**
+     * retrieve the left rpm
+     * @return the left rpm
+     */
     public double rpmL() {
         return leftRpm;
     }
+
+    /**
+     * retrieve the right rpm
+     * @return the right rpm
+     */
     public double rpmR() {
         return  rightRpm;
     }
 
-    // phillips stupid idea
+    /**
+     * directly set the motor powers (will cause issues if used in tandem with wheelsTick())
+     * @param leftP new power for the left motor
+     * @param rightP new power for the right motor
+     */
     public void setMotorPowers(double leftP, double rightP) {
         left.setPower(leftP);
         right.setPower(rightP);
@@ -114,8 +131,23 @@ public class RPMlaunchWheels {
         dualPower = (leftP + rightP) / 2;
     }
 
+    /**
+     * experimental ability to set the power to a specific rpm based off of empirically calculated data
+     * @param RPM the expected rpm to achieve
+     */
     public void setPowerByRpm(double RPM) {
         double judgedPower = (double) rpmTarget / 6000;
         setMotorPowers(judgedPower, judgedPower);
+    }
+
+    /**
+     * calculate the accuracy of the RPM to the target (exp target = 1000 actual = 800. accuracy = 80 = 80%)
+     * @return the accuracy
+     */
+    public double calculateRpmAccuracy() {
+        double accuracy = cataclysmicError ? dualRPM / rpmTarget : ((leftRpm + rightRpm) / 2) / rpmTarget;
+        accuracy *= 100;
+
+        return accuracy;
     }
 }
