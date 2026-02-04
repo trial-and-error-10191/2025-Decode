@@ -27,6 +27,10 @@ public class AutoBase {
             robot.wheels.wheelsTick();
             while (System.nanoTime() - start > 3E9) {
                 robot.wheels.wheelsTick();
+                telemetry.addData("RPM Target", robot.wheels.rpmTarget);
+                telemetry.addData("Current RPM Left", robot.wheels.left.getPower());
+                telemetry.addData("Current RPM Right", robot.wheels.right.getPower());
+                telemetry.update();
                 if (System.nanoTime() - start >= 5E9) {
                     robot.ShootAll(true);
                     break;
@@ -130,13 +134,14 @@ public class AutoBase {
             }
             robot.driveTrain.TurnToAprilTag(desireTurn, robot.cameraDefinition.aprilTag);
             currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+            telemetry.addData("Bearing", desiredTagGoal.ftcPose.bearing);
+            telemetry.update();
+//            Wait(20);
             start = System.nanoTime();
             if (Math.abs(desiredTagGoal.ftcPose.bearing - desireTurn) <= 3 || System.nanoTime() - start <= 3E9) {
                 robot.driveTrain.stopMotors();
                 break;
             }
-            telemetry.addData("Bearing", desiredTagGoal.ftcPose.bearing);
-            telemetry.update();
         }
     }
     public void Wait(double seconds) {

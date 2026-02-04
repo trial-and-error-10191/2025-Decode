@@ -15,19 +15,22 @@ public class BlueTopAuto extends LinearOpMode {
         robot.autoBase.SetToEncoders(robot.driveTrain);
         robot.wheels.wheelsTick();
         waitForStart();
-        robot.driveTrain.driveWithEncoders(-1800, 30);
-        robot.driveTrain.turnWithEncoders(270, 30);
+        robot.driveTrain.driveWithEncoders(-1500, 30);
+        robot.driveTrain.turnWithEncoders(290, 30);
         robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
         robot.autoBase.PatternMatch(robot);
-        robot.driveTrain.turnWithEncoders(-160, 30);
+        robot.driveTrain.turnWithEncoders(-170, 30);
         robot.autoBase.SetToPower(robot.driveTrain);
         robot.autoBase.AprilTagAmount(robot, 20);
-        robot.autoBase.TurnPrecision(robot, 0, 20);
-        robot.autoBase.DrivePrecision(robot, 60, 20);
-        robot.wheels.rpmReset(Robot.Distance.Short.RPM);
+        robot.autoBase.TurnPrecision(robot, 6.2, 20);
+        robot.autoBase.DrivePrecision(robot, 35, 20);
+        robot.wheels.rpmTarget = 2450;
+        robot.autoBase.SetToEncoders(robot.driveTrain);
+        robot.driveTrain.turnWithEncoders(-40, 30);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
+        robot.autoBase.SetToPower(robot.driveTrain);
         robot.driveTrain.autoTurn(robot.autoBase.power, 0.2);
         robot.driveTrain.autoDriveStraight(robot.autoBase.power, 1);
         // This part of the path will be used when we hopefully get an intake system
