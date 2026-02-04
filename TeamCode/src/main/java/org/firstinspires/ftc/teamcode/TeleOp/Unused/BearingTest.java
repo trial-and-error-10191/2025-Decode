@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.TeleOp.Useless;
+package org.firstinspires.ftc.teamcode.TeleOp.Unused;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Disabled
-@TeleOp (name = "BearingTest", group = "LinearOpMode")
+@TeleOp (name = "BearingTest", group = "Test")
 public class BearingTest extends LinearOpMode {
     @Override
     public void runOpMode() {

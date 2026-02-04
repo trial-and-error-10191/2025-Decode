@@ -9,16 +9,16 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class RPMlaunchWheels {
 
-    // define wheels
+    // Define wheels
     public DcMotor left;
     public DcMotor right;
 
-    // define telemetry
+    // Define telemetry
     Telemetry telemetry;
 
-    // define restrictive variables
+    // Define restrictive variables
     private float changeBy = 0.0003f;
-    public double rpmTarget = 3300;
+    public double rpmTarget = 0;
     private int rpmLeniency = 60;
     double leftRpm = 0;
     private double rightRpm = 0;
@@ -28,25 +28,25 @@ public class RPMlaunchWheels {
     private double lastKnownEncR = 0;
     private boolean cataclysmicError = false;
 
-    // start motors with minimum movement power (0.13 minimum required power)
+    // Start motors with minimum movement power (0.13 minimum required power)
     private double rightPower = 0.3;
     private double leftPower = 0.3;
     private double dualPower = 0.3;
 
 
-    // define fixed values
+    // Define fixed values
     private double encodersPerRevolution = 28;
 
-    // define the Elapsed time for checking RPM
+    // Define the Elapsed time for checking RPM
     public ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
     public RPMlaunchWheels(HardwareMap hwMap, Telemetry telemetry) {
-        // valuate telemetry and wheels
+        // Valuate telemetry and wheels
         this.telemetry = telemetry;
         left = hwMap.get(DcMotor.class, "LaunchWheel1");
         right = hwMap.get(DcMotor.class, "LaunchWheel2");
 
-        // reverse the right wheel to obtain the desired direction
+        // Reverse the wheels to obtain the desired direction
         left.setDirection(DcMotor.Direction.FORWARD);
         right.setDirection(DcMotor.Direction.FORWARD);
 
@@ -57,10 +57,10 @@ public class RPMlaunchWheels {
      */
     public void wheelsTick() {
 
-        // wait to get accurate RPM
+        // Wait to get accurate RPM
         if (runTime.milliseconds() > lastKnownMS + 80) {
 
-            // set initial power equalization's
+            // Set initial power equalization's
             if (!(leftRpm > rpmTarget - rpmLeniency && leftRpm < rpmTarget + rpmLeniency)) {
                 leftPower += leftRpm > rpmTarget + rpmLeniency ? -changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
                 leftPower += leftRpm < rpmTarget - rpmLeniency ? changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
@@ -72,14 +72,14 @@ public class RPMlaunchWheels {
                 rightPower = Math.max(-1, Math.min(1, rightPower));
             }
 
-            // set dual power equalization
+            // Set dual power equalization
             if (!(dualRPM > rpmTarget - rpmLeniency && dualRPM < rpmTarget + rpmLeniency)) {
                 dualPower += dualRPM > rpmTarget ? -changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10): 0;
                 dualPower += dualRPM < rpmTarget ? changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10) : 0;
                 dualPower = Math.max(-1, Math.min(1, dualPower));
             }
 
-            // final power equalization
+            // Final power equalization
             left.setPower(cataclysmicError ?  dualPower : leftPower);
             right.setPower(cataclysmicError ? dualPower : rightPower);
 

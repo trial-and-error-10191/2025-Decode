@@ -93,4 +93,10 @@ public class ArtifactPaddles {
             paddles.setPower(0);
         }
     }
+    public void PaddleFixHold () {
+        paddles.setPower(-0.3);
+    }
+    public void PaddleStop () {
+        paddles.setPower(0);
+    }
 }

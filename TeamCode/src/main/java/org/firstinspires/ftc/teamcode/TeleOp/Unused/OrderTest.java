@@ -1,16 +1,7 @@
-package org.firstinspires.ftc.teamcode.TeleOp.Useless;
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.teamcode.Assemblies.ObeliskOrder;
-import org.firstinspires.ftc.teamcode.Assemblies.Robot;
-
-import java.util.ArrayList;
+package org.firstinspires.ftc.teamcode.TeleOp.Unused;
 
 //@Disabled
-//@Autonomous(name = "OrderTest", group = "Robot")
+//@Autonomous(name = "OrderTest", group = "Test")
 //public class OrderTest extends LinearOpMode {
 //    @Override
 //    public void runOpMode() {

@@ -43,19 +43,4 @@ public class BallRelease {
         servo.setPosition(0.5);
         open = false;
     }
-
-    public void releaseLogic(boolean release) {
-        if (!previousInput && release) {
-            if (open) {
-                Close();
-            } else {
-                Open();
-            }
-            previousInput = true;
-        }
-
-        if (!release) {
-            previousInput = false;
-        }
-    }
 }

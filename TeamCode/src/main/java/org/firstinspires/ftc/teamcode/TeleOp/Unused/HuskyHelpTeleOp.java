@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp.Useless;
+package org.firstinspires.ftc.teamcode.TeleOp.Unused;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Assemblies.HuskyLensSense;
 
 @Disabled
-@TeleOp (name = "HuskyTeleOp", group = "LinearOpMode")
+@TeleOp (name = "HuskyTeleOp", group = "Test")
 public class HuskyHelpTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
