@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -46,8 +47,8 @@ public class RPMlaunchWheels {
         right = hwMap.get(DcMotor.class, "LaunchWheel2");
 
         // reverse the right wheel to obtain the desired direction
-        left.setDirection(DcMotor.Direction.REVERSE);
-        right.setDirection(DcMotor.Direction.REVERSE);
+        left.setDirection(DcMotor.Direction.FORWARD);
+        right.setDirection(DcMotor.Direction.FORWARD);
 
     }
 
