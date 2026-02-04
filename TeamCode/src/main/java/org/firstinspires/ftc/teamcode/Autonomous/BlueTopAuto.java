@@ -16,13 +16,13 @@ public class BlueTopAuto extends LinearOpMode {
         robot.wheels.wheelsTick();
         waitForStart();
         robot.driveTrain.driveWithEncoders(-1800, 30);
-        robot.driveTrain.turnWithEncoders(300, 30);
+        robot.driveTrain.turnWithEncoders(270, 30);
         robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
         robot.autoBase.PatternMatch(robot);
         robot.driveTrain.turnWithEncoders(-160, 30);
         robot.autoBase.SetToPower(robot.driveTrain);
         robot.autoBase.AprilTagAmount(robot, 20);
-        robot.autoBase.TurnPrecision(robot, 3, 20);
+        robot.autoBase.TurnPrecision(robot, 0, 20);
         robot.autoBase.DrivePrecision(robot, 60, 20);
         robot.wheels.rpmReset(Robot.Distance.Short.RPM);
         robot.autoBase.Shoot(robot);
