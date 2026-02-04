@@ -39,7 +39,7 @@ public class Robot {
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
         aprilTagFind = new AprilTagFindCait(aprilTag, telemetry);
-        artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
+        artifactPaddles = new ArtifactPaddles(hwMap, telemetry, this);
         autoBase = new AutoBase(telemetry);
         ballDetect = new BallDetect(hwMap);
         ballRelease = new BallRelease(hwMap, telemetry);
