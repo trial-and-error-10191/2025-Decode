@@ -84,7 +84,7 @@ public class ArtifactPaddles {
         QueueCooldowns(state, forward);
         while (queuedMovements > 0) {
             IteratePaddles(order);
-
+            robot.wheels.wheelsTick();
         }
         paddles.setPower(0);
     }

@@ -144,7 +144,7 @@ public class Robot {
                 while (ShootWaitTimer.seconds() <= wait) {ballRelease.Open();}
                 start = System.nanoTime();
                 while (System.nanoTime() - start <= 2E9) {
-                    // Waiting
+                   wheels.wheelsTick();
                 }
                 artifactPaddles.AutoRot(1, true, order);
                 ShootWaitTimer.reset();
@@ -163,7 +163,7 @@ public class Robot {
             ballRelease.Open();
             start = System.nanoTime();
             while (System.nanoTime() - start <= 2E9) {
-                // Wait
+                wheels.wheelsTick();
             }
             ballRelease.Close();
             artifactPaddles.AutoRot(1, true, order);
@@ -192,7 +192,7 @@ public class Robot {
                 artifactPaddles.AutoRot(1, true, order);
                 telemetry.update();
                 while (System.nanoTime() - start <= 1.16E9) {
-                    // Waiting
+                   wheels.wheelsTick();
                 }
             }
             rotateDone = true;
