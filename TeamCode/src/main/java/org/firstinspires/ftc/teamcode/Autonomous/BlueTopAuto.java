@@ -24,9 +24,9 @@ public class BlueTopAuto extends LinearOpMode {
         robot.autoBase.AprilTagAmount(robot, 20);
         robot.autoBase.TurnPrecision(robot, 6.2, 20);
         robot.autoBase.DrivePrecision(robot, 35, 20);
-        robot.wheels.rpmTarget = 2450;
+        robot.wheels.rpmTarget = 2700;
         robot.autoBase.SetToEncoders(robot.driveTrain);
-        robot.driveTrain.turnWithEncoders(-40, 30);
+        robot.driveTrain.turnWithEncoders(-30, 30);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
