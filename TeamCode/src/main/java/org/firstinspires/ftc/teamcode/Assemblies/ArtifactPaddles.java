@@ -25,7 +25,7 @@ public class ArtifactPaddles {
     boolean moveCooldown = false;
     boolean forward = false;
     double lastMS = 0;
-    double paddlePower = 0.8;
+    double paddlePower = 0.6;
     Telemetry telemetry;
 
     /* time for iteration limitation */

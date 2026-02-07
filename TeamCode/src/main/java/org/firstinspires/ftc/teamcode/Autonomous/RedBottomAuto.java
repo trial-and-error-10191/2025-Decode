@@ -16,7 +16,7 @@ public class RedBottomAuto extends LinearOpMode {
         robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
         robot.autoBase.PatternMatch(robot);
         robot.driveTrain.driveWithEncoders(175, 30);
-        robot.driveTrain.turnWithEncoders(100, 30);
+        robot.driveTrain.turnWithEncoders(120, 30);
         robot.autoBase.SetToPower(robot.driveTrain);
         robot.autoBase.AprilTagAmount(robot, 24);
         robot.autoBase.TurnPrecision(robot, 3, 24);
