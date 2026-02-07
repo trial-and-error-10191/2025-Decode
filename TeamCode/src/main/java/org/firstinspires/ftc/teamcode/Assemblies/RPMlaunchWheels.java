@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Assemblies;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -8,56 +9,58 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class RPMlaunchWheels {
 
-    // define wheels
+    // Define wheels
     public DcMotor left;
     public DcMotor right;
 
-    // define telemetry
+    // Define telemetry
     Telemetry telemetry;
 
-    // define restrictive variables
+    // Define restrictive variables
     private float changeBy = 0.0003f;
-    public double rpmTarget = 3300;
+    public double rpmTarget = 0;
     private int rpmLeniency = 60;
     double leftRpm = 0;
     private double rightRpm = 0;
-    private double dualRPM = 1.0;
+    public double dualRPM = 1.0;
     private double lastKnownMS = 0;
     private double lastKnownEncL = 0;
     private double lastKnownEncR = 0;
     private boolean cataclysmicError = false;
 
-    // start motors with minimum movement power (0.13 minimum required power)
+    // Start motors with minimum movement power (0.13 minimum required power)
     private double rightPower = 0.3;
     private double leftPower = 0.3;
     private double dualPower = 0.3;
 
 
-    // define fixed values
+    // Define fixed values
     private double encodersPerRevolution = 28;
 
-    // define the Elapsed time for checking RPM
+    // Define the Elapsed time for checking RPM
     public ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
     public RPMlaunchWheels(HardwareMap hwMap, Telemetry telemetry) {
-        // valuate telemetry and wheels
+        // Valuate telemetry and wheels
         this.telemetry = telemetry;
-        left = hwMap.get(DcMotor.class, "Lwheel");
-        right = hwMap.get(DcMotor.class, "Rwheel");
+        left = hwMap.get(DcMotor.class, "LaunchWheel1");
+        right = hwMap.get(DcMotor.class, "LaunchWheel2");
 
-        // reverse the right wheel to obtain the desired direction
-        right.setDirection(DcMotor.Direction.REVERSE);
-        left.setDirection(DcMotor.Direction.REVERSE);
+        // Reverse the wheels to obtain the desired direction
+        left.setDirection(DcMotor.Direction.FORWARD);
+        right.setDirection(DcMotor.Direction.FORWARD);
 
     }
 
-    // tick the wheels forward
+    /**
+     * performs the wheel logic every iteration
+     */
     public void wheelsTick() {
 
-        // wait to get accurate RPM
+        // Wait to get accurate RPM
         if (runTime.milliseconds() > lastKnownMS + 80) {
 
-            // set initial power equalization's
+            // Set initial power equalization's
             if (!(leftRpm > rpmTarget - rpmLeniency && leftRpm < rpmTarget + rpmLeniency)) {
                 leftPower += leftRpm > rpmTarget + rpmLeniency ? -changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
                 leftPower += leftRpm < rpmTarget - rpmLeniency ? changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
@@ -69,14 +72,14 @@ public class RPMlaunchWheels {
                 rightPower = Math.max(-1, Math.min(1, rightPower));
             }
 
-            // set dual power equalization
+            // Set dual power equalization
             if (!(dualRPM > rpmTarget - rpmLeniency && dualRPM < rpmTarget + rpmLeniency)) {
                 dualPower += dualRPM > rpmTarget ? -changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10): 0;
                 dualPower += dualRPM < rpmTarget ? changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10) : 0;
                 dualPower = Math.max(-1, Math.min(1, dualPower));
             }
 
-            // final power equalization
+            // Final power equalization
             left.setPower(cataclysmicError ?  dualPower : leftPower);
             right.setPower(cataclysmicError ? dualPower : rightPower);
 
@@ -92,20 +95,35 @@ public class RPMlaunchWheels {
         }
     }
 
-    // alter target RPM
+    /**
+     * set a new rpm goal
+     * @param newRPM the new rpm goal
+     */
     public void rpmReset(int newRPM) {
         rpmTarget = newRPM;
     }
 
-    // functions for retrieving left and right RPM
+    /**
+     * retrieve the left rpm
+     * @return the left rpm
+     */
     public double rpmL() {
         return leftRpm;
     }
+
+    /**
+     * retrieve the right rpm
+     * @return the right rpm
+     */
     public double rpmR() {
         return  rightRpm;
     }
 
-    // phillips stupid idea
+    /**
+     * directly set the motor powers (will cause issues if used in tandem with wheelsTick())
+     * @param leftP new power for the left motor
+     * @param rightP new power for the right motor
+     */
     public void setMotorPowers(double leftP, double rightP) {
         left.setPower(leftP);
         right.setPower(rightP);
@@ -114,8 +132,23 @@ public class RPMlaunchWheels {
         dualPower = (leftP + rightP) / 2;
     }
 
+    /**
+     * experimental ability to set the power to a specific rpm based off of empirically calculated data
+     * @param RPM the expected rpm to achieve
+     */
     public void setPowerByRpm(double RPM) {
         double judgedPower = (double) rpmTarget / 6000;
         setMotorPowers(judgedPower, judgedPower);
+    }
+
+    /**
+     * calculate the accuracy of the RPM to the target (exp target = 1000 actual = 800. accuracy = 80 = 80%)
+     * @return the accuracy
+     */
+    public double calculateRpmAccuracy() {
+        double accuracy = cataclysmicError ? dualRPM / rpmTarget : ((leftRpm + rightRpm) / 2) / rpmTarget;
+        accuracy *= 100;
+
+        return accuracy;
     }
 }

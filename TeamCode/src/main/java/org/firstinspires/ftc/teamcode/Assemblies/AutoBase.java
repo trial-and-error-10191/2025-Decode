@@ -47,10 +47,13 @@ public class AutoBase {
             driveTrain.DESIRED_TAG_ID = 24;
         }
     }
-    public void AprilTagAmount(Robot robot) {
+    public void AprilTagAmount(Robot robot, int id) {
         start = System.nanoTime();
         while (System.nanoTime() - start <= 3E9) {
             currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+            if (currentDetections.contains(id)) { // Makes the robot leave the loop if it detects the april tags early
+                break;
+            }
             telemetry.addData("AprilTag Seen", currentDetections.size());
             telemetry.update();
         }
@@ -78,6 +81,9 @@ public class AutoBase {
         desiredTagGoal = null;
         currentDetections = robot.cameraDefinition.aprilTag.getDetections();
         while (true) {
+            if (currentDetections.isEmpty()) { // Makes sure the robot doesn't crash if it doesn't see an april tag
+                break;
+            }
             robot.driveTrain.DriveByAprilTag(desireSpot, robot.cameraDefinition.aprilTag);
             currentDetections = robot.cameraDefinition.aprilTag.getDetections();
             for (AprilTagDetection detection : currentDetections) {
@@ -93,7 +99,8 @@ public class AutoBase {
                 robot.driveTrain.stopMotors();
                 break;
             }
-            if (Math.abs(desiredTagGoal.ftcPose.range - desireSpot) <= 5) {
+            start = System.nanoTime();
+            if (Math.abs(desiredTagGoal.ftcPose.range - desireSpot) <= 5 || System.nanoTime() - start <= 3E9) {
                 telemetry.addData(".range not null!", "");
                 robot.driveTrain.stopMotors();
                 break;
@@ -105,6 +112,9 @@ public class AutoBase {
         desiredTagGoal = null;
         currentDetections = robot.cameraDefinition.aprilTag.getDetections();
         while (true) {
+            if (currentDetections.isEmpty()) { // Makes sure the robot doesn't crash if it doesn't see an april tag
+                break;
+            }
             for (AprilTagDetection detection : currentDetections) {
                 if (detection.id == id) {
                     desiredTagGoal = detection;
@@ -120,7 +130,8 @@ public class AutoBase {
             }
             robot.driveTrain.TurnToAprilTag(desireTurn, robot.cameraDefinition.aprilTag);
             currentDetections = robot.cameraDefinition.aprilTag.getDetections();
-            if (Math.abs(desiredTagGoal.ftcPose.bearing - desireTurn) <= 3) {
+            start = System.nanoTime();
+            if (Math.abs(desiredTagGoal.ftcPose.bearing - desireTurn) <= 3 || System.nanoTime() - start <= 3E9) {
                 robot.driveTrain.stopMotors();
                 break;
             }

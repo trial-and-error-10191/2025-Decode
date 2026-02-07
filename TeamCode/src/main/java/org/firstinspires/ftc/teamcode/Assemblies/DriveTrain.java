@@ -471,4 +471,13 @@ public class DriveTrain {
         telemetry.update();
         moveRobot(0, turn);
     }
+    public void ReadBearing(AprilTagProcessor aprilTag) {
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.id == 20) {
+                telemetry.addData("Current Bearing", desiredTagGoal.ftcPose.bearing);
+                telemetry.update();
+            }
+        }
+    }
 }

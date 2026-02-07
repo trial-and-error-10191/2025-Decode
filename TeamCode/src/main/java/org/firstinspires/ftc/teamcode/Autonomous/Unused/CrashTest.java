@@ -7,15 +7,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 @Disabled
-@Autonomous (name = "DriveByAprilTagAuto", group = "Robot")
-public class AutoDriveByAprilTag extends LinearOpMode {
+@Autonomous (name = "CrashTest", group = "Test")
+public class CrashTest extends LinearOpMode {
     @Override
     public void runOpMode() {
 //        Robot robot = new Robot(hardwareMap, telemetry);
-//        robot.autoBase.GoalSet(robot.driveTrain, false);
 //        robot.autoBase.AprilTagAmount(robot);
 //        waitForStart();
-//        robot.autoBase.TurnPrecision(robot, 0, 24);
-////        robot.autoBase.DrivePrecision(robot, 80);
+//        robot.autoBase.DrivePrecision(robot, 120, 24);
+//        robot.autoBase.Wait(30);
     }
 }

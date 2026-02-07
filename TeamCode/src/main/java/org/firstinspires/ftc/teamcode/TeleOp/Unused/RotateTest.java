@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp.Useless;
+package org.firstinspires.ftc.teamcode.TeleOp.Unused;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 import java.util.ArrayList;
 
 @Disabled
-@TeleOp (name = "RotateTest", group = "LinearOpMode")
+@TeleOp (name = "RotateTest", group = "Test")
 public class RotateTest extends LinearOpMode {
     @Override
     public void runOpMode() {

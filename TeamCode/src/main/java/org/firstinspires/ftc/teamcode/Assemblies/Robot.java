@@ -39,7 +39,7 @@ public class Robot {
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
         aprilTagFind = new AprilTagFindCait(aprilTag, telemetry);
-        artifactPaddles = new ArtifactPaddles(hwMap, telemetry);
+        artifactPaddles = new ArtifactPaddles(hwMap, telemetry, this);
         autoBase = new AutoBase(telemetry);
         ballDetect = new BallDetect(hwMap);
         ballRelease = new BallRelease(hwMap, telemetry);
@@ -85,7 +85,7 @@ public class Robot {
     }
 
     public enum Distance {
-        Short(3000),
+        Short(2950),
         Long(3300),
         None(0);
 
@@ -142,6 +142,10 @@ public class Robot {
             for (int i = 0; i < 2; i++) {
                 // Just casually waiting for time to pass
                 while (ShootWaitTimer.seconds() <= wait) {ballRelease.Open();}
+                start = System.nanoTime();
+                while (System.nanoTime() - start <= 2E9) {
+                   wheels.wheelsTick();
+                }
                 artifactPaddles.AutoRot(1, true, order);
                 ShootWaitTimer.reset();
                 telemetry.addData("Iteration Number", "%d", i);
@@ -159,7 +163,7 @@ public class Robot {
             ballRelease.Open();
             start = System.nanoTime();
             while (System.nanoTime() - start <= 2E9) {
-                // Wait
+                wheels.wheelsTick();
             }
             ballRelease.Close();
             artifactPaddles.AutoRot(1, true, order);
@@ -188,7 +192,7 @@ public class Robot {
                 artifactPaddles.AutoRot(1, true, order);
                 telemetry.update();
                 while (System.nanoTime() - start <= 1.16E9) {
-                    // Waiting
+                   wheels.wheelsTick();
                 }
             }
             rotateDone = true;
@@ -256,11 +260,7 @@ public class Robot {
 
         if ( runTime.seconds() > ActivationTime - 1 && runTime.seconds() < ActivationTime ) {
             endgameLed.setEasingDuration(0.5);
-            endgameLed.setFlatColor(LEDLight.ColorValues.Blue.color);
-            endgameLed.setEasingMode(LEDLight.LightMode.Flashing);
-
-            telemetry.addData("mode", endgameLed.currentEasingMode);
-            telemetry.addData("color", endgameLed.flatColor);
+            endgameLed.setEasingMode(LEDLight.LightMode.Rainbow);
         }
         if (runTime.seconds() < ActivationTime - 1) {
             endgameLed.setFlatColor(LEDLight.ColorValues.Black.color);

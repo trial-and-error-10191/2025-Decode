@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp.Useless;
+package org.firstinspires.ftc.teamcode.TeleOp.Unused;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Assemblies.BallDetect;
 
 @Disabled
-@TeleOp (name = "ColorCheckTest", group = "LinearOpMode")
+@TeleOp (name = "ColorCheckTest", group = "Test")
 public class ColorCheckTest extends LinearOpMode {
     @Override
     public void runOpMode() {
