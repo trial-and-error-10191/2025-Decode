@@ -49,7 +49,7 @@ public class DriveTrain {
     private boolean wheelSwitch = false;
 
     public double reductionSmoothing = 38.72; // driver tested ✅
-    public double MSthreshold = 15;
+    public double MSthreshold = 10;
 
     private AprilTagDetection desiredTagGoal = null;
 
