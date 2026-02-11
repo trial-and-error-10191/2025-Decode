@@ -73,13 +73,15 @@ public class Robot {
 //    }
 
     public enum Color {
-        Purple("Purple"),
-        Green("Green"),
-        Nothing("Empty");
+        Purple("Purple", 1),
+        Green("Green", 1.2),
+        Nothing("Empty", 1);
 
         final String stringOf;
+        final double multiplier;
 
-        Color(String stringOf) {
+        Color(String stringOf, double multiplier) {
+            this.multiplier = multiplier;
             this.stringOf = stringOf;
         }
     }
@@ -276,5 +278,15 @@ public class Robot {
     private void swapMode(Distance newFar) {
         mapPosistion = newFar;
         wheels.rpmReset(newFar.RPM);
+    }
+
+    private Color nextBallColor() {
+
+    }
+
+    public void adjustRpmMultiplier() {
+        Color color = nextBallColor();
+
+        wheels.rpmMultiplier = color.multiplier;
     }
 }

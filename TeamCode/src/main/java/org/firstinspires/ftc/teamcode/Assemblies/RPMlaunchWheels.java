@@ -18,7 +18,10 @@ public class RPMlaunchWheels {
 
     // Define restrictive variables
     private float changeBy = 0.0003f;
+
     public double rpmTarget = 0;
+    public double rpmMultiplier = 1;
+
     private int rpmLeniency = 60;
     double leftRpm = 0;
     private double rightRpm = 0;
@@ -61,21 +64,21 @@ public class RPMlaunchWheels {
         if (runTime.milliseconds() > lastKnownMS + 80) {
 
             // Set initial power equalization's
-            if (!(leftRpm > rpmTarget - rpmLeniency && leftRpm < rpmTarget + rpmLeniency)) {
-                leftPower += leftRpm > rpmTarget + rpmLeniency ? -changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
-                leftPower += leftRpm < rpmTarget - rpmLeniency ? changeBy * ((Math.abs(leftRpm - rpmTarget)) / 10) : 0;
+            if (!(leftRpm > (rpmTarget * rpmMultiplier) - rpmLeniency && leftRpm < (rpmTarget * rpmMultiplier) + rpmLeniency)) {
+                leftPower += leftRpm > (rpmTarget * rpmMultiplier) + rpmLeniency ? -changeBy * ((Math.abs(leftRpm - (rpmTarget * rpmMultiplier))) / 10) : 0;
+                leftPower += leftRpm < (rpmTarget * rpmMultiplier) - rpmLeniency ? changeBy * ((Math.abs(leftRpm - (rpmTarget * rpmMultiplier))) / 10) : 0;
                 leftPower = Math.max(-1, Math.min(1, leftPower));
             }
-            if (!(rightRpm > rpmTarget - rpmLeniency && rightRpm < rpmTarget + rpmLeniency)) {
-                rightPower += rightRpm > rpmTarget ? -changeBy * ((Math.abs(rightRpm - rpmTarget)) / 10): 0;
-                rightPower += rightRpm < rpmTarget ? changeBy * ((Math.abs(rightRpm - rpmTarget)) / 10) : 0;
+            if (!(rightRpm > (rpmTarget * rpmMultiplier) - rpmLeniency && rightRpm < (rpmTarget * rpmMultiplier) + rpmLeniency)) {
+                rightPower += rightRpm > (rpmTarget * rpmMultiplier) ? -changeBy * ((Math.abs(rightRpm - (rpmTarget * rpmMultiplier))) / 10): 0;
+                rightPower += rightRpm < (rpmTarget * rpmMultiplier) ? changeBy * ((Math.abs(rightRpm - (rpmTarget * rpmMultiplier))) / 10) : 0;
                 rightPower = Math.max(-1, Math.min(1, rightPower));
             }
 
             // Set dual power equalization
-            if (!(dualRPM > rpmTarget - rpmLeniency && dualRPM < rpmTarget + rpmLeniency)) {
-                dualPower += dualRPM > rpmTarget ? -changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10): 0;
-                dualPower += dualRPM < rpmTarget ? changeBy * ((Math.abs(dualRPM - rpmTarget)) / 10) : 0;
+            if (!(dualRPM > (rpmTarget * rpmMultiplier) - rpmLeniency && dualRPM < (rpmTarget * rpmMultiplier) + rpmLeniency)) {
+                dualPower += dualRPM > (rpmTarget * rpmMultiplier) ? -changeBy * ((Math.abs(dualRPM - (rpmTarget * rpmMultiplier))) / 10): 0;
+                dualPower += dualRPM < (rpmTarget * rpmMultiplier) ? changeBy * ((Math.abs(dualRPM - (rpmTarget * rpmMultiplier))) / 10) : 0;
                 dualPower = Math.max(-1, Math.min(1, dualPower));
             }
 
@@ -91,7 +94,7 @@ public class RPMlaunchWheels {
             lastKnownEncL = left.getCurrentPosition();
             lastKnownEncR = right.getCurrentPosition();
 
-            cataclysmicError = (Math.abs(leftRpm - rightRpm) / rpmTarget * 100) > 20;
+            cataclysmicError = (Math.abs(leftRpm - rightRpm) / (rpmTarget * rpmMultiplier) * 100) > 20;
         }
     }
 
@@ -137,7 +140,7 @@ public class RPMlaunchWheels {
      * @param RPM the expected rpm to achieve
      */
     public void setPowerByRpm(double RPM) {
-        double judgedPower = (double) rpmTarget / 6000;
+        double judgedPower = (double) (rpmTarget * rpmMultiplier) / 6000;
         setMotorPowers(judgedPower, judgedPower);
     }
 
@@ -146,7 +149,7 @@ public class RPMlaunchWheels {
      * @return the accuracy
      */
     public double calculateRpmAccuracy() {
-        double accuracy = cataclysmicError ? dualRPM / rpmTarget : ((leftRpm + rightRpm) / 2) / rpmTarget;
+        double accuracy = cataclysmicError ? dualRPM / (rpmTarget * rpmMultiplier) : ((leftRpm + rightRpm) / 2) / (rpmTarget * rpmMultiplier);
         accuracy *= 100;
 
         return accuracy;
