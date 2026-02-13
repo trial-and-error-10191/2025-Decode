@@ -281,6 +281,13 @@ public class Robot {
     }
 
     private Color nextBallColor() {
+        long rand = Math.round(Math.random());
+
+        if (rand == 1L) {
+            return Color.Purple;
+        } else {
+            return Color.Green;
+        }
 
     }
 
