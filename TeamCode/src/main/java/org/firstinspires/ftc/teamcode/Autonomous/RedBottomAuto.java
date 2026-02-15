@@ -15,13 +15,13 @@ public class RedBottomAuto extends LinearOpMode {
         waitForStart();
         robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
         robot.autoBase.PatternMatch(robot);
-        robot.driveTrain.driveWithEncoders(175, 30);
-        robot.driveTrain.turnWithEncoders(120, 30);
+        robot.driveTrain.driveWithEncoders(185, 30);
+        robot.driveTrain.turnWithEncoders(100, 30);
         robot.autoBase.SetToPower(robot.driveTrain);
         robot.autoBase.AprilTagAmount(robot, 24);
         robot.autoBase.TurnPrecision(robot, 3, 24);
-        robot.autoBase.DrivePrecision(robot, 120, 24);
-        robot.wheels.rpmReset(Robot.Distance.Long.RPM);
+        robot.autoBase.DrivePrecision(robot, 115, 24);
+        robot.wheels.rpmReset(3250);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points

@@ -15,13 +15,13 @@ public class BlueBottomAuto extends LinearOpMode {
         waitForStart();
         robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
         robot.autoBase.PatternMatch(robot);
-        robot.driveTrain.driveWithEncoders(175, 30);
+        robot.driveTrain.driveWithEncoders(185, 30);
         robot.driveTrain.turnWithEncoders(-100, 30);
         robot.autoBase.SetToPower(robot.driveTrain);
         robot.autoBase.AprilTagAmount(robot, 20);
         robot.autoBase.TurnPrecision(robot, 1, 20);
-        robot.autoBase.DrivePrecision(robot, 120, 20);
-        robot.wheels.rpmReset(3200);
+        robot.autoBase.DrivePrecision(robot, 115, 20);
+        robot.wheels.rpmReset(3300);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
