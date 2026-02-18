@@ -277,4 +277,8 @@ public class Robot {
         mapPosistion = newFar;
         wheels.rpmReset(newFar.RPM);
     }
+
+    public void alignRobot(tags tag) {
+        cameraDefinition.aprilTag.getDetections();
+    }
 }
