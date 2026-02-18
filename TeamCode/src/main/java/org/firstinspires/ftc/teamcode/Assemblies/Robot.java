@@ -217,42 +217,42 @@ public class Robot {
             }
         }
     }
-    public void autoTagSwap(tags... checkForTags) {
-
-       double dist = 0;
-       boolean validTagDetected = false;
-
-       for (tags tag : checkForTags) {
-           for (AprilTagDetection detections : cameraDefinition.aprilTag.getDetections()) {
-             if (detections.id == tag.id) {
-                 dist = detections.ftcPose.range;
-                 validTagDetected = true;
-             }
-           }
-       }
-
-        if ( dist < 80) {
-            swapMode(Distance.Short);
-
-            modeLed.setFlatColor(LEDLight.ColorValues.Green.color);
-            modeLed.setEasingMode(LEDLight.LightMode.Flat);
-
-        } else {
-            swapMode(Distance.Long);
-
-            modeLed.setFlatColor(LEDLight.ColorValues.Red.color);
-            modeLed.setEasingMode(LEDLight.LightMode.Flat);
-        }
-
-        if (!validTagDetected) {
-            swapMode(Distance.None);
-
-            modeLed.setFlatColor(LEDLight.ColorValues.Black.color);
-            modeLed.setEasingMode(LEDLight.LightMode.Flat);
-        }
-
-        modeLed.easingTick();
-    }
+//    public void autoTagSwap(tags... checkForTags) {
+//
+//       double dist = 0;
+//       boolean validTagDetected = false;
+//
+//       for (tags tag : checkForTags) {
+//           for (AprilTagDetection detections : cameraDefinition.aprilTag.getDetections()) {
+//             if (detections.id == tag.id) {
+//                 dist = detections.ftcPose.range;
+//                 validTagDetected = true;
+//             }
+//           }
+//       }
+//
+//        if ( dist < 80) {
+//            swapMode(Distance.Short);
+//
+//            modeLed.setFlatColor(LEDLight.ColorValues.Green.color);
+//            modeLed.setEasingMode(LEDLight.LightMode.Flat);
+//
+//        } else {
+//            swapMode(Distance.Long);
+//
+//            modeLed.setFlatColor(LEDLight.ColorValues.Red.color);
+//            modeLed.setEasingMode(LEDLight.LightMode.Flat);
+//        }
+//
+//        if (!validTagDetected) {
+//            swapMode(Distance.None);
+//
+//            modeLed.setFlatColor(LEDLight.ColorValues.Black.color);
+//            modeLed.setEasingMode(LEDLight.LightMode.Flat);
+//        }
+//
+//        modeLed.easingTick();
+//    }
 
     public void checkEndGame() {
 
@@ -273,8 +273,8 @@ public class Robot {
         endgameLed.easingTick();
     }
 
-    private void swapMode(Distance newFar) {
-        mapPosistion = newFar;
-        wheels.rpmReset(newFar.RPM);
-    }
+//    private void swapMode(Distance newFar) {
+//        mapPosistion = newFar;
+//        wheels.rpmReset(newFar.RPM);
+//    }
 }

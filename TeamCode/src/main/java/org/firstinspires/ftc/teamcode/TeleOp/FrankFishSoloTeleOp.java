@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class FrankFishSoloTeleOp extends LinearOpMode {
 
     enum mode {
+        None(),
         ManualClose(),
-        ManualFar(),
-        Auto();
+        ManualFar()
+//        Auto()
     }
-    mode currentMode = mode.Auto;
+    mode currentMode = mode.None;
     boolean isLongPrevPressed = false;
     boolean isShortPrevPressed = false;
 
@@ -30,14 +31,14 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
             if (!isShortPrevPressed && !isLongPrevPressed) {
                 if (gamepad1.left_bumper) {
                     if (currentMode.equals(mode.ManualFar)) {
-                        currentMode = mode.Auto;
+                        currentMode = mode.None;
                     } else {
                         currentMode = mode.ManualFar;
                     }
                 }
                 if (gamepad1.left_trigger > 0.05) {
                     if (currentMode.equals(mode.ManualClose)) {
-                        currentMode = mode.Auto;
+                        currentMode = mode.None;
                     } else {
                         currentMode = mode.ManualClose;
                     }
@@ -65,9 +66,10 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
                 robot.modeLed.setFlatColor(LEDLight.ColorValues.Green.color - 0.10);
                 robot.modeLed.easingTick();
-            } else if (currentMode.equals(mode.Auto)){
-                robot.autoTagSwap(Robot.tags.blueTeamGoal, Robot.tags.redTeamGoal);
             }
+//            else if (currentMode.equals(mode.Auto)){
+//                robot.autoTagSwap(Robot.tags.blueTeamGoal, Robot.tags.redTeamGoal);
+//            }
 
             robot.checkEndGame();
 
