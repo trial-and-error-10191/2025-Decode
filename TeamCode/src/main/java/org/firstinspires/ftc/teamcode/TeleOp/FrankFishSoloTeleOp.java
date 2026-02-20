@@ -59,12 +59,17 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
             if (currentMode.equals(mode.ManualFar)) {
                 robot.wheels.rpmReset(Robot.Distance.Long.RPM);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
-                robot.modeLed.setFlatColor(LEDLight.ColorValues.Red.color + 0.03);
+                robot.modeLed.setFlatColor(LEDLight.ColorValues.Red.color);
                 robot.modeLed.easingTick();
             } else if (currentMode.equals(mode.ManualClose)) {
                 robot.wheels.rpmReset(Robot.Distance.Short.RPM);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
-                robot.modeLed.setFlatColor(LEDLight.ColorValues.Green.color - 0.10);
+                robot.modeLed.setFlatColor(LEDLight.ColorValues.Green.color);
+                robot.modeLed.easingTick();
+            } else if (currentMode.equals(mode.None)) {
+                robot.wheels.rpmReset(0);
+                robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
+                robot.modeLed.setFlatColor(LEDLight.ColorValues.Black.color);
                 robot.modeLed.easingTick();
             }
 //            else if (currentMode.equals(mode.Auto)){
