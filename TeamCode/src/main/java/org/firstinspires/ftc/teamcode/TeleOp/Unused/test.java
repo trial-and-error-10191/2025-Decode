@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
 import java.util.ArrayList;
 
-@Disabled
+//@Disabled
 @TeleOp(name = "test", group = "LinearOpMode")
 public class test extends LinearOpMode {
 

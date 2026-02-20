@@ -367,7 +367,7 @@ public class DriveTrain {
 
     public void powerChange(DcMotor motor, double change) {
         double motorPower = motor.getPower();
-        double motorChange = ((change - motorPower) / 20);
+        double motorChange = ((change - motorPower) / reductionSmoothing);
 
         if (Math.abs(change - motorPower) < 0.02) {
             motor.setPower(change);
