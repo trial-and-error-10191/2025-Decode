@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.opencv.core.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -279,6 +280,28 @@ public class Robot {
     }
 
     public void alignRobot(tags tag) {
-        cameraDefinition.aprilTag.getDetections();
+
+        ArrayList<AprilTagDetection>  detections = cameraDefinition.aprilTag.getDetections();
+
+        int noticedDetections = 0;
+
+        // check the amount of valid apriltags seen
+        for (AprilTagDetection detection : detections) {
+           if (detection.id == tags.blueTeamGoal.id || detection.id == tags.redTeamGoal.id) {
+               noticedDetections++;
+           }
+        }
+
+        // run the check
+        if (noticedDetections == 1) {
+            Point tagCenter = detections.get(0).center;
+
+            if (tagCenter.x > ((double) 640 / 2)) {
+                driveTrain.moveRobot(0, 0.6);
+            } else {
+                driveTrain.moveRobot(0, -0.6);
+            }
+        }
+
     }
 }
