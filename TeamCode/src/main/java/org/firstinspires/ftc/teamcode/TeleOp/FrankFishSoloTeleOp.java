@@ -24,7 +24,12 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             robot.wheels.wheelsTick();
-            robot.driveTrain.easingDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
+
+            if (!gamepad1.y) {
+                robot.driveTrain.easingDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
+            } else {
+                robot.alignRobot();
+            }
 
 
             if (!isShortPrevPressed && !isLongPrevPressed) {

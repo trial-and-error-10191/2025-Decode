@@ -279,7 +279,10 @@ public class Robot {
         wheels.rpmReset(newFar.RPM);
     }
 
-    public void alignRobot(tags tag) {
+    int negXRestriction = 0;
+    int posXRestriction = 0;
+
+    public void alignRobot() {
 
         ArrayList<AprilTagDetection>  detections = cameraDefinition.aprilTag.getDetections();
 
@@ -295,11 +298,14 @@ public class Robot {
         // run the check
         if (noticedDetections == 1) {
             Point tagCenter = detections.get(0).center;
+            double screenCenterLine = ((double) 640 / 2);
 
-            if (tagCenter.x > ((double) 640 / 2)) {
+            if (tagCenter.x > screenCenterLine + posXRestriction) {
+                driveTrain.moveRobot(0, -0.6);
+            } else if (tagCenter.x < screenCenterLine - negXRestriction) {
                 driveTrain.moveRobot(0, 0.6);
             } else {
-                driveTrain.moveRobot(0, -0.6);
+                driveTrain.moveRobot(0,0);
             }
         }
 
