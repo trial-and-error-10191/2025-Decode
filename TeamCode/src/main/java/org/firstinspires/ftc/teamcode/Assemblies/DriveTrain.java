@@ -191,33 +191,36 @@ public class DriveTrain {
         double leftPower = 0;
         double rightPower = 0;
 
-        if (Math.abs(axial) > deadzone || Math.abs(yaw) > deadzone) {
-            leftPower = axial + yaw;
-            rightPower = axial - yaw;
-        }
+        double drive = axial;
+        double turn = yaw;
+
         if (squarePower) {
-            if (leftPower > 0) {
-                leftPower *= leftPower;
-            } else if (leftPower < 0) {
-                leftPower *= -leftPower;
+            if (axial > 0) {
+                axial *= axial;
+            } else if (axial < 0) {
+                axial *= -axial;
             }
-            if (rightPower > 0) {
-                rightPower *= rightPower;
-            } else if (rightPower < 0) {
-                rightPower *= -rightPower;
+            if (yaw > 0) {
+                yaw *= yaw;
+            } else if (yaw < 0) {
+                yaw *= -yaw;
             }
         }
         if (squareRootPower) {
-            if (leftPower > 0) {
-                leftPower = Math.sqrt(leftPower);
-            } else if (leftPower < 0) {
-                leftPower = -Math.sqrt(Math.abs(leftPower));
+            if (axial > 0) {
+                axial = Math.sqrt(axial);
+            } else if (axial < 0) {
+                axial = -Math.sqrt(Math.abs(axial));
             }
-            if (rightPower > 0) {
-                rightPower = Math.sqrt(rightPower);
-            } else if (rightPower < 0) {
-                rightPower = -Math.sqrt(Math.abs(rightPower));
+            if (yaw > 0) {
+                yaw = Math.sqrt(yaw);
+            } else if (yaw < 0) {
+                yaw = -Math.sqrt(Math.abs(yaw));
             }
+        }
+        if (Math.abs(drive) > deadzone || Math.abs(turn) > deadzone) {
+            leftPower = axial + yaw;
+            rightPower = axial - yaw;
         }
         double max;
 
