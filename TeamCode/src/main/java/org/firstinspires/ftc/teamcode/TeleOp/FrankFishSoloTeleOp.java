@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class FrankFishSoloTeleOp extends LinearOpMode {
 
     enum mode {
+        None(),
         ManualClose(),
-        ManualFar(),
-        Auto();
+        ManualFar();
     }
-    mode currentMode = mode.Auto;
+
+    mode currentMode = mode.None;
     boolean isLongPrevPressed = false;
     boolean isShortPrevPressed = false;
 
@@ -30,14 +31,14 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
             if (!isShortPrevPressed && !isLongPrevPressed) {
                 if (gamepad1.left_bumper) {
                     if (currentMode.equals(mode.ManualFar)) {
-                        currentMode = mode.Auto;
+                        currentMode = mode.None;
                     } else {
                         currentMode = mode.ManualFar;
                     }
                 }
                 if (gamepad1.left_trigger > 0.05) {
                     if (currentMode.equals(mode.ManualClose)) {
-                        currentMode = mode.Auto;
+                        currentMode = mode.None;
                     } else {
                         currentMode = mode.ManualClose;
                     }
@@ -58,15 +59,18 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
             if (currentMode.equals(mode.ManualFar)) {
                 robot.wheels.rpmReset(Robot.Distance.Long.RPM);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
-                robot.modeLed.setFlatColor(LEDLight.ColorValues.Red.color + 0.03);
+                robot.modeLed.setFlatColor(LEDLight.ColorValues.Red.color);
                 robot.modeLed.easingTick();
             } else if (currentMode.equals(mode.ManualClose)) {
                 robot.wheels.rpmReset(Robot.Distance.Short.RPM);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
-                robot.modeLed.setFlatColor(LEDLight.ColorValues.Green.color - 0.10);
+                robot.modeLed.setFlatColor(LEDLight.ColorValues.Green.color);
                 robot.modeLed.easingTick();
-            } else if (currentMode.equals(mode.Auto)){
-                robot.autoTagSwap(Robot.tags.blueTeamGoal, Robot.tags.redTeamGoal);
+            } else if (currentMode.equals(mode.None)) {
+                robot.wheels.rpmReset(0);
+                robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
+                robot.modeLed.setFlatColor(LEDLight.ColorValues.Black.color);
+                robot.modeLed.easingTick();
             }
 
             robot.checkEndGame();
