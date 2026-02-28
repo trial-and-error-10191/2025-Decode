@@ -279,10 +279,12 @@ public class Robot {
         wheels.rpmReset(newFar.RPM);
     }
 
-    int negXRestriction = 0;
-    int posXRestriction = 0;
+    int negXRestriction = 30;
+    int posXRestriction = 30;
 
-    public void alignRobot() {
+    public boolean alignRobot() {
+
+        boolean aligned = false;
 
         ArrayList<AprilTagDetection>  detections = cameraDefinition.aprilTag.getDetections();
 
@@ -302,18 +304,24 @@ public class Robot {
             double speed = 0.3;
 
             // speed is based on distance from center line. approaching a multiplier of 0 at it approached
-            speed = speed * (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord);
+            speed = Math.max(speed * (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord), 0.13);
+
+            if (speed < 0.05) {
+                aligned = true;
+            }
 
             if (tagCenter.x > screenCenterLineCord + posXRestriction) {
                 driveTrain.moveRobot(0, speed);
             } else if (tagCenter.x < screenCenterLineCord - negXRestriction) {
                 driveTrain.moveRobot(0, -speed);
             } else {
+                aligned = true;
                 driveTrain.moveRobot(0,0);
             }
         } else {
             driveTrain.moveRobot(0,0);
         }
 
+        return aligned;
     }
 }
