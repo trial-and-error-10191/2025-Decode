@@ -298,15 +298,21 @@ public class Robot {
         // run the check
         if (noticedDetections == 1) {
             Point tagCenter = detections.get(0).center;
-            double screenCenterLine = ((double) 640 / 2);
+            double screenCenterLineCord = ((double) 640 / 2);
+            double speed = 0.3;
 
-            if (tagCenter.x > screenCenterLine + posXRestriction) {
-                driveTrain.moveRobot(0, -0.6);
-            } else if (tagCenter.x < screenCenterLine - negXRestriction) {
-                driveTrain.moveRobot(0, 0.6);
+            // speed is based on distance from center line. approaching a multiplier of 0 at it approached
+            speed = speed * (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord);
+
+            if (tagCenter.x > screenCenterLineCord + posXRestriction) {
+                driveTrain.moveRobot(0, speed);
+            } else if (tagCenter.x < screenCenterLineCord - negXRestriction) {
+                driveTrain.moveRobot(0, -speed);
             } else {
                 driveTrain.moveRobot(0,0);
             }
+        } else {
+            driveTrain.moveRobot(0,0);
         }
 
     }

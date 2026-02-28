@@ -85,6 +85,8 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
             }
             robot.patternCorrectionTeleOp(gamepad1.a);
 
+            robot.wheels.rpmReset(0);
+
             telemetry.addData("test", robot.wheels.calculateRpmAccuracy());
             telemetry.update();
         }
