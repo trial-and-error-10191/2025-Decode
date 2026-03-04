@@ -279,8 +279,8 @@ public class Robot {
         wheels.rpmReset(newFar.RPM);
     }
 
-    int negXRestriction = 30;
-    int posXRestriction = 30;
+    int negXRestriction = 35;
+    int posXRestriction = 35;
 
     public boolean alignRobot() {
 
@@ -303,12 +303,13 @@ public class Robot {
             double screenCenterLineCord = ((double) 640 / 2);
             double speed = 0.3;
 
-            // speed is based on distance from center line. approaching a multiplier of 0 at it approached
-            speed = Math.max(speed * (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord), 0.13);
+            //if (speed < 0.1) {
+//                aligned = true;
+//            }
 
-            if (speed < 0.05) {
-                aligned = true;
-            }
+            // speed is based on distance from center line. approaching a multiplier of 0 at it approached
+            speed = Math.max(speed * (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord), 0.10);
+
 
             if (tagCenter.x > screenCenterLineCord + posXRestriction) {
                 driveTrain.moveRobot(0, speed);
