@@ -21,7 +21,7 @@ public class BlueBottomAuto extends LinearOpMode {
         robot.autoBase.AprilTagAmount(robot, 20);
         robot.autoBase.TurnPrecision(robot, 1, 20);
         robot.autoBase.DrivePrecision(robot, 115, 20);
-        robot.wheels.rpmReset(3300);
+        robot.wheels.rpmReset(3500);
         robot.autoBase.Shoot(robot);
         robot.wheels.rpmTarget = 0;
         // Next 2 lines moves bot out of the way since we can't get anymore points
