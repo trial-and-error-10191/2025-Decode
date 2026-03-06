@@ -12,9 +12,9 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
     enum mode {
         None(),
         ManualClose(),
-        ManualFar()
-//        Auto()
+        ManualFar();
     }
+
     mode currentMode = mode.None;
     boolean isLongPrevPressed = false;
     boolean isShortPrevPressed = false;
@@ -25,8 +25,6 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             robot.wheels.wheelsTick();
-            robot.driveTrain.easingDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
-
 
             if (!isShortPrevPressed && !isLongPrevPressed) {
                 if (gamepad1.left_bumper) {
@@ -55,8 +53,21 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
                 isShortPrevPressed = true;
             }
 
+            // true by default to skip to the second statement below
+            boolean aligned = true;
+
+            if (gamepad1.y) {
+                aligned = robot.alignRobot();
+            } else {
+                robot.driveTrain.easingDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
+            }
+
             // set the LED actions based on the current robot LED mode
-            if (currentMode.equals(mode.ManualFar)) {
+            if (!aligned) {
+                robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
+                robot.modeLed.setFlatColor(LEDLight.ColorValues.Azure.color);
+                robot.modeLed.easingTick();
+            } else if (currentMode.equals(mode.ManualFar)) {
                 robot.wheels.rpmReset(Robot.Distance.Long.RPM);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
                 robot.modeLed.setFlatColor(LEDLight.ColorValues.Red.color);
