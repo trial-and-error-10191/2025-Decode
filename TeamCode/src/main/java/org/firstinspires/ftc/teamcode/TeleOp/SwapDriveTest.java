@@ -3,21 +3,25 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Assemblies.DriveTrain;
 import org.firstinspires.ftc.teamcode.Assemblies.LEDLight;
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 
-@TeleOp (name = "FrankenFishSoloTeleOp", group = "LinearOpMode")
-public class FrankFishSoloTeleOp extends LinearOpMode {
+@TeleOp (name = "SwapDriveTest", group = "Test")
+public class SwapDriveTest extends LinearOpMode {
+    boolean squaredCheck = false;
+    boolean squareRootedCheck = false;
 
     enum mode {
         None(),
         ManualClose(),
-        ManualFar();
+        ManualFar()
     }
-
-    mode currentMode = mode.None;
+    FrankFishSoloTeleOp.mode currentMode = FrankFishSoloTeleOp.mode.None;
     boolean isLongPrevPressed = false;
     boolean isShortPrevPressed = false;
+    boolean isSquaredCheck = false;
+    boolean isSquareRootedCheck = false;
 
     @Override
     public void runOpMode() {
@@ -25,20 +29,48 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             robot.wheels.wheelsTick();
+            robot.driveTrain.powerChanged(-gamepad1.left_stick_y, gamepad1.right_stick_x, squaredCheck, squareRootedCheck);
+            if (gamepad1.dpad_up && !isSquaredCheck) {
+                if (!squaredCheck) {
+                    squaredCheck = true;
+                } else {
+                    squaredCheck = false;
+                }
+                squareRootedCheck = false;
+            }
+            if (gamepad1.dpad_down && !isSquareRootedCheck) {
+                if (!squareRootedCheck) {
+                    squareRootedCheck = true;
+                } else {
+                    squareRootedCheck = false;
+                }
+                squaredCheck = false;
+            }
+            telemetry.addData("Power Squared?", squaredCheck);
+            telemetry.addData("Power Square Rooted?", squareRootedCheck);
+            telemetry.update();
+
+            isSquaredCheck = false;
+            isSquareRootedCheck = false;
+            if (gamepad1.dpad_up) {
+                isSquaredCheck = true;
+            } if (gamepad1.dpad_down) {
+                isSquareRootedCheck = true;
+            }
 
             if (!isShortPrevPressed && !isLongPrevPressed) {
                 if (gamepad1.left_bumper) {
-                    if (currentMode.equals(mode.ManualFar)) {
-                        currentMode = mode.None;
+                    if (currentMode.equals(FrankFishSoloTeleOp.mode.ManualFar)) {
+                        currentMode = FrankFishSoloTeleOp.mode.None;
                     } else {
-                        currentMode = mode.ManualFar;
+                        currentMode = FrankFishSoloTeleOp.mode.ManualFar;
                     }
                 }
                 if (gamepad1.left_trigger > 0.05) {
-                    if (currentMode.equals(mode.ManualClose)) {
-                        currentMode = mode.None;
+                    if (currentMode.equals(FrankFishSoloTeleOp.mode.ManualClose)) {
+                        currentMode = FrankFishSoloTeleOp.mode.None;
                     } else {
-                        currentMode = mode.ManualClose;
+                        currentMode = FrankFishSoloTeleOp.mode.ManualClose;
                     }
                 }
             }
@@ -53,39 +85,23 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
                 isShortPrevPressed = true;
             }
 
-            // true by default to skip to the second statement below
-            boolean aligned = true;
-
-            if (gamepad1.y) {
-                aligned = robot.alignRobot();
-            } else {
-                robot.driveTrain.easingDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
-            }
-
             // set the LED actions based on the current robot LED mode
-            if (!aligned) {
-                robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
-                robot.modeLed.setFlatColor(LEDLight.ColorValues.Azure.color);
-                robot.modeLed.easingTick();
-            } else if (currentMode.equals(mode.ManualFar)) {
+            if (currentMode.equals(FrankFishSoloTeleOp.mode.ManualFar)) {
                 robot.wheels.rpmReset(Robot.Distance.Long.RPM);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
                 robot.modeLed.setFlatColor(LEDLight.ColorValues.Red.color);
                 robot.modeLed.easingTick();
-            } else if (currentMode.equals(mode.ManualClose)) {
+            } else if (currentMode.equals(FrankFishSoloTeleOp.mode.ManualClose)) {
                 robot.wheels.rpmReset(Robot.Distance.Short.RPM);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
                 robot.modeLed.setFlatColor(LEDLight.ColorValues.Green.color);
                 robot.modeLed.easingTick();
-            } else if (currentMode.equals(mode.None)) {
+            } else if (currentMode.equals(FrankFishSoloTeleOp.mode.None)) {
                 robot.wheels.rpmReset(0);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
                 robot.modeLed.setFlatColor(LEDLight.ColorValues.Black.color);
                 robot.modeLed.easingTick();
             }
-//            else if (currentMode.equals(mode.Auto)){
-//                robot.autoTagSwap(Robot.tags.blueTeamGoal, Robot.tags.redTeamGoal);
-//            }
 
             robot.checkEndGame();
 
@@ -97,9 +113,6 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
                 robot.ShootAll(gamepad1.right_bumper);
             }
             robot.patternCorrectionTeleOp(gamepad1.a);
-
-            telemetry.addData("test", robot.wheels.calculateRpmAccuracy());
-            telemetry.update();
         }
     }
 }

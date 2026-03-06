@@ -47,8 +47,8 @@ public class DriveTrain {
     private boolean lastInput = false;
     private boolean wheelSwitch = false;
 
-    public double reductionSmoothing = 38.72; // driver tested ✅
-    public double MSthreshold = 10;
+    public double reductionSmoothing = 35; // driver tested ✅
+    public double MSthreshold = 5;
 
     private AprilTagDetection desiredTagGoal = null;
 
@@ -143,6 +143,82 @@ public class DriveTrain {
         double rightPower = 0;
 
         if (Math.abs(axial) > deadzone || Math.abs(yaw) > deadzone) {
+            leftPower = axial + yaw;
+            rightPower = axial - yaw;
+        }
+        double max;
+
+        // All code below this comment normalizes the values so no wheel power exceeds 100%.
+        max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
+
+
+        if (max > 1.0) {
+            leftPower /= max;
+            rightPower /= max;
+        }
+
+        if ((runtime.milliseconds() - lastMS) <= MSthreshold) {
+            leftPowerValues.add(leftPower);
+            rightPowerValues.add(rightPower);
+            return;
+        }
+        lastMS = runtime.milliseconds();
+
+
+        for (double LP : leftPowerValues) {
+            leftPower += LP;
+        }
+        leftPower /= leftPowerValues.size() + 1;
+        leftPowerValues.clear();
+
+        for (double LP : rightPowerValues) {
+            rightPower += LP;
+        }
+        rightPower /= rightPowerValues.size() + 1;
+        rightPowerValues.clear();
+
+        // The next four lines gives the calculated power to each motor
+        powerChange(leftFrontDrive, leftPower);
+        powerChange(leftBackDrive, leftPower);
+        powerChange(rightFrontDrive, rightPower);
+        powerChange(rightBackDrive, rightPower);
+    }
+
+    public void powerChanged(double axial, double yaw, boolean squarePower, boolean squareRootPower) {
+        // initializes deadzone
+        double deadzone = 0.05;
+
+        double leftPower = 0;
+        double rightPower = 0;
+
+        double drive = axial;
+        double turn = yaw;
+
+        if (squarePower) {
+            if (axial > 0) {
+                axial *= axial;
+            } else if (axial < 0) {
+                axial *= -axial;
+            }
+            if (yaw > 0) {
+                yaw *= yaw;
+            } else if (yaw < 0) {
+                yaw *= -yaw;
+            }
+        }
+        if (squareRootPower) {
+            if (axial > 0) {
+                axial = Math.sqrt(axial);
+            } else if (axial < 0) {
+                axial = -Math.sqrt(Math.abs(axial));
+            }
+            if (yaw > 0) {
+                yaw = Math.sqrt(yaw);
+            } else if (yaw < 0) {
+                yaw = -Math.sqrt(Math.abs(yaw));
+            }
+        }
+        if (Math.abs(drive) > deadzone || Math.abs(turn) > deadzone) {
             leftPower = axial + yaw;
             rightPower = axial - yaw;
         }
@@ -367,7 +443,7 @@ public class DriveTrain {
 
     public void powerChange(DcMotor motor, double change) {
         double motorPower = motor.getPower();
-        double motorChange = ((change - motorPower) / 20);
+        double motorChange = ((change - motorPower) / reductionSmoothing);
 
         if (Math.abs(change - motorPower) < 0.02) {
             motor.setPower(change);
