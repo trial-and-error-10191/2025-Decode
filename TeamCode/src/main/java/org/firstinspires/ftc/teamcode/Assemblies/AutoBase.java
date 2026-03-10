@@ -23,7 +23,7 @@ public class AutoBase {
     }
     public void Shoot(Robot robot) {
         start = System.nanoTime();
-        while (System.nanoTime() - start < 5E9) {
+        while (System.nanoTime() - start < 6E9) {
             robot.wheels.wheelsTick();
             while (System.nanoTime() - start > 3E9) {
                 robot.wheels.wheelsTick();
@@ -31,7 +31,7 @@ public class AutoBase {
                 telemetry.addData("Current RPM Left", robot.wheels.left.getPower());
                 telemetry.addData("Current RPM Right", robot.wheels.right.getPower());
                 telemetry.update();
-                if (System.nanoTime() - start >= 5E9) {
+                if (System.nanoTime() - start >= 6E9) {
                     robot.ShootAll(true);
                     break;
                 }

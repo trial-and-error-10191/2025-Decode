@@ -78,14 +78,11 @@ public class FrankFishSoloTeleOp extends LinearOpMode {
                 robot.modeLed.setFlatColor(LEDLight.ColorValues.Green.color);
                 robot.modeLed.easingTick();
             } else if (currentMode.equals(mode.None)) {
-                robot.wheels.rpmReset(0);
+                robot.wheels.rpmReset(1500);
                 robot.modeLed.setEasingMode(LEDLight.LightMode.Flat);
                 robot.modeLed.setFlatColor(LEDLight.ColorValues.Black.color);
                 robot.modeLed.easingTick();
             }
-//            else if (currentMode.equals(mode.Auto)){
-//                robot.autoTagSwap(Robot.tags.blueTeamGoal, Robot.tags.redTeamGoal);
-//            }
 
             robot.checkEndGame();
 
