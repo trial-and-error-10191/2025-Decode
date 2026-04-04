@@ -21,14 +21,14 @@ public class ObeliskOrder {
     private Telemetry telemetry;
 
     public ObeliskOrder(HardwareMap hardwareMap, AprilTagProcessor aprilTag, Telemetry telemetry) {
-        aprilTag = new AprilTagProcessor.Builder()
-
-                .build();
-
-        // Lets the camera see the obelisk April Tag from far away, as we only need to see that one once.
-        aprilTag.setDecimation(1);
-
-        this.telemetry = telemetry;
+//        aprilTag = new AprilTagProcessor.Builder()
+//
+//                .build();
+//
+//        // Lets the camera see the obelisk April Tag from far away, as we only need to see that one once.
+//        aprilTag.setDecimation(1);
+//
+//        this.telemetry = telemetry;
     }
     public int findTag(AprilTagProcessor aprilTag) {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -41,22 +41,22 @@ public class ObeliskOrder {
         }
         return desiredTagObelisk;
     }
-    public ArrayList<Robot.Color> patternOrder(AprilTagProcessor aprilTag) { // Used to contain pattern info from the obelisk
-        findTag(aprilTag);
-        ArrayList<Robot.Color> patternOrder = new ArrayList<>();
-        if (desiredTagObelisk == 21) { // Setting up order for the balls
-            patternOrder.add(Robot.Color.Green);
-            patternOrder.add(Robot.Color.Purple);
-            patternOrder.add(Robot.Color.Purple);
-        } if (desiredTagObelisk == 22) { // Setting up order for the balls
-            patternOrder.add(Robot.Color.Purple);
-            patternOrder.add(Robot.Color.Green);
-            patternOrder.add(Robot.Color.Purple);
-        } if (desiredTagObelisk == 23) { // Setting up order for the balls
-            patternOrder.add(Robot.Color.Purple);
-            patternOrder.add(Robot.Color.Purple);
-            patternOrder.add(Robot.Color.Green);
-        }
-        return patternOrder; // Returning the order of the pattern
-    }
+//    public ArrayList<Robot.Color> patternOrder(AprilTagProcessor aprilTag) { // Used to contain pattern info from the obelisk
+//        findTag(aprilTag);
+//        ArrayList<Robot.Color> patternOrder = new ArrayList<>();
+//        if (desiredTagObelisk == 21) { // Setting up order for the balls
+//            patternOrder.add(Robot.Color.Green);
+//            patternOrder.add(Robot.Color.Purple);
+//            patternOrder.add(Robot.Color.Purple);
+//        } if (desiredTagObelisk == 22) { // Setting up order for the balls
+//            patternOrder.add(Robot.Color.Purple);
+//            patternOrder.add(Robot.Color.Green);
+//            patternOrder.add(Robot.Color.Purple);
+//        } if (desiredTagObelisk == 23) { // Setting up order for the balls
+//            patternOrder.add(Robot.Color.Purple);
+//            patternOrder.add(Robot.Color.Purple);
+//            patternOrder.add(Robot.Color.Green);
+//        }
+//        return patternOrder; // Returning the order of the pattern
+//    }
 }

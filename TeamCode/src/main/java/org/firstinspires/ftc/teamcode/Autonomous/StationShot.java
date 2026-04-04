@@ -9,11 +9,11 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class StationShot extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(hardwareMap, telemetry);
-        robot.wheels.wheelsTick();
-        waitForStart();
-        robot.wheels.rpmReset(3300);
-        robot.autoBase.Shoot(robot);
-        robot.wheels.rpmTarget = 0;
+//        Robot robot = new Robot(hardwareMap, telemetry);
+//        robot.wheels.wheelsTick();
+//        waitForStart();
+//        robot.wheels.rpmReset(3300);
+//        robot.autoBase.Shoot(robot);
+//        robot.wheels.rpmTarget = 0;
     }
 }

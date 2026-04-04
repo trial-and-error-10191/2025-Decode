@@ -7,40 +7,40 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class BallRelease {
 
-    // define the servo
-    public Servo servo;
-
-    // define supportive vars
-    boolean previousInput = false;
-    boolean open = false;
-    boolean lastInput = false;
-    boolean PaddleMove = false;
-
-    public BallRelease(HardwareMap hwMap, Telemetry telemetry) {
-        servo = hwMap.get(Servo.class, "dropServo");
-    }
-
-    public void DropBall(float drop) {
-        if (!lastInput && drop > 0) {
-            PaddleMove = !PaddleMove;
-            if (PaddleMove) {
-                Open();
-            } else {
-                Close();
-            }
-        }
-        lastInput = drop > 0;
-    }
-
-    // function to drop the ball
-    public void Open() {
-        servo.setPosition(0.7);
-        open = true;
-    }
-
-    // function to close the hole for next ball
-    public void Close() {
-        servo.setPosition(0.5);
-        open = false;
-    }
+//    // define the servo
+//    public Servo servo;
+//
+//    // define supportive vars
+//    boolean previousInput = false;
+//    boolean open = false;
+//    boolean lastInput = false;
+//    boolean PaddleMove = false;
+//
+//    public BallRelease(HardwareMap hwMap, Telemetry telemetry) {
+//        servo = hwMap.get(Servo.class, "dropServo");
+//    }
+//
+//    public void DropBall(float drop) {
+//        if (!lastInput && drop > 0) {
+//            PaddleMove = !PaddleMove;
+//            if (PaddleMove) {
+//                Open();
+//            } else {
+//                Close();
+//            }
+//        }
+//        lastInput = drop > 0;
+//    }
+//
+//    // function to drop the ball
+//    public void Open() {
+//        servo.setPosition(0.7);
+//        open = true;
+//    }
+//
+//    // function to close the hole for next ball
+//    public void Close() {
+//        servo.setPosition(0.5);
+//        open = false;
+//    }
 }

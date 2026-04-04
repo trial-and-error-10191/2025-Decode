@@ -11,93 +11,93 @@ import java.util.ArrayList;
 
 public class ArtifactPaddles {
 
-    /* create the servo */
-    CRServo paddles;
-
-    /* create the sensor */
-    public TouchSensor sensor;
-
-    /* create the robot */
-    private Robot robot;
-
-    /* variable for storing the queued pass amounts and pass lock */
-    int queuedMovements = 0;
-    boolean moveCooldown = false;
-    boolean forward = false;
-    double lastMS = 0;
-    double paddlePower = 0.6;
-    Telemetry telemetry;
-
-    /* time for iteration limitation */
-    ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-
-    public ArtifactPaddles(HardwareMap hwMap, Telemetry telemetry, Robot robot) {
-        paddles = hwMap.get(CRServo.class, "paddles");
-        sensor = hwMap.get(TouchSensor.class, "MagneticSwitch");
-        this.telemetry = telemetry;
-        this.robot = robot;
-    }
-
-    // function to rotate by unit amount
-    public void IteratePaddles(ArrayList<Robot.Color> order) {
-        if (queuedMovements == 0) {
-            moveCooldown = false;
-            paddles.setPower(0);
-        } else {
-            paddles.setPower(forward  ? paddlePower : -paddlePower);
-        }
-        if (sensor.isPressed()) {
-            if (runTime.milliseconds() > (lastMS + 500)) {
-                queuedMovements--;
-                queuedMovements = Math.max(0, queuedMovements);
-                Robot.Color valueHold = order.get(0);
-                order.set(0, order.get(1));
-                order.set(1, order.get(2));
-                order.set(2, valueHold);
-                lastMS = runTime.milliseconds();
-            }
-        }
-    }
-
-    public void QueueNoCooldown(int state, boolean forward) {
-        state = Math.max(0, Math.min(state, 3));
-        queuedMovements = state;
-        this.forward = forward;
-    }
-
-    public void QueueCooldowns(int state, boolean forward) {
-        if (!moveCooldown) {
-            runTime.reset();
-            lastMS = 0;
-            state = Math.max(0, Math.min(state, 3));
-            queuedMovements = state;
-            moveCooldown = true;
-            this.forward = forward;
-        }
-    }
-    // autonomous function -_-
-    public void AutoRot(int state, boolean forward, ArrayList<Robot.Color> order) {
-        moveCooldown = false;
-        QueueCooldowns(state, forward);
-        while (queuedMovements > 0) {
-            IteratePaddles(order);
-            robot.wheels.wheelsTick();
-        }
-        paddles.setPower(0);
-    }
-    public void PaddleFix(boolean fix) {
-        if (fix) {
-            double start = runTime.milliseconds();
-            while (sensor.isPressed() && runTime.milliseconds() - start < 200) {
-                paddles.setPower(-0.1);
-            }
-            paddles.setPower(0);
-        }
-    }
-    public void PaddleFixHold () {
-        paddles.setPower(-0.3);
-    }
-    public void PaddleStop () {
-        paddles.setPower(0);
-    }
+//    /* create the servo */
+//    CRServo paddles;
+//
+//    /* create the sensor */
+//    public TouchSensor sensor;
+//
+//    /* create the robot */
+//    private Robot robot;
+//
+//    /* variable for storing the queued pass amounts and pass lock */
+//    int queuedMovements = 0;
+//    boolean moveCooldown = false;
+//    boolean forward = false;
+//    double lastMS = 0;
+//    double paddlePower = 0.6;
+//    Telemetry telemetry;
+//
+//    /* time for iteration limitation */
+//    ElapsedTime runTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+//
+//    public ArtifactPaddles(HardwareMap hwMap, Telemetry telemetry, Robot robot) {
+//        paddles = hwMap.get(CRServo.class, "paddles");
+//        sensor = hwMap.get(TouchSensor.class, "MagneticSwitch");
+//        this.telemetry = telemetry;
+//        this.robot = robot;
+//    }
+//
+//    // function to rotate by unit amount
+//    public void IteratePaddles(ArrayList<Robot.Color> order) {
+//        if (queuedMovements == 0) {
+//            moveCooldown = false;
+//            paddles.setPower(0);
+//        } else {
+//            paddles.setPower(forward  ? paddlePower : -paddlePower);
+//        }
+//        if (sensor.isPressed()) {
+//            if (runTime.milliseconds() > (lastMS + 500)) {
+//                queuedMovements--;
+//                queuedMovements = Math.max(0, queuedMovements);
+//                Robot.Color valueHold = order.get(0);
+//                order.set(0, order.get(1));
+//                order.set(1, order.get(2));
+//                order.set(2, valueHold);
+//                lastMS = runTime.milliseconds();
+//            }
+//        }
+//    }
+//
+//    public void QueueNoCooldown(int state, boolean forward) {
+//        state = Math.max(0, Math.min(state, 3));
+//        queuedMovements = state;
+//        this.forward = forward;
+//    }
+//
+//    public void QueueCooldowns(int state, boolean forward) {
+//        if (!moveCooldown) {
+//            runTime.reset();
+//            lastMS = 0;
+//            state = Math.max(0, Math.min(state, 3));
+//            queuedMovements = state;
+//            moveCooldown = true;
+//            this.forward = forward;
+//        }
+//    }
+//    // autonomous function -_-
+//    public void AutoRot(int state, boolean forward, ArrayList<Robot.Color> order) {
+//        moveCooldown = false;
+//        QueueCooldowns(state, forward);
+//        while (queuedMovements > 0) {
+//            IteratePaddles(order);
+//            robot.wheels.wheelsTick();
+//        }
+//        paddles.setPower(0);
+//    }
+//    public void PaddleFix(boolean fix) {
+//        if (fix) {
+//            double start = runTime.milliseconds();
+//            while (sensor.isPressed() && runTime.milliseconds() - start < 200) {
+//                paddles.setPower(-0.1);
+//            }
+//            paddles.setPower(0);
+//        }
+//    }
+//    public void PaddleFixHold () {
+//        paddles.setPower(-0.3);
+//    }
+//    public void PaddleStop () {
+//        paddles.setPower(0);
+//    }
 }

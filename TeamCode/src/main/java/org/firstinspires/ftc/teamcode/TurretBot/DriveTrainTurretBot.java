@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Assemblies;
+package org.firstinspires.ftc.teamcode.TurretBot;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -9,9 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-
-public class DriveTrainMecanum {
-
+public class DriveTrainTurretBot {
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
     private IMU imu = null;
     private ElapsedTime runtime = new ElapsedTime();
@@ -40,7 +38,7 @@ public class DriveTrainMecanum {
     private double extensionPowerReductionIntensity = 7560;
     private int CurrentLiftCounts = 0;
     // All subsystems should have a hardware function that labels all of the hardware required of it.
-    public DriveTrainMecanum(HardwareMap hwMap, Telemetry telemetry) {
+    public DriveTrainTurretBot(HardwareMap hwMap, Telemetry telemetry) {
 
         // Initializes motor names:
         //limbExtend = hwMap.get(DcMotor.class, "limbExtend");
@@ -302,11 +300,4 @@ public class DriveTrainMecanum {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         return orientation.getYaw(AngleUnit.DEGREES);
     }
-    public void Small_Wheels() {
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
-    }
-
 }

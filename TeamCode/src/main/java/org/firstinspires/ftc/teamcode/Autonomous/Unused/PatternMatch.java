@@ -12,9 +12,9 @@ public class PatternMatch extends LinearOpMode {
     long start = System.nanoTime();
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(hardwareMap, telemetry);
-        waitForStart();
-        start = System.nanoTime();
-        robot.autoBase.PatternMatch(robot);
+//        Robot robot = new Robot(hardwareMap, telemetry);
+//        waitForStart();
+//        start = System.nanoTime();
+//        robot.autoBase.PatternMatch(robot);
     }
 }

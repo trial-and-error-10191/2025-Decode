@@ -9,16 +9,16 @@ import org.firstinspires.ftc.teamcode.Assemblies.BallRelease;
 @Disabled
 @TeleOp (name = "PaddleTest", group = "Test")
 public class PaddleTest extends LinearOpMode {
-    BallRelease ballRelease = new BallRelease(hardwareMap, telemetry);
+//    BallRelease ballRelease = new BallRelease(hardwareMap, telemetry);
     @Override
     public void runOpMode() {
-        waitForStart();
-        while (opModeIsActive()) {
-            if (gamepad1.a) {
-                ballRelease.Open();
-            } else if (gamepad1.b) {
-                ballRelease.Close();
-            }
-        }
+//        waitForStart();
+//        while (opModeIsActive()) {
+//            if (gamepad1.a) {
+//                ballRelease.Open();
+//            } else if (gamepad1.b) {
+//                ballRelease.Close();
+//            }
+//        }
     }
 }

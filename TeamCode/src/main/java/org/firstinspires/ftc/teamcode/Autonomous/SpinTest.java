@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class SpinTest extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(hardwareMap, telemetry);
-        robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
-        waitForStart();
-        robot.patternMatchAuto();
-        robot.autoBase.Wait(5);
+//        Robot robot = new Robot(hardwareMap, telemetry);
+//        robot.autoBase.AprilTagAmount(robot, robot.obeliskOrder.findTag(robot.cameraDefinition.aprilTag));
+//        waitForStart();
+//        robot.patternMatchAuto();
+//        robot.autoBase.Wait(5);
     }
 }

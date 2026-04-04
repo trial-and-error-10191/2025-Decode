@@ -11,12 +11,12 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class BearingFindTest extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(hardwareMap, telemetry);
-        robot.autoBase.AprilTagAmount(robot, 20);
-        waitForStart();
-        while (opModeIsActive()) {
-            robot.autoBase.TurnPrecision(robot, 0, 20);
-            robot.autoBase.Wait(30);
-        }
+//        Robot robot = new Robot(hardwareMap, telemetry);
+//        robot.autoBase.AprilTagAmount(robot, 20);
+//        waitForStart();
+//        while (opModeIsActive()) {
+//            robot.autoBase.TurnPrecision(robot, 0, 20);
+//            robot.autoBase.Wait(30);
+//        }
     }
 }

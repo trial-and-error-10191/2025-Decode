@@ -16,27 +16,27 @@ public class testAprilTags extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
 
-        CameraDefinition camera = new CameraDefinition(hardwareMap, telemetry);
-        Point point = null;
-
-        waitForStart();
-
-        while (opModeIsActive()) {
-
-            if (!camera.aprilTag.getDetections().isEmpty()) {
-                point = camera.aprilTag.getDetections().get(0).center;
-            } else {
-                point = null;
-            }
-
-                    if (point != null) {
-                        telemetry.addData("Tag X : ", point.x);
-                        telemetry.addData("Tag Y : ", point.y);
-                    } else {
-                        telemetry.addData("Tag not detected", "");
-                    }
-
-                    telemetry.update();
-                }
+//        CameraDefinition camera = new CameraDefinition(hardwareMap, telemetry);
+//        Point point = null;
+//
+//        waitForStart();
+//
+//        while (opModeIsActive()) {
+//
+//            if (!camera.aprilTag.getDetections().isEmpty()) {
+//                point = camera.aprilTag.getDetections().get(0).center;
+//            } else {
+//                point = null;
+//            }
+//
+//                    if (point != null) {
+//                        telemetry.addData("Tag X : ", point.x);
+//                        telemetry.addData("Tag Y : ", point.y);
+//                    } else {
+//                        telemetry.addData("Tag not detected", "");
+//                    }
+//
+//                    telemetry.update();
+//                }
             }
         }
