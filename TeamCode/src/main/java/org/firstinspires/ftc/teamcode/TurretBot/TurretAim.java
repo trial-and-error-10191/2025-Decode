@@ -10,9 +10,21 @@ public class TurretAim {
         servo = hwMap.get(Servo.class, "TurretServo");
     }
 
-    double finalTurretTarget;
+    double finalTurretTarget = 0;
 
     public void TurretServoAim() {
         servo.setPosition(finalTurretTarget);
+    }
+
+    public void ServoSet0(boolean trigger) {
+        if (trigger) {
+            servo.setPosition(0);
+        }
+    }
+
+    public void ServoSet1(boolean trigger) {
+        if (trigger) {
+            servo.setPosition(1);
+        }
     }
 }

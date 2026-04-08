@@ -9,6 +9,10 @@ public class TeleOpTurretBot extends LinearOpMode {
     public void runOpMode() {
         TurretRobot robot = new TurretRobot(hardwareMap, telemetry);
         waitForStart();
-        robot.driveTrain.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        while (opModeIsActive()) {
+            robot.driveTrain.drive(gamepad1.left_stick_y, -gamepad1.left_stick_x, gamepad1.right_stick_x);
+            robot.turretAim.ServoSet0(gamepad1.x);
+            robot.turretAim.ServoSet1(gamepad1.b);
+        }
     }
 }
