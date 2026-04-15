@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class DriveTrainTurretBot {
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
-    private IMU imu = null;
+    public IMU imu = null;
     private ElapsedTime runtime = new ElapsedTime();
 
     Telemetry telemetry;
