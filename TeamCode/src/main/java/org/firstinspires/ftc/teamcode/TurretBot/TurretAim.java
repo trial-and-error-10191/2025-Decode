@@ -10,9 +10,8 @@ public class TurretAim {
         servo = hwMap.get(Servo.class, "TurretServo");
     }
 
-    double finalTurretTarget = 0;
-
-    public void TurretServoAim() {
+    public void TurretServoAim(CameraFindDistanceAndBearing bearing) {
+        double finalTurretTarget = 0.02 * bearing.bearing + 0.5;
         servo.setPosition(finalTurretTarget);
     }
 

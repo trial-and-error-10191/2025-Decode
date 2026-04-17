@@ -11,6 +11,7 @@ public class TeleOpTurretBot extends LinearOpMode {
         TurretRobot robot = new TurretRobot(hardwareMap, telemetry);
         waitForStart();
         while (opModeIsActive()) {
+            robot.turretAim.TurretServoAim(robot.camFindDistAndBearing);
             robot.camFindDistAndBearing.distanceBearingFind(robot.cameraDefinition.aprilTag);
             if (gamepad1.dpad_left) {
                 robot.camFindDistAndBearing.goalID = 20;
