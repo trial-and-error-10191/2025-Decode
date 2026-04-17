@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp (name = "TurretBot", group = "LinearOpMode")
 public class TeleOpTurretBot extends LinearOpMode {
+    long start = System.nanoTime();
     @Override
     public void runOpMode() {
         TurretRobot robot = new TurretRobot(hardwareMap, telemetry);
@@ -22,10 +23,19 @@ public class TeleOpTurretBot extends LinearOpMode {
             if (gamepad1.y) {
                 robot.turretAim.servo.setPosition(0.5);
             }
+            if (System.nanoTime() - start >= 5E8 && (gamepad1.right_bumper || gamepad1.left_bumper)) {
+                if (gamepad1.right_bumper) {
+                    robot.turretAim.servo.setPosition(robot.turretAim.servo.getPosition() + 0.2);
+                } else if (gamepad1.left_bumper) {
+                    robot.turretAim.servo.setPosition(robot.turretAim.servo.getPosition() - 0.2);
+                }
+                start = System.nanoTime();
+            }
             // The distance telemetry is measured in inches.
             telemetry.addData("Distance from the goal AprilTag", robot.camFindDistAndBearing.distance);
             // The bearing telemetry is measured in
             telemetry.addData("Angle to the camera", robot.camFindDistAndBearing.bearing);
+            telemetry.addData("Servo Position", robot.turretAim.servo.getPosition());
             telemetry.update();
         }
     }
