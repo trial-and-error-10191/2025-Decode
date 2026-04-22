@@ -11,7 +11,8 @@ public class TurretAim {
     }
 
     public void TurretServoAim(CameraFindDistanceAndBearing bearing) {
-        double finalTurretTarget = 0.02 * bearing.bearing + 0.5;
+        // The equation below gets the finalTurretTarget's value by using the slope intercept form (y = mx + b)
+        double finalTurretTarget = 0.0039215686274509803921568627451 * -bearing.bearing + 0.5;
         servo.setPosition(finalTurretTarget);
     }
 
