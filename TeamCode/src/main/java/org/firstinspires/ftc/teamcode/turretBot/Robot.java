@@ -15,12 +15,16 @@ public class Robot {
     Telemetry telemetry;
     HardwareMap hwMap;
 
+    // robot position //
+    float x;
+    float y;
+
     /**
      * constructor for robot class.
      * @param hwMap hardware map to distribute to all objects
      * @param telemetry telemetry to output with internal functions
      */
-    Robot(HardwareMap hwMap, Telemetry telemetry) {
+    public Robot(HardwareMap hwMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         this.hwMap = hwMap;
         driveTrain = new DriveTrain(hwMap, telemetry);

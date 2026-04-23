@@ -14,6 +14,10 @@ public class Turret {
     // Motor object //
     public DcMotor motor;
 
+    // rotational tracker //
+    private Float angle = 0.0F;
+    private Float prev_angle = angle;
+
     /**
      * constructor method for Turret assembly.
      * @param hwMap the hardware map for use in the motor
@@ -25,5 +29,17 @@ public class Turret {
         this.hwMap = hwMap;
     }
 
+    /**
+     * function to call every frame in a thread to ensure proper behavior.
+     * in order to freeze, stop calling the func
+     */
+    public void tick() {
+        angle += angle - prev_angle;
+        prev_angle = angle;
+    }
+
+    public void set_rotational_target() {
+
+    }
 
 }
