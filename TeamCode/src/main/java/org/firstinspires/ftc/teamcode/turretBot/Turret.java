@@ -29,17 +29,5 @@ public class Turret {
         this.hwMap = hwMap;
     }
 
-    /**
-     * function to call every frame in a thread to ensure proper behavior.
-     * in order to freeze, stop calling the func
-     */
-    public void tick() {
-        angle += angle - prev_angle;
-        prev_angle = angle;
-    }
-
-    public void set_rotational_target() {
-
-    }
 
 }

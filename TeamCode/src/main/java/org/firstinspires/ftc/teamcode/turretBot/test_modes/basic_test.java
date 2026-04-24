@@ -16,7 +16,6 @@ public class basic_test extends LinearOpMode {
         robot = new Robot(hardwareMap,telemetry);
 
         while (opModeIsActive()) {
-          robot.turret.tick();
         }
     }
 }
