@@ -37,6 +37,10 @@ public class TeleOpTurretBot extends LinearOpMode {
             // The bearing telemetry is measured in
             telemetry.addData("Angle to the camera", robot.camFindDistAndBearing.bearing);
             telemetry.addData("Servo Position", robot.turretAim.servo.getPosition());
+            telemetry.addData("X Coordinate", robot.turretAim.xCoordinate);
+            telemetry.addData("Y Coordinate", robot.turretAim.yCoordinate);
+            telemetry.addData("X Coordinate For The Camera", robot.turretAim.xCoordinate + 5.125);
+            telemetry.addData("Y Coordinate For The Camera", robot.turretAim.yCoordinate + 7.5);
             telemetry.update();
         }
     }
