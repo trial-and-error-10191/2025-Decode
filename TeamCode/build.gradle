@@ -21,6 +21,17 @@ android {
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
+    sourceSets {
+        main {
+            java {
+                exclude 'org/firstinspires/ftc/teamcode/Assemblies'
+                exclude 'org/firstinspires/ftc/teamcode/Autonomous'
+                exclude 'org/firstinspires/ftc/teamcode/fileManagement'
+                exclude 'org/firstinspires/ftc/teamcode/TeleOp'
+            }
+        }
+
+    }
 }
 
 dependencies {
