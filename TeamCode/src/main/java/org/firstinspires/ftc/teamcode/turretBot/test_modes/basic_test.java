@@ -15,7 +15,11 @@ public class basic_test extends LinearOpMode {
 
         robot = new Robot(hardwareMap,telemetry);
 
+        waitForStart();
+
         while (opModeIsActive()) {
+
+            robot.alignTurret();
         }
     }
 }

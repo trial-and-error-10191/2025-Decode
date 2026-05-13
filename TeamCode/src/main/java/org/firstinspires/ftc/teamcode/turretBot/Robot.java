@@ -53,7 +53,7 @@ public class Robot {
     int negXRestriction = 35;
     int posXRestriction = 35;
 
-    public boolean alignRobot() {
+    public boolean alignTurret() {
 
         boolean aligned = false;
 
@@ -72,15 +72,12 @@ public class Robot {
         if (noticedDetections == 1) {
             Point tagCenter = detections.get(0).center;
             double screenCenterLineCord = ((double) 640 / 2);
-            double speed = 0.3;
+            double speed = 0.1;
 
-            //if (speed < 0.1) {
-//                aligned = true;
-//            }
+ //           telemetry.addData("center_distance", (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord));
 
             // speed is based on distance from center line. approaching a multiplier of 0 at it approached
-            speed = Math.max(speed * (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord), 0.10);
-
+            speed = speed * (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord);
 
             if (tagCenter.x > screenCenterLineCord + posXRestriction) {
                 turret.motor.setPower(speed);
@@ -94,8 +91,8 @@ public class Robot {
             turret.motor.setPower(0);
         }
 
+        telemetry.addData("power", turret.motor.getPower());
+        telemetry.update();
         return aligned;
     }
-}
-
 }
