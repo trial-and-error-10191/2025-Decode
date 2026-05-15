@@ -14,9 +14,12 @@ public class Turret {
     // Motor object //
     public DcMotor motor;
 
+    // Motor parameters //
+    public float encoder_counts_per_rotation = 145.1f;
+
     // rotational tracker //
-    private Float angle = 0.0F;
-    private Float prev_angle = angle;
+    private float angle = 0.0f;
+    private float prev_angle = angle;
 
     /**
      * constructor method for Turret assembly.

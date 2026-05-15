@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.turretBot;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -53,7 +54,7 @@ public class Robot {
     int negXRestriction = 35;
     int posXRestriction = 35;
 
-    public boolean alignTurret() {
+    public boolean alignTurretPower() {
 
         boolean aligned = false;
 
@@ -94,5 +95,28 @@ public class Robot {
         telemetry.addData("power", turret.motor.getPower());
         telemetry.update();
         return aligned;
+    }
+
+    public void alignTurretPosition() {
+
+        ArrayList<AprilTagDetection> detections = camera.aprilTag.getDetections();
+        AprilTagDetection detectionPrimary = null;
+
+        int noticedDetections = 0;
+
+        // check the amount of valid apriltags seen
+        for (AprilTagDetection detection : detections) {
+            if (detection.id == tags.blueTeamGoal.id || detection.id == tags.redTeamGoal.id) {
+                noticedDetections++;
+                detectionPrimary = detection;
+            }
+        }
+
+        // run the check
+        if (noticedDetections == 1) {
+            turret.motor.setPower(0.2);
+            turret.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            turret.motor.setTargetPosition( (int) (turret.motor.getTargetPosition() + (( detectionPrimary.ftcPose.bearing / 360) * turret.encoder_counts_per_rotation)));
+        }
     }
 }

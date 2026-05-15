@@ -19,7 +19,7 @@ public class basic_test extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            robot.alignTurret();
+            robot.alignTurretPosition();
         }
     }
 }
