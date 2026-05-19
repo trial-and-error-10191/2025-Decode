@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.turretBot;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -53,7 +54,7 @@ public class Robot {
     int negXRestriction = 35;
     int posXRestriction = 35;
 
-    public boolean alignRobot() {
+    public boolean alignTurretPower() {
 
         boolean aligned = false;
 
@@ -72,15 +73,12 @@ public class Robot {
         if (noticedDetections == 1) {
             Point tagCenter = detections.get(0).center;
             double screenCenterLineCord = ((double) 640 / 2);
-            double speed = 0.3;
+            double speed = 0.1;
 
-            //if (speed < 0.1) {
-//                aligned = true;
-//            }
+ //           telemetry.addData("center_distance", (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord));
 
             // speed is based on distance from center line. approaching a multiplier of 0 at it approached
-            speed = Math.max(speed * (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord), 0.10);
-
+            speed = speed * (Math.abs(screenCenterLineCord - tagCenter.x) / screenCenterLineCord);
 
             if (tagCenter.x > screenCenterLineCord + posXRestriction) {
                 turret.motor.setPower(speed);
@@ -94,6 +92,31 @@ public class Robot {
             turret.motor.setPower(0);
         }
 
+        telemetry.addData("power", turret.motor.getPower());
+        telemetry.update();
         return aligned;
+    }
+
+    public void alignTurretPosition() {
+
+        ArrayList<AprilTagDetection> detections = camera.aprilTag.getDetections();
+        AprilTagDetection detectionPrimary = null;
+
+        int noticedDetections = 0;
+
+        // check the amount of valid apriltags seen
+        for (AprilTagDetection detection : detections) {
+            if (detection.id == tags.blueTeamGoal.id || detection.id == tags.redTeamGoal.id) {
+                noticedDetections++;
+                detectionPrimary = detection;
+            }
+        }
+
+        // run the check
+        if (noticedDetections == 1) {
+            turret.motor.setPower(0.2);
+            turret.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            turret.motor.setTargetPosition( (int) (turret.motor.getTargetPosition() + (( detectionPrimary.ftcPose.bearing / 360) * turret.encoder_counts_per_rotation)));
+        }
     }
 }

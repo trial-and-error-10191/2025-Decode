@@ -15,9 +15,11 @@ public class basic_test extends LinearOpMode {
 
         robot = new Robot(hardwareMap,telemetry);
 
+        waitForStart();
+
         while (opModeIsActive()) {
-            robot.alignRobot();
-            robot.driveTrain.easingDrive(gamepad1.left_stick_x, gamepad1.right_stick_y);
+
+            robot.alignTurretPosition();
         }
     }
 }
