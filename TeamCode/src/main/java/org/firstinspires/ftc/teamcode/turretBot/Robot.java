@@ -116,7 +116,7 @@ public class Robot {
         if (noticedDetections == 1) {
             turret.motor.setPower(0.2);
             turret.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            turret.motor.setTargetPosition( (int) (turret.motor.getTargetPosition() + (( detectionPrimary.ftcPose.bearing / 360) * turret.encoder_counts_per_rotation)));
+            turret.motor.setTargetPosition( (int) (turret.motor.getTargetPosition() - (( detectionPrimary.ftcPose.bearing / 360) * turret.encoder_counts_per_rotation)));
         }
     }
 }

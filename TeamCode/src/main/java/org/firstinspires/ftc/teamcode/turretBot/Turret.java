@@ -15,7 +15,8 @@ public class Turret {
     public DcMotor motor;
 
     // Motor parameters //
-    public float encoder_counts_per_rotation = 145.1f;
+    // 1150 rpm - 145.1
+    public float encoder_counts_per_rotation = 2786.2f;
 
     // rotational tracker //
     private float angle = 0.0f;
@@ -28,6 +29,7 @@ public class Turret {
      */
     public Turret(HardwareMap hwMap, Telemetry telemetry) {
         motor = hwMap.get(DcMotor.class, "turret_motor");
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.telemetry = telemetry;
         this.hwMap = hwMap;
     }
