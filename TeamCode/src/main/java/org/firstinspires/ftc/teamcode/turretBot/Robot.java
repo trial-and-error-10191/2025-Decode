@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.turretBot;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -19,7 +20,7 @@ public class Robot {
     // telemetry and hardware map //
     Telemetry telemetry;
     HardwareMap hwMap;
-
+    public Gamepad active_gamepad;
     // robot position //
     public Vector2 position;
 
@@ -51,9 +52,14 @@ public class Robot {
         }
     }
 
+    // data for alignTurretPower() //
     int negXRestriction = 35;
     int posXRestriction = 35;
 
+    /**
+     * align the turret to the camera using Power
+     * @return true if aligned, and false if still aligning.
+     */
     public boolean alignTurretPower() {
 
         boolean aligned = false;
@@ -97,6 +103,13 @@ public class Robot {
         return aligned;
     }
 
+    // data for alignTurretPosition() //
+    public double dampingFactor = 0.3;
+    public int previous_direction = 0;
+
+    /**
+     * align the turret to the camera using @param dampingFactor as a speed multiplier.
+     */
     public void alignTurretPosition() {
 
         ArrayList<AprilTagDetection> detections = camera.aprilTag.getDetections();
@@ -114,9 +127,26 @@ public class Robot {
 
         // run the check
         if (noticedDetections == 1) {
-            turret.motor.setPower(0.2);
+            turret.motor.setPower(1);
             turret.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            turret.motor.setTargetPosition( (int) (turret.motor.getTargetPosition() - (( detectionPrimary.ftcPose.bearing / 360) * turret.encoder_counts_per_rotation)));
+            double Change = ( -detectionPrimary.ftcPose.bearing / 360) * turret.encoder_counts_per_rotation * dampingFactor;
+            turret.motor.setTargetPosition( (int) (turret.motor.getCurrentPosition() + Change));
+
+            if ( active_gamepad.left_stick_y > 0) {
+                previous_direction = 1;
+            } else {
+                previous_direction = -1;
+            }
+
+            telemetry.addData("direction", previous_direction);
+
+        } else if (noticedDetections == 0) {
+            if (previous_direction > 0) {
+                turret.motor.setTargetPosition( (int) (turret.motor.getCurrentPosition() + 10));
+            } else if (previous_direction < 0) {
+                turret.motor.setTargetPosition( (int) (turret.motor.getCurrentPosition() - 10));
+                telemetry.addData("TargetEC", turret.motor.getTargetPosition());
+            }
         }
     }
 }
