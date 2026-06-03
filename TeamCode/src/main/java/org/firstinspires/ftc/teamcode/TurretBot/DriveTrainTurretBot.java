@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class DriveTrainTurretBot {
-    DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
+    DcMotor leftFrontDrive, rightFrontDrive /*leftBackDrive, rightBackDrive*/;
     public IMU imu = null;
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -41,34 +41,33 @@ public class DriveTrainTurretBot {
     public DriveTrainTurretBot(HardwareMap hwMap, Telemetry telemetry) {
 
         // Initializes motor names:
-        //limbExtend = hwMap.get(DcMotor.class, "limbExtend");
         leftFrontDrive = hwMap.get(DcMotor.class, "leftFront");
-        leftBackDrive = hwMap.get(DcMotor.class, "leftBack");
+//        leftBackDrive = hwMap.get(DcMotor.class, "leftBack");
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
-        rightBackDrive = hwMap.get(DcMotor.class, "rightBack");
+//        rightBackDrive = hwMap.get(DcMotor.class, "rightBack");
 
         // Initializes motor directions:
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+//        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+//        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
@@ -134,8 +133,8 @@ public class DriveTrainTurretBot {
         // The next four lines gives the calculated power to each motor.
         leftFrontDrive.setPower(leftFrontPower);
         rightFrontDrive.setPower(rightFrontPower);
-        leftBackDrive.setPower(leftBackPower);
-        rightBackDrive.setPower(rightBackPower);
+//        leftBackDrive.setPower(leftBackPower);
+//        rightBackDrive.setPower(rightBackPower);
     }
 
     public void driveStraight(double maxDriveSpeed,
@@ -145,9 +144,9 @@ public class DriveTrainTurretBot {
         // Determine new target position, and pass to motor controller
         int moveCounts = (int) (distance * COUNTS_PER_INCH);
         leftTarget = leftFrontDrive.getCurrentPosition() + moveCounts;
-        leftTarget = leftBackDrive.getCurrentPosition() + moveCounts;
+//        leftTarget = leftBackDrive.getCurrentPosition() + moveCounts;
         rightTarget = rightFrontDrive.getCurrentPosition() + moveCounts;
-        rightTarget = rightBackDrive.getCurrentPosition() + moveCounts;
+//        rightTarget = rightBackDrive.getCurrentPosition() + moveCounts;
 
         // Set Target FIRST, then turn on RUN_TO_POSITION
         // If Strafing then reverse motor directions
@@ -155,14 +154,14 @@ public class DriveTrainTurretBot {
 
         leftFrontDrive.setTargetPosition(leftTarget);
         rightFrontDrive.setTargetPosition(rightTarget);
-        leftBackDrive.setTargetPosition(leftTarget);
-        rightBackDrive.setTargetPosition(rightTarget);
+//        leftBackDrive.setTargetPosition(leftTarget);
+//        rightBackDrive.setTargetPosition(rightTarget);
 
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Set the required driving speed  (must be positive for RUN_TO_POSITION)
         // Start driving straight, and then enter the control loop
@@ -170,7 +169,7 @@ public class DriveTrainTurretBot {
         moveRobot(maxDriveSpeed, 0);
 
         // keep looping while we are still active, and BOTH motors are running.
-        while ((leftFrontDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy() && leftBackDrive.isBusy())) {
+        while ((leftFrontDrive.isBusy() && rightFrontDrive.isBusy() /*&& rightBackDrive.isBusy() && leftBackDrive.isBusy()*/)) {
 
             // Determine required steering to keep on heading
             turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
@@ -233,7 +232,7 @@ public class DriveTrainTurretBot {
             telemetry.addData("Motion", "Drive Straight");
             telemetry.addData("Target Pos L:R", "%7d:%7d", leftTarget, rightTarget);
             telemetry.addData("Actual Pos L:R", "%7d:%7d:%7d:%7d", leftFrontDrive.getCurrentPosition(),
-                    rightFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition());
+                    rightFrontDrive.getCurrentPosition() /*leftBackDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition()*/);
         } else {
             telemetry.addData("Motion", "Turning");
         }
