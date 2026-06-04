@@ -8,11 +8,13 @@ public class TurretRobot {
     public CameraDefinitionTurretCam cameraDefinition;
     public CameraFindDistanceAndBearing camFindDistAndBearing;
     public DriveTrainTurretBot driveTrain;
+    public NewTurretBotDrive newDriveTrain;
     public TurretAim turretAim;
     public TurretRobot (HardwareMap hwMap, Telemetry telemetry) {
         cameraDefinition = new CameraDefinitionTurretCam(hwMap);
         camFindDistAndBearing = new CameraFindDistanceAndBearing(hwMap, cameraDefinition.aprilTag, telemetry);
         driveTrain = new DriveTrainTurretBot(hwMap, telemetry);
+        newDriveTrain = new NewTurretBotDrive(hwMap, telemetry);
         turretAim = new TurretAim(hwMap);
     }
 }

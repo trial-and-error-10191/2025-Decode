@@ -9,6 +9,7 @@ public class TurretAim {
     double xCoordinate = 0;
     double yCoordinate = 0;
     double bearingToTurret = 0;
+    double lastBearingPos = 0;
     double crServoPower = 0.5;
     long start = System.nanoTime();
 
@@ -43,21 +44,21 @@ public class TurretAim {
 //        }
     }
 
-    public double findLastBearingPos(CameraFindDistanceAndBearing Find) {
-        return Find.bearing;
+    public void findLastBearingPos(CameraFindDistanceAndBearing Find) {
+        lastBearingPos = Find.bearing;
     }
 
     public void TurnWithCRServo(CameraFindDistanceAndBearing Find) {
         boolean bearingPositive;
         start = System.nanoTime();
-        while (findLastBearingPos(Find) != Find.bearing) {
+        while (lastBearingPos != Find.bearing) {
             if (Find.bearing >= 0) {
                 bearingPositive = true;
             } else {
                 bearingPositive = false;
             }
             servo.setPower(bearingPositive ? crServoPower : -crServoPower);
-            if (Math.abs(findLastBearingPos(Find) - Find.bearing) == 0.5) {
+            if (Math.abs(lastBearingPos - Find.bearing) == 0.5) {
                 servo.setPower(0);
                 findLastBearingPos(Find);
                 break;
