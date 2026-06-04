@@ -52,7 +52,7 @@ public class TurretAim {
         boolean bearingPositive;
         start = System.nanoTime();
         while (lastBearingPos != Find.bearing) {
-            if (Find.bearing >= 0) {
+            if (Find.bearing - lastBearingPos >= 0) {
                 bearingPositive = true;
             } else {
                 bearingPositive = false;
