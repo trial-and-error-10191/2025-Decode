@@ -10,7 +10,7 @@ public class TurretAim {
     double yCoordinate = 0;
     double bearingToTurret = 0;
     double lastBearingPos = 0;
-    double crServoPower = 0.5;
+    double crServoPower = 0.75;
     long start = System.nanoTime();
 
     public TurretAim(HardwareMap hwMap) {
