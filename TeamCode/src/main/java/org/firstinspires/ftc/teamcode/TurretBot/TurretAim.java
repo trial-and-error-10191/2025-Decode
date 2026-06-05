@@ -10,7 +10,7 @@ public class TurretAim {
     double yCoordinate = 0;
     double bearingToTurret = 0;
     double lastBearingPos = 0;
-    double crServoPower = 0.75;
+    double crServoPower = 1;
     long start = System.nanoTime();
 
     public TurretAim(HardwareMap hwMap) {
@@ -32,18 +32,6 @@ public class TurretAim {
 //        servo.setPosition(finalTurretTarget);
     }
 
-    public void ServoSet0(boolean trigger) {
-//        if (trigger) {
-//            servo.setPosition(0);
-//        }
-    }
-
-    public void ServoSet1(boolean trigger) {
-//        if (trigger) {
-//            servo.setPosition(1);
-//        }
-    }
-
     public void findLastBearingPos(CameraFindDistanceAndBearing Find) {
         lastBearingPos = Find.bearing;
     }
@@ -57,12 +45,19 @@ public class TurretAim {
             } else {
                 bearingPositive = false;
             }
-            servo.setPower(bearingPositive ? crServoPower : -crServoPower);
-            if (Math.abs(lastBearingPos - Find.bearing) == 0.5) {
+            servo.setPower(bearingPositive ? -crServoPower : crServoPower);
+            if (Math.abs(lastBearingPos - Find.bearing) <= 0.5) {
                 servo.setPower(0);
                 findLastBearingPos(Find);
                 break;
             }
+        }
+    }
+    public void SpinServo(boolean spinLeft, boolean spinRight) {
+        if (spinLeft) {
+            servo.setPower(crServoPower);
+        } else if (spinRight) {
+            servo.setPower(-crServoPower);
         }
     }
 }

@@ -48,6 +48,9 @@ public class NewTurretBotDrive {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         this.telemetry = telemetry;
         imu.resetYaw();
+
+        runtime = new ElapsedTime();
+        runtime.reset();
     }
 
     public void easingDrive(double axial, double yaw) {
