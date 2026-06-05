@@ -132,13 +132,14 @@ public class Robot {
             double Change = ( -detectionPrimary.ftcPose.bearing / 360) * turret.encoder_counts_per_rotation * dampingFactor;
             turret.motor.setTargetPosition( (int) (turret.motor.getCurrentPosition() + Change));
 
-            if ( active_gamepad.left_stick_y > 0) {
+            if ( active_gamepad.right_stick_x > 0) {
                 previous_direction = 1;
-            } else {
+            } else if (active_gamepad.right_stick_x < 0) {
                 previous_direction = -1;
+            } else {
+                previous_direction = 0;
             }
-
-            telemetry.addData("direction", previous_direction);
+            telemetry.addData("direction_current", previous_direction);
 
         } else if (noticedDetections == 0) {
             if (previous_direction > 0) {
@@ -147,6 +148,7 @@ public class Robot {
                 turret.motor.setTargetPosition( (int) (turret.motor.getCurrentPosition() - 10));
                 telemetry.addData("TargetEC", turret.motor.getTargetPosition());
             }
+            telemetry.addData("direction_previous", previous_direction);
         }
     }
 }

@@ -23,6 +23,7 @@ public class accuracyTest extends LinearOpMode {
         robot.turret.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (opModeIsActive()) {
+
             if (gamepad1.dpadLeftWasPressed()) {
                 robot.turret.motor.setTargetPosition(1000);
             } else if (gamepad1.dpadRightWasPressed()) {
