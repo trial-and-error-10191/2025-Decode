@@ -37,13 +37,10 @@ public class DriveTrainMecanum {
     private int leftTarget = 0;
     private int rightTarget = 0;
     private double headingError = 0;
-    private double extensionPowerReductionIntensity = 7560;
-    private int CurrentLiftCounts = 0;
     // All subsystems should have a hardware function that labels all of the hardware required of it.
     public DriveTrainMecanum(HardwareMap hwMap, Telemetry telemetry) {
 
         // Initializes motor names:
-        //limbExtend = hwMap.get(DcMotor.class, "limbExtend");
         leftFrontDrive = hwMap.get(DcMotor.class, "leftFront");
         leftBackDrive = hwMap.get(DcMotor.class, "leftBack");
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFront");
@@ -83,9 +80,6 @@ public class DriveTrainMecanum {
 
     // This function needs an axial, lateral, and yaw input. It uses this input to drive the drive train motors.
     // The last two variables are for direction switching.
-    public void LiftHandle(int LiftCounts) {
-        CurrentLiftCounts = Math.abs(LiftCounts);
-    }
 
 
     public void drive(double axial, double lateral, double yaw) {
@@ -126,10 +120,6 @@ public class DriveTrainMecanum {
         leftBackPower *= sensitivity;
         rightFrontPower *= sensitivity;
         rightBackPower *= sensitivity;
-        leftFrontPower *=  (1 - (CurrentLiftCounts / extensionPowerReductionIntensity));
-        leftBackPower *=  (1 - (CurrentLiftCounts / extensionPowerReductionIntensity));
-        rightFrontPower *=  (1 - (CurrentLiftCounts / extensionPowerReductionIntensity));
-        rightBackPower *=  (1 - (CurrentLiftCounts / extensionPowerReductionIntensity));
 
         leftFrontPower *= 0.7; // this motor is 312 rpm, others are 223. 223/312 ~ 0.7
 

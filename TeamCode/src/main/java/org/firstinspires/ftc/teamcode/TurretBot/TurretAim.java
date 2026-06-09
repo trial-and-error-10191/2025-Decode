@@ -14,7 +14,7 @@ public class TurretAim {
     long start = System.nanoTime();
 
     public TurretAim(HardwareMap hwMap) {
-        servo = hwMap.get(CRServo.class, "TurretServo");
+//        servo = hwMap.get(CRServo.class, "TurretServo");
     }
 
     public void TurretServoAim(CameraFindDistanceAndBearing Find) {
