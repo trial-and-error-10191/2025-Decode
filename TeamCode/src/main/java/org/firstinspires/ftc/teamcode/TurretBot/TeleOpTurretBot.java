@@ -20,7 +20,7 @@ public class TeleOpTurretBot extends LinearOpMode {
 //                robot.camFindDistAndBearing.goalID = 24;
 //            }
 //            robot.turretAim.SpinServo(gamepad1.x, gamepad1.b);
-            robot.driveTrain.fieldOriented(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            robot.driveTrain.fieldOriented(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
             // The distance telemetry is measured in inches.
 //            telemetry.addData("Distance from the goal AprilTag", robot.camFindDistAndBearing.distance);
             // The bearing telemetry is measured in
