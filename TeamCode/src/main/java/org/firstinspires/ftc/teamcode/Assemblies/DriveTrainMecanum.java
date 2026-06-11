@@ -309,5 +309,10 @@ public class DriveTrainMecanum {
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
     }
-
+    public void Spin(double power) {
+        leftFrontDrive.setPower(power);
+        leftBackDrive.setPower(power);
+        rightFrontDrive.setPower(-power);
+        rightBackDrive.setPower(-power);
+    }
 }
