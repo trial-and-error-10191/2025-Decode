@@ -4,17 +4,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Assemblies.Robot;
-
 @Disabled
-@Autonomous (name = "PatternMatch", group = "Robot")
-public class PatternMatch extends LinearOpMode {
-    long start = System.nanoTime();
+@Autonomous (name = "Shoot", group = "Test")
+public class StationShot extends LinearOpMode {
     @Override
     public void runOpMode() {
 //        Robot robot = new Robot(hardwareMap, telemetry);
+//        robot.wheels.wheelsTick();
 //        waitForStart();
-//        start = System.nanoTime();
-//        robot.autoBase.PatternMatch(robot);
+//        robot.wheels.rpmReset(3300);
+//        robot.autoBase.Shoot(robot);
+//        robot.wheels.rpmTarget = 0;
     }
 }

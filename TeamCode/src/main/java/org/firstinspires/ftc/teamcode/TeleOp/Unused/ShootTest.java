@@ -11,11 +11,11 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class ShootTest extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(hardwareMap, telemetry);
-        robot.ballRelease.Close();
-        waitForStart();
-        while (opModeIsActive()) {
-            robot.ballRelease.DropBall(gamepad2.right_trigger);
-        }
+//        Robot robot = new Robot(hardwareMap, telemetry);
+//        robot.ballRelease.Close();
+//        waitForStart();
+//        while (opModeIsActive()) {
+//            robot.ballRelease.DropBall(gamepad2.right_trigger);
+//        }
     }
 }

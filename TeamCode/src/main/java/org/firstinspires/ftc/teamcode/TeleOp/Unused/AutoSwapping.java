@@ -1,11 +1,12 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.TeleOp.Unused;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Assemblies.Robot;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
+@Disabled
 @TeleOp(name = "AutoSwapping", group = "LinearOpMode")
 public class AutoSwapping extends LinearOpMode {
     @Override
@@ -14,8 +15,8 @@ public class AutoSwapping extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 
-            robot.wheels.wheelsTick();
-            robot.driveTrain.easingDrive(gamepad1.left_stick_y, gamepad1.right_stick_x);
+//            robot.wheels.wheelsTick();
+//            robot.driveTrain.easingDrive(gamepad1.left_stick_y, gamepad1.right_stick_x);
 
 //            if (robot.cameraDefinition.distanceFromTag(20) > 0 || robot.cameraDefinition.distanceFromTag(24) > 0) {
 //               double dist = 0;
@@ -33,8 +34,8 @@ public class AutoSwapping extends LinearOpMode {
 //               }
 //            }
 
-            telemetry.addData("Mode", robot.wheels.rpmTarget);
-            telemetry.update();
+//            telemetry.addData("Mode", robot.wheels.rpmTarget);
+//            telemetry.update();
         }
     }
 }
