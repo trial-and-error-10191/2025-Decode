@@ -11,9 +11,6 @@ public class SpinAuto extends LinearOpMode {
     public void runOpMode() {
         Robot robot = new Robot(hardwareMap, telemetry);
         waitForStart();
-        start = System.nanoTime();
-        while (System.nanoTime() - start == 4E9) {
-            robot.driveTrainMecanum.fieldOrientedAuto(1, 0, 1);
-        }
+        robot.autoBase.SitAndSpin(robot.driveTrainMecanum, 1, 0, 1, 4);
     }
 }

@@ -17,7 +17,7 @@ public class AutoBase {
     private final ElapsedTime Time = new ElapsedTime();
 //    int killSwitch = 0;
 //    public double power = 0.5;
-//    long start = System.nanoTime();
+    long start = System.nanoTime();
     public AutoBase(Telemetry telemetry) {
         this.telemetry = telemetry;
     }
@@ -144,6 +144,12 @@ public class AutoBase {
 //            }
 //        }
 //    }
+    public void SitAndSpin (DriveTrainMecanum driveTrain, double axial, double lateral, double yaw, double seconds) {
+        start = System.nanoTime();
+        while (System.nanoTime() - start <= seconds * 1E9) {
+            driveTrain.fieldOrientedAuto(axial, lateral, yaw);
+        }
+    }
     public void Wait(double seconds) {
         Time.reset();
         while (Time.milliseconds()  < seconds * 1000) {
