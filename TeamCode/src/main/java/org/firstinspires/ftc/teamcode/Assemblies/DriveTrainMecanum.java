@@ -128,6 +128,49 @@ public class DriveTrainMecanum {
         rightBackDrive.setPower(rightBackPower * sensitivity);
     }
 
+    // Field oriented controls for driving
+    public void fieldOriented(double axial, double lateral, double yaw) {
+        double deadzone = 0.05;           // deadzone in joystick drift
+        double sensitivity = 0.65;        // initializes sensitivity
+        double max;                       // use for max power to wheels
+
+        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+        angles = -orientation.getYaw(AngleUnit.RADIANS);
+
+        double robotForward = -axial * Math.cos(angles) + lateral * Math.sin(angles);
+        double robotStrafe = lateral * Math.cos(angles) - -axial * Math.sin(angles);
+
+        double leftFrontPower = 0;
+        double rightFrontPower = 0;
+        double leftBackPower = 0;
+        double rightBackPower = 0;
+
+        if (Math.abs(robotForward) > deadzone || Math.abs(robotStrafe) > deadzone || Math.abs(yaw) > deadzone) {
+            leftFrontPower = robotForward + robotStrafe + yaw;
+            rightFrontPower = robotForward - robotStrafe - yaw;
+            leftBackPower = robotForward - robotStrafe + yaw;
+            rightBackPower = robotForward + robotStrafe - yaw;
+        }
+
+        // All code below this comment normalizes the values so no wheel power exceeds 100%.
+        max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
+
+        if (max > 1.0) {
+            leftFrontPower /= max;
+            rightFrontPower /= max;
+            leftBackPower /= max;
+            rightBackPower /= max;
+        }
+
+        // The next four lines gives the calculated power to each motor.
+        leftFrontDrive.setPower(leftFrontPower * sensitivity);
+        rightFrontDrive.setPower(rightFrontPower * sensitivity);
+        leftBackDrive.setPower(leftBackPower * sensitivity);
+        rightBackDrive.setPower(rightBackPower * sensitivity);
+    }
+
     public void drive(double axial, double lateral, double yaw) {
 
         // initializes deadzone
