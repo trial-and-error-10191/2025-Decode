@@ -13,9 +13,9 @@ import java.util.List;
 public class AutoBase {
 //    AprilTagDetection desiredTagGoal = null;
     Telemetry telemetry;
-//    List<AprilTagDetection> currentDetections = null;
+    List<AprilTagDetection> currentDetections = null;
     private final ElapsedTime Time = new ElapsedTime();
-//    int killSwitch = 0;
+    int killSwitch = 0;
 //    public double power = 0.5;
     long start = System.nanoTime();
     public AutoBase(Telemetry telemetry) {
@@ -51,17 +51,17 @@ public class AutoBase {
 //            driveTrain.DESIRED_TAG_ID = 24;
 //        }
 //    }
-//    public void AprilTagAmount(Robot robot, int id) {
-//        start = System.nanoTime();
-//        while (System.nanoTime() - start <= 3E9) {
-//            currentDetections = robot.cameraDefinition.aprilTag.getDetections();
-//            if (currentDetections.contains(id)) { // Makes the robot leave the loop if it detects the april tags early
-//                break;
-//            }
-//            telemetry.addData("AprilTag Seen", currentDetections.size());
-//            telemetry.update();
-//        }
-//    }
+    public void AprilTagAmount(Robot robot, int id) {
+        start = System.nanoTime();
+        while (System.nanoTime() - start <= 3E9) {
+            currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+            if (currentDetections.contains(id)) { // Makes the robot leave the loop if it detects the april tags early
+                break;
+            }
+            telemetry.addData("AprilTag Seen", currentDetections.size());
+            telemetry.update();
+        }
+    }
 //    public void SetToEncoders(DriveTrain driveTrain) {
 //        driveTrain.leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        driveTrain.rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -144,6 +144,31 @@ public class AutoBase {
 //            }
 //        }
 //    }
+    public void DriveUntilDistance(Robot robot, int id, double distance) {
+        currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+        while (true) {
+            if (currentDetections.isEmpty()) {
+                break;
+            }
+            for (AprilTagDetection detection : currentDetections) {
+                if (detection.id == id) {
+                    while (detection.ftcPose.range > distance) {
+                        robot.driveTrainMecanum.fieldOriented(0.5, -0.1, 0);
+                        killSwitch = 0;
+                    }
+                    if (detection.ftcPose.range <= distance) {
+                        killSwitch = 1;
+                        break;
+                    }
+                } else {
+                    killSwitch = 1;
+                }
+            }
+            if (killSwitch == 1) {
+                robot.driveTrainMecanum.fieldOriented(0,0,0);
+            }
+        }
+    }
     public void SitAndSpin (DriveTrainMecanum driveTrain, double axial, double lateral, double yaw, double seconds) {
         start = System.nanoTime();
         while (System.nanoTime() - start <= seconds * 1E9) {
