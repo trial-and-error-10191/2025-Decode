@@ -151,6 +151,7 @@ public class AutoBase {
             }
             for (AprilTagDetection detection : currentDetections) {
                 if (detection.id == id) {
+                    robot.camFindDistAndBearing.distanceBearingFind(robot.aprilTag, id);
                     while (robot.camFindDistAndBearing.distance > range) {
                         robot.driveTrainMecanum.fieldOriented(0.5, -0.1, 0);
                         killSwitch = 0;
