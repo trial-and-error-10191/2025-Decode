@@ -12,7 +12,7 @@ public class DriveWithAprilTags extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             robot.autoBase.AprilTagAmount(robot, 6);
-            robot.autoBase.DriveUntilDistance(robot, 6, 50);
+            robot.autoBase.DriveUntilDistance(robot, 6, 15);
             robot.autoBase.SitAndSpin(robot.driveTrainMecanum,0,0,1,0.5);
 //            robot.autoBase.AprilTagAmount(robot, 1);
 //            robot.autoBase.DriveUntilDistance(robot, 1, 14);;
