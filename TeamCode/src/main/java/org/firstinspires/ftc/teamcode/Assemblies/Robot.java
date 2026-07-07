@@ -18,11 +18,10 @@ public class Robot {
     ElapsedTime runTime = new ElapsedTime();
 
     long start = System.nanoTime();
-    public AprilTagFindCait aprilTagFind;
     public AprilTagProcessor aprilTag;
     public AutoBase autoBase;
     public BallDetect ballDetect;
-    public CameraDefinition cameraDefinition;
+    public CameraDefinition camDef;
     public CameraFindDistanceAndBearing camFindDistAndBearing;
     public DriveByAprilTagGoal driveByAprilTagGoal;
     public DriveTrain driveTrain;
@@ -36,16 +35,15 @@ public class Robot {
     Telemetry telemetry;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry) {
-        aprilTagFind = new AprilTagFindCait(aprilTag, telemetry);
         autoBase = new AutoBase(telemetry);
         ballDetect = new BallDetect(hwMap);
-        cameraDefinition = new CameraDefinition(hwMap, telemetry);
-        camFindDistAndBearing = new CameraFindDistanceAndBearing(hwMap, aprilTag, telemetry);
+        camDef = new CameraDefinition(hwMap, telemetry);
+        camFindDistAndBearing = new CameraFindDistanceAndBearing(hwMap, camDef.aprilTag, telemetry);
         driveByAprilTagGoal = new DriveByAprilTagGoal(telemetry);
         driveTrain = new DriveTrain(hwMap, telemetry);
         driveTrainMecanum = new DriveTrainMecanum(hwMap, telemetry);
         intake = new IntakeThatDoesNotExist(hwMap);
-        obeliskOrder = new ObeliskOrder(hwMap, aprilTag, telemetry);
+        obeliskOrder = new ObeliskOrder(hwMap, camDef.aprilTag, telemetry);
         tagOrientation = new TagOrientation(hwMap);
         UI = new TelemetryUI(telemetry, this);
 
@@ -137,7 +135,7 @@ public class Robot {
 
         boolean aligned = false;
 
-        ArrayList<AprilTagDetection>  detections = cameraDefinition.aprilTag.getDetections();
+        ArrayList<AprilTagDetection>  detections = camDef.aprilTag.getDetections();
 
         int noticedDetections = 0;
 

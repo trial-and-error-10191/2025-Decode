@@ -54,7 +54,7 @@ public class AutoBase {
     public void AprilTagAmount(Robot robot, int id) {
         start = System.nanoTime();
         while (System.nanoTime() - start <= 3E9) {
-            currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+            currentDetections = robot.camDef.aprilTag.getDetections();
             if (currentDetections.contains(id)) { // Makes the robot leave the loop if it detects the april tags early
                 break;
             }
@@ -151,7 +151,9 @@ public class AutoBase {
             }
             for (AprilTagDetection detection : currentDetections) {
                 if (detection.id == id) {
-                    robot.camFindDistAndBearing.distanceBearingFind(robot.aprilTag, id);
+                    telemetry.addData("Hello Hello", detection.ftcPose.range);
+                    telemetry.update();
+                    robot.camFindDistAndBearing.distanceBearingFind(robot.camDef, id, currentDetections);
                     while (robot.camFindDistAndBearing.distance > range) {
                         robot.driveTrainMecanum.fieldOriented(0.5, -0.1, 0);
                         killSwitch = 0;

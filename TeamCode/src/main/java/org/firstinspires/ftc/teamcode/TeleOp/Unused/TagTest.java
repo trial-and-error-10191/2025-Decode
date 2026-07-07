@@ -14,14 +14,14 @@ import java.util.List;
 public class TagTest extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(hardwareMap, telemetry);
-        waitForStart();
-        while (opModeIsActive()) {
-            if (gamepad1.a) {
-                List<AprilTagDetection> currentDetections = robot.cameraDefinition.aprilTag.getDetections();
-                telemetry.addData("AprilTag Seen", currentDetections.size());
-                telemetry.update();
-            }
-        }
+//        Robot robot = new Robot(hardwareMap, telemetry);
+//        waitForStart();
+//        while (opModeIsActive()) {
+//            if (gamepad1.a) {
+//                List<AprilTagDetection> currentDetections = robot.cameraDefinition.aprilTag.getDetections();
+//                telemetry.addData("AprilTag Seen", currentDetections.size());
+//                telemetry.update();
+//            }
+//        }
     }
 }

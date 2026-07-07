@@ -11,10 +11,10 @@ import org.firstinspires.ftc.teamcode.Assemblies.Robot;
 public class AprilTagFindTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(hardwareMap, telemetry);
-        waitForStart();
-        while (opModeIsActive()) {
-            robot.aprilTagFind.aprilTagTelemetry(robot.aprilTag);
-        }
+//        Robot robot = new Robot(hardwareMap, telemetry);
+//        waitForStart();
+//        while (opModeIsActive()) {
+//            robot.aprilTagFind.aprilTagTelemetry(robot.aprilTag);
+//        }
     }
 }
