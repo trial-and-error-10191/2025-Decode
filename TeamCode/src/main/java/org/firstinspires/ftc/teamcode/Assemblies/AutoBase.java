@@ -16,7 +16,6 @@ public class AutoBase {
     List<AprilTagDetection> currentDetections = null;
     private final ElapsedTime Time = new ElapsedTime();
     int killSwitch = 0;
-    double distance = 0;
 //    public double power = 0.5;
     long start = System.nanoTime();
     public AutoBase(Telemetry telemetry) {
@@ -152,12 +151,11 @@ public class AutoBase {
             }
             for (AprilTagDetection detection : currentDetections) {
                 if (detection.id == id) {
-                    distance = detection.ftcPose.range;
-                    while (distance > range) {
+                    while (robot.camFindDistAndBearing.distance > range) {
                         robot.driveTrainMecanum.fieldOriented(0.5, -0.1, 0);
                         killSwitch = 0;
                     }
-                    if (distance <= range) {
+                    if (robot.camFindDistAndBearing.distance <= range) {
                         killSwitch = 1;
                         break;
                     }

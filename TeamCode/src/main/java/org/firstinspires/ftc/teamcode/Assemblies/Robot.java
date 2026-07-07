@@ -23,6 +23,7 @@ public class Robot {
     public AutoBase autoBase;
     public BallDetect ballDetect;
     public CameraDefinition cameraDefinition;
+    public CameraFindDistanceAndBearing camFindDistAndBearing;
     public DriveByAprilTagGoal driveByAprilTagGoal;
     public DriveTrain driveTrain;
     public DriveTrainMecanum driveTrainMecanum;
@@ -39,6 +40,7 @@ public class Robot {
         autoBase = new AutoBase(telemetry);
         ballDetect = new BallDetect(hwMap);
         cameraDefinition = new CameraDefinition(hwMap, telemetry);
+        camFindDistAndBearing = new CameraFindDistanceAndBearing(hwMap, aprilTag, telemetry);
         driveByAprilTagGoal = new DriveByAprilTagGoal(telemetry);
         driveTrain = new DriveTrain(hwMap, telemetry);
         driveTrainMecanum = new DriveTrainMecanum(hwMap, telemetry);
