@@ -21,14 +21,14 @@ public class ObeliskOrder {
     private Telemetry telemetry;
 
     public ObeliskOrder(HardwareMap hardwareMap, AprilTagProcessor aprilTag, Telemetry telemetry) {
-        aprilTag = new AprilTagProcessor.Builder()
-
-                .build();
-
-        // Lets the camera see the obelisk April Tag from far away, as we only need to see that one once.
-        aprilTag.setDecimation(1);
-
-        this.telemetry = telemetry;
+//        aprilTag = new AprilTagProcessor.Builder()
+//
+//                .build();
+//
+//        // Lets the camera see the obelisk April Tag from far away, as we only need to see that one once.
+//        aprilTag.setDecimation(1);
+//
+//        this.telemetry = telemetry;
     }
     public int findTag(AprilTagProcessor aprilTag) {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();

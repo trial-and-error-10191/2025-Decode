@@ -53,10 +53,17 @@ public class AutoBase {
 //    }
     public void AprilTagAmount(Robot robot, int id) {
         start = System.nanoTime();
-        while (System.nanoTime() - start <= 3E9) {
+        while (System.nanoTime() - start <= 6E9) {
             currentDetections = robot.camDef.aprilTag.getDetections();
-            if (currentDetections.contains(id)) { // Makes the robot leave the loop if it detects the april tags early
-                break;
+//            if (currentDetections.contains(id)) { // Makes the robot leave the loop if it detects the april tags early
+//                telemetry.addData("Yeet", "");
+//                telemetry.update();
+//                break;
+//            }
+            if (!currentDetections.isEmpty()) {
+                currentDetections.get(0);
+                telemetry.addData("IDRange", currentDetections.get(0).id);
+                telemetry.update();
             }
             telemetry.addData("AprilTag Seen", currentDetections.size());
             telemetry.update();
