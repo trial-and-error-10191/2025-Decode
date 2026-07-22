@@ -16,6 +16,7 @@ public class AutoBase {
     List<AprilTagDetection> currentDetections = null;
     private final ElapsedTime Time = new ElapsedTime();
     int killSwitch = 0;
+    double distance = 0;
 //    public double power = 0.5;
     long start = System.nanoTime();
     public AutoBase(Telemetry telemetry) {
@@ -53,17 +54,10 @@ public class AutoBase {
 //    }
     public void AprilTagAmount(Robot robot, int id) {
         start = System.nanoTime();
-        while (System.nanoTime() - start <= 6E9) {
+        while (System.nanoTime() - start <= 3E9) {
             currentDetections = robot.camDef.aprilTag.getDetections();
-//            if (currentDetections.contains(id)) { // Makes the robot leave the loop if it detects the april tags early
-//                telemetry.addData("Yeet", "");
-//                telemetry.update();
-//                break;
-//            }
-            if (!currentDetections.isEmpty()) {
-                currentDetections.get(0);
-                telemetry.addData("IDRange", currentDetections.get(0).id);
-                telemetry.update();
+            if (currentDetections.contains(id)) { // Makes the robot leave the loop if it detects the april tags early
+                break;
             }
             telemetry.addData("AprilTag Seen", currentDetections.size());
             telemetry.update();
@@ -158,14 +152,16 @@ public class AutoBase {
             }
             for (AprilTagDetection detection : currentDetections) {
                 if (detection.id == id) {
-                    telemetry.addData("Hello Hello", detection.ftcPose.range);
-                    telemetry.update();
-                    robot.camFindDistAndBearing.distanceBearingFind(robot.camDef, id, currentDetections);
-                    while (robot.camFindDistAndBearing.distance > range) {
+                    distanceUpdate(id);
+                    while (distance > range || !currentDetections.isEmpty()) {
+                        telemetry.addData("Hello Hello", detection.ftcPose.range);
+                        telemetry.update();
                         robot.driveTrainMecanum.fieldOriented(0.5, -0.1, 0);
                         killSwitch = 0;
+                        currentDetections = robot.camDef.aprilTag.getDetections();
+                        distanceUpdate(id);
                     }
-                    if (robot.camFindDistAndBearing.distance <= range) {
+                    if (distance <= range) {
                         killSwitch = 1;
                         break;
                     }
@@ -175,6 +171,13 @@ public class AutoBase {
             }
             if (killSwitch == 1) {
                 robot.driveTrainMecanum.fieldOriented(0,0,0);
+            }
+        }
+    }
+    public void distanceUpdate(int id) {
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.id == id) {
+                distance = detection.ftcPose.range;
             }
         }
     }
