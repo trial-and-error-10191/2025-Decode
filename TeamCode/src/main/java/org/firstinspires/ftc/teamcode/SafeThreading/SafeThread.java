@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.CustomOpModes;
-
-import java.util.concurrent.atomic.AtomicBoolean;
+package org.firstinspires.ftc.teamcode.SafeThreading;
 
 /**
  * class intended to be used with the ThreadSafeOpMode.
@@ -44,4 +42,17 @@ public abstract class SafeThread {
      * FUNCTION PRE-WRAPPED, DO NOT PLACE A WHILE LOOP
      */
     public abstract void Logic();
+
+    /**
+     * checks if the thread is up for termination.
+     * @return if the thread is up for / is terminated.
+     */
+    public boolean is_terminated() {
+        if (thread != null) {
+            if (thread.isAlive()) {
+                return thread.isInterrupted();
+            }
+        }
+        return true;
+    }
 }

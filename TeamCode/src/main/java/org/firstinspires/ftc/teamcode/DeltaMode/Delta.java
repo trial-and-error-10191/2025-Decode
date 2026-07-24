@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.CustomOpModes;
+package org.firstinspires.ftc.teamcode.DeltaMode;
 
  interface Delta {
      abstract double getDelta();

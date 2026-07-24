@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.CustomOpModes.Tests;
+package org.firstinspires.ftc.teamcode.SafeThreading.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.CustomOpModes.SafeThread;
-import org.firstinspires.ftc.teamcode.CustomOpModes.ThreadSafeOpMode;
-import org.firstinspires.ftc.teamcode.CustomOpModes.testThread;
+import org.firstinspires.ftc.teamcode.SafeThreading.SafeThread;
+import org.firstinspires.ftc.teamcode.SafeThreading.ThreadSafeOpMode;
+import org.firstinspires.ftc.teamcode.SafeThreading.Tests.Threads.testThread;
 
 @TeleOp(name = "Thread testing", group = "Test")
 public class ThreadSafeTest extends ThreadSafeOpMode {

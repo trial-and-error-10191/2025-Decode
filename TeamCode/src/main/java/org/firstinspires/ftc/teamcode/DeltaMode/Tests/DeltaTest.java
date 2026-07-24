@@ -1,8 +1,8 @@
 
-package org.firstinspires.ftc.teamcode.CustomOpModes.Tests;
+package org.firstinspires.ftc.teamcode.DeltaMode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.CustomOpModes.DeltaLinearOpMode;
+import org.firstinspires.ftc.teamcode.DeltaMode.DeltaLinearOpMode;
 
 import java.util.ArrayList;
 
