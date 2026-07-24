@@ -15,8 +15,11 @@ public class AutoBase {
     Telemetry telemetry;
     List<AprilTagDetection> currentDetections = null;
     private final ElapsedTime Time = new ElapsedTime();
+    boolean crashAvoid = false;
     int killSwitch = 0;
+    double bearing = 0;
     double distance = 0;
+    double yawPower = 0.3;
 //    public double power = 0.5;
     long start = System.nanoTime();
     public AutoBase(Telemetry telemetry) {
@@ -60,8 +63,10 @@ public class AutoBase {
                 break;
             }
             telemetry.addData("AprilTag Seen", currentDetections.size());
+            telemetry.addData("AprilTag Number(s)", currentDetections);
             telemetry.update();
         }
+        crashAvoid = true;
     }
 //    public void SetToEncoders(DriveTrain driveTrain) {
 //        driveTrain.leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -152,14 +157,14 @@ public class AutoBase {
             }
             for (AprilTagDetection detection : currentDetections) {
                 if (detection.id == id) {
-                    distanceUpdate(id);
-                    while (distance > range || !currentDetections.isEmpty()) {
-                        telemetry.addData("Hello Hello", detection.ftcPose.range);
+                    camUpdate(id);
+                    while (distance > range && !currentDetections.isEmpty()) {
+                        telemetry.addData("Distance", distance);
                         telemetry.update();
-                        robot.driveTrainMecanum.fieldOriented(0.5, -0.1, 0);
+                        robot.driveTrainMecanum.fieldOrientedAuto(0.5, -0.1, 0);
                         killSwitch = 0;
                         currentDetections = robot.camDef.aprilTag.getDetections();
-                        distanceUpdate(id);
+                        camUpdate(id);
                     }
                     if (distance <= range) {
                         killSwitch = 1;
@@ -170,14 +175,54 @@ public class AutoBase {
                 }
             }
             if (killSwitch == 1) {
-                robot.driveTrainMecanum.fieldOriented(0,0,0);
+                robot.driveTrainMecanum.fieldOrientedAuto(0,0,0);
             }
         }
     }
-    public void distanceUpdate(int id) {
+    public void TurnUntilBearing(Robot robot, int id, double angle) {
+        double turnPower;
+        while (true) {
+            if (currentDetections.isEmpty()) {
+                break;
+            }
+            for (AprilTagDetection detection : currentDetections) {
+                if (detection.id == id) {
+                    camUpdate(id);
+                    while (Math.abs(bearing - angle) > 15 && !currentDetections.isEmpty()) {
+                        telemetry.addData("Bearing", bearing);
+                        telemetry.addData("Bearing Difference", bearing - angle);
+                        telemetry.update();
+                        if (bearing - angle < 0) {
+                            turnPower = -yawPower;
+                        } else if (bearing - angle == 0) {
+                            turnPower = 0;
+                        } else {
+                            turnPower = yawPower;
+                        }
+                        // The yaw power is determined by checking if the bearing difference is negative or positive
+                        robot.driveTrainMecanum.fieldOrientedAuto(0, 0, turnPower);
+                        killSwitch = 0;
+                        currentDetections = robot.camDef.aprilTag.getDetections();
+                        camUpdate(id);
+                    }
+                    if (Math.abs(bearing - angle) <= 15) {
+                        killSwitch = 1;
+                        break;
+                    }
+                } else {
+                    killSwitch = 1;
+                }
+            }
+            if (killSwitch == 1) {
+                robot.driveTrainMecanum.fieldOrientedAuto(0,0,0);
+            }
+        }
+    }
+    public void camUpdate(int id) {
         for (AprilTagDetection detection : currentDetections) {
             if (detection.id == id) {
                 distance = detection.ftcPose.range;
+                bearing = detection.ftcPose.bearing;
             }
         }
     }
@@ -185,6 +230,10 @@ public class AutoBase {
         start = System.nanoTime();
         while (System.nanoTime() - start <= seconds * 1E9) {
             driveTrain.fieldOrientedAuto(axial, lateral, yaw);
+            if (System.nanoTime() - start > seconds * 1E9) {
+                driveTrain.fieldOrientedAuto(0, 0, 0);
+                break;
+            }
         }
     }
     public void Wait(double seconds) {
