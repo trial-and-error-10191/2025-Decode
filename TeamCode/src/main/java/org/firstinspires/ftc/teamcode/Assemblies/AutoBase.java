@@ -19,7 +19,7 @@ public class AutoBase {
     int killSwitch = 0;
     double bearing = 0;
     double distance = 0;
-    double yawPower = 0.3;
+    double yawPower = 0.2;
 //    public double power = 0.5;
     long start = System.nanoTime();
     public AutoBase(Telemetry telemetry) {
@@ -63,7 +63,11 @@ public class AutoBase {
                 break;
             }
             telemetry.addData("AprilTag Seen", currentDetections.size());
-            telemetry.addData("AprilTag Number(s)", currentDetections);
+            for (AprilTagDetection detection : currentDetections) {
+                if (detection.metadata != null) {
+                    telemetry.addData("AprilTag Number(s)", detection.id);
+                }
+            }
             telemetry.update();
         }
         crashAvoid = true;
@@ -150,8 +154,10 @@ public class AutoBase {
 //            }
 //        }
 //    }
-    public void DriveUntilDistance(Robot robot, int id, double range) {
+    public void DriveUntilDistance(Robot robot, int id, double range, double axial, double lateral, double yaw) {
         while (true) {
+            telemetry.addData("Please drive", "");
+            telemetry.update();
             if (currentDetections.isEmpty()) {
                 break;
             }
@@ -161,7 +167,7 @@ public class AutoBase {
                     while (distance > range && !currentDetections.isEmpty()) {
                         telemetry.addData("Distance", distance);
                         telemetry.update();
-                        robot.driveTrainMecanum.fieldOrientedAuto(0.5, -0.1, 0);
+                        robot.driveTrainMecanum.fieldOrientedAuto(axial, lateral, yaw);
                         killSwitch = 0;
                         currentDetections = robot.camDef.aprilTag.getDetections();
                         camUpdate(id);
@@ -176,36 +182,33 @@ public class AutoBase {
             }
             if (killSwitch == 1) {
                 robot.driveTrainMecanum.fieldOrientedAuto(0,0,0);
+                break;
             }
         }
     }
-    public void TurnUntilBearing(Robot robot, int id, double angle) {
+    public void TurnUntilBearing(Robot robot, int id, double angle, double angleParameters) {
         double turnPower;
         while (true) {
+            telemetry.addData("Please turn", "");
+            telemetry.update();
             if (currentDetections.isEmpty()) {
                 break;
             }
             for (AprilTagDetection detection : currentDetections) {
                 if (detection.id == id) {
                     camUpdate(id);
-                    while (Math.abs(bearing - angle) > 15 && !currentDetections.isEmpty()) {
+                    while (Math.abs(bearing - angle) > angleParameters && !currentDetections.isEmpty()) {
                         telemetry.addData("Bearing", bearing);
                         telemetry.addData("Bearing Difference", bearing - angle);
                         telemetry.update();
-                        if (bearing - angle < 0) {
-                            turnPower = -yawPower;
-                        } else if (bearing - angle == 0) {
-                            turnPower = 0;
-                        } else {
-                            turnPower = yawPower;
-                        }
+                        turnPower = bearing - angle < 0 ? -yawPower : yawPower;
                         // The yaw power is determined by checking if the bearing difference is negative or positive
                         robot.driveTrainMecanum.fieldOrientedAuto(0, 0, turnPower);
                         killSwitch = 0;
                         currentDetections = robot.camDef.aprilTag.getDetections();
                         camUpdate(id);
                     }
-                    if (Math.abs(bearing - angle) <= 15) {
+                    if (Math.abs(bearing - angle) <= angleParameters) {
                         killSwitch = 1;
                         break;
                     }
@@ -215,6 +218,7 @@ public class AutoBase {
             }
             if (killSwitch == 1) {
                 robot.driveTrainMecanum.fieldOrientedAuto(0,0,0);
+                break;
             }
         }
     }

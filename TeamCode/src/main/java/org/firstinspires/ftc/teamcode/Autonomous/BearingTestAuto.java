@@ -12,6 +12,6 @@ public class BearingTestAuto extends LinearOpMode {
         Robot robot = new Robot(hardwareMap, telemetry);
         waitForStart();
         robot.autoBase.AprilTagAmount(robot, 23);
-        robot.autoBase.TurnUntilBearing(robot, 23, 0);
+        robot.autoBase.TurnUntilBearing(robot, 23, 0, 8);
     }
 }
