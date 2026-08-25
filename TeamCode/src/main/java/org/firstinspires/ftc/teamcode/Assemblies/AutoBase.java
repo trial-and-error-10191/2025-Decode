@@ -246,4 +246,9 @@ public class AutoBase {
             // doesn't need anything
         } // end of while loop
     } // end of public void Wait
+    public void waitToMove(boolean button, Robot robot) {
+        while (!button) {
+            robot.driveTrainMecanum.fieldOrientedAuto(0, 0,0);
+        }
+    }
 }
